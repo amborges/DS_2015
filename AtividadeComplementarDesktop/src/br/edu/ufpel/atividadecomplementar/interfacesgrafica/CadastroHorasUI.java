@@ -2,6 +2,7 @@ package br.edu.ufpel.atividadecomplementar.interfacesgrafica;
 
 import br.edu.ufpel.atividadecomplementar.modelos.Curso;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
+import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
 import br.edu.ufpel.atividadecomplementar.utils.ConstanteUtils;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -11,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javax.xml.bind.JAXBException;
 
 public class CadastroHorasUI extends Application {
 
@@ -62,10 +64,16 @@ public class CadastroHorasUI extends Application {
         
         btnCancelar.setText(PropertiesBundle.getProperty("BOTAO_CANCELAR"));
         btnCancelar.setOnAction((ActionEvent event) -> {
-            Stage stage= new Stage();
-            ResumoUI resumoUI= new ResumoUI(cursoSelecionado);
-            resumoUI.start(stage);
-            primaryStage.close();
+            try {
+                Stage stage= new Stage();
+                ResumoUI resumoUI= new ResumoUI(cursoSelecionado);
+                resumoUI.start(stage);
+                primaryStage.close();
+            } catch(NullPointerException ex) {
+                AlertasUtils.exibeErro(ex.getMessage());
+            } catch(JAXBException ex) {
+                AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
+            }
         });
     }
     

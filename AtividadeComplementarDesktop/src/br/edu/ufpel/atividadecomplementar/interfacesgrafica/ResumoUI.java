@@ -6,8 +6,6 @@ import br.edu.ufpel.atividadecomplementar.modelos.RegraCalculo;
 import br.edu.ufpel.atividadecomplementar.modelos.RegrasCalculoXML;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.ConstanteUtils;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -37,7 +35,7 @@ public class ResumoUI extends Application {
     private static final String PESQUISA = PropertiesBundle.getProperty("PESQUISA");
     private static final String OUTROS = PropertiesBundle.getProperty("OUTROS");
 
-    public ResumoUI(Curso cursoSelecionado) {
+    public ResumoUI(Curso cursoSelecionado) throws JAXBException {
         this.cursoSelecionado = cursoSelecionado;
         
         carregarRegrasDeCalculo();
@@ -150,20 +148,20 @@ public class ResumoUI extends Application {
         });
     }
 
-    private void carregarRegrasDeCalculo() {
+    private void carregarRegrasDeCalculo() throws JAXBException {
         ManipularXML<RegrasCalculoXML> manipulador = new ManipularXML<>("regras.xml");
         RegrasCalculoXML regrasCalculoXML = new RegrasCalculoXML();
         
-        try {
-            regrasCalculoXML = manipulador.buscar(RegrasCalculoXML.class);
-        } catch (JAXBException ex) {
-            Logger.getLogger(ResumoUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        regrasCalculoXML = manipulador.buscar(RegrasCalculoXML.class);
         
         for (RegraCalculo regra : regrasCalculoXML.getRegras()) {
             if (regra.getCodigo().equals(this.cursoSelecionado.getCodigo())) {
                 this.regraCalculo = regra;
             }
+        }
+        
+        if (this.regraCalculo == null) {
+            throw new NullPointerException("REGRAS_NAO_ENCONTRADAS");
         }
     }
     

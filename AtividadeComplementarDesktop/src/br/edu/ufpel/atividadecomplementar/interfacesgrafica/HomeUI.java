@@ -38,7 +38,12 @@ public class HomeUI extends Application {
                 ConstanteUtils.PADDING_BOTTOM, ConstanteUtils.PADDING_LEFT));
         
         inicializaLabelCurso();
-        inicializaComboboxCurso();
+        try {
+            inicializaComboboxCurso();
+        } catch (JAXBException ex) {
+            AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
+            primaryStage.close();
+        }
         inicializarBotaoAvancar(primaryStage);
         
         grid.add(lblCurso, 0, 0);
@@ -58,17 +63,13 @@ public class HomeUI extends Application {
         lblCurso.setText(PropertiesBundle.getProperty("INFORME_CURSO"));
     }
     
-    private void inicializaComboboxCurso() {
+    private void inicializaComboboxCurso() throws JAXBException {
         ObservableList<Curso> cursos = FXCollections.observableArrayList();
         ManipularXML<CursosXML> maniulador = new ManipularXML("cursos.xml");
       
         cbxCurso = new ComboBox();
-        try {
-            cursos.addAll(maniulador.buscar(CursosXML.class).getCursos());
-            cbxCurso.setItems(cursos);
-        } catch (JAXBException ex) {
-            Logger.getLogger(HomeUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        cursos.addAll(maniulador.buscar(CursosXML.class).getCursos());
+        cbxCurso.setItems(cursos);
     }
     
     private void inicializarBotaoAvancar(Stage primaryStage) {
@@ -79,10 +80,16 @@ public class HomeUI extends Application {
             if (cbxCurso.getValue() == null) {
                 AlertasUtils.exibeErro("INFORME_CURSO_ERRO");
             } else {            
-                Stage stage= new Stage();
-                ResumoUI resumoUI= new ResumoUI((Curso)cbxCurso.getValue());
-                resumoUI.start(stage);
-                primaryStage.close();
+                try {
+                    Stage stage= new Stage();
+                    ResumoUI resumoUI= new ResumoUI((Curso)cbxCurso.getValue());
+                    resumoUI.start(stage);
+                    primaryStage.close();
+                } catch(NullPointerException ex) {
+                    AlertasUtils.exibeErro(ex.getMessage());
+                } catch(JAXBException ex) {
+                    AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
+                }
             }
         });
     }
