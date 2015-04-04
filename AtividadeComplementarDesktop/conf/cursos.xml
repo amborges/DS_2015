@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cursos>
+    <curso>
+        <codigo>4210</codigo>
+        <nome>Ciência da Computação</nome>
+    </curso>
+    <curso>
+        <codigo>4220</codigo>
+        <nome>Engenharia de Computação</nome>
+    </curso>
+</cursos>
