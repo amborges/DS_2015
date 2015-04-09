@@ -14,13 +14,13 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javax.xml.bind.JAXBException;
 
-public class CadastroHorasUI extends Application {
+public class CadastroDeAtividades extends Application {
 
     private Curso cursoSelecionado;
     Button btnAdicionar;
     Button btnCancelar;
     
-    public CadastroHorasUI(Curso cursoSelecionado) {
+    public CadastroDeAtividades(Curso cursoSelecionado) {
         this.cursoSelecionado = cursoSelecionado;
     }
     

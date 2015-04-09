@@ -11,20 +11,37 @@ import javax.xml.bind.Unmarshaller;
  * 
  * @param <T> - tipo de objeto que se deseja manipular
  */
-public class ManipularXML <T> {
+public class ManipulaXML <T> {
 
     private final File file;
     private static final String CONF_PATH = "conf/";
     
-    public ManipularXML(String nomeXML) {
+    /**
+     * Construtor para manipular XMLs que estão no diretório 'conf/', normalmente
+     *  os arquivos de configurações, como 'cursos.xml', 'regras.xml'
+     * 
+     * @param nomeXML nome do XML que será aberto
+     */
+    public ManipulaXML(String nomeXML) {
         file = new File(CONF_PATH.concat(nomeXML));
+    }
+    
+    /**
+     * Construtor para manipular XMLs que estão no diretório representado pelo
+     *  parâmetro pathXML. No parâmetro pathUtilizar
+     * 
+     * @param nomeXML nome do XML que será aberto
+     * @param pathXML diretório que contém o XML - utilizar sempre com a barra, ex.: <font color="red">src/</font>
+     */
+    public ManipulaXML(String nomeXML, String pathXML) {
+        file = new File(pathXML.concat(nomeXML));
     }
     
     /**
      * Método responsável por gravar o objeto em um arquivo XML
      * 
-     * @param objeto - o objeto que se deseja salvar no arquivo XML
-     * @param clazz - identificação do tipo de classe que deve ser gravado. 
+     * @param objeto o objeto que se deseja salvar no arquivo XML
+     * @param clazz identificação do tipo de classe que deve ser gravado. 
      *  é necessário este parâmetro para que o JAXB saiba qual classe deve ser gravada
      * @throws JAXBException - em caso de erro do JAXB
      */
@@ -40,9 +57,9 @@ public class ManipularXML <T> {
     /**
      * Método responsável por ler um arquivo XML e converter em XML
      * 
-     * @param clazz - identificação do tipo de classe que deve ser lido. 
+     * @param clazz identificação do tipo de classe que deve ser lido. 
      *  é necessário este parâmetro para que o JAXB saiba qual classe deve ser lida
-     * @return - o objeto convertido após a leitura do XML 
+     * @return o objeto convertido após a leitura do XML 
      * @throws JAXBException 
      */
     public T buscar(Class< ? extends T> clazz) throws JAXBException {

@@ -1,6 +1,6 @@
 package br.edu.ufpel.atividadecomplementar.interfacesgrafica;
 
-import br.edu.ufpel.atividadecomplementar.dadosXML.ManipularXML;
+import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
 import br.edu.ufpel.atividadecomplementar.modelos.Curso;
 import br.edu.ufpel.atividadecomplementar.modelos.RegraCalculo;
 import br.edu.ufpel.atividadecomplementar.modelos.RegrasCalculoXML;
@@ -106,7 +106,7 @@ public class ResumoUI extends Application {
         btnAdicionar.setText(PropertiesBundle.getProperty("BOTAO_ADICIONAR"));
         btnAdicionar.setOnAction((ActionEvent event) -> {
             Stage stage= new Stage();
-            CadastroHorasUI cadastroHorasUI = new CadastroHorasUI(cursoSelecionado);
+            CadastroDeAtividades cadastroHorasUI = new CadastroDeAtividades(cursoSelecionado);
             cadastroHorasUI.start(stage);
             primaryStage.close();
         });
@@ -118,7 +118,7 @@ public class ResumoUI extends Application {
         btnVisualizar.setText(PropertiesBundle.getProperty("BOTAO_VISUALIZAR"));
         btnVisualizar.setOnAction((ActionEvent event) -> {
             Stage stage= new Stage();
-            VisualizarHorasUI visualizarHorasUI = new VisualizarHorasUI(cursoSelecionado);
+            VisualizacaoDeAtividades visualizarHorasUI = new VisualizacaoDeAtividades(cursoSelecionado);
             visualizarHorasUI.start(stage);
             primaryStage.close();
         });
@@ -130,7 +130,7 @@ public class ResumoUI extends Application {
         btnImportar.setText(PropertiesBundle.getProperty("BOTAO_IMPORTAR"));
         btnImportar.setOnAction((ActionEvent event) -> {
             Stage stage= new Stage();
-            ImportarHorasUI importarHorasUI= new ImportarHorasUI(cursoSelecionado);
+            ImportacaoHorasUI importarHorasUI= new ImportacaoHorasUI(cursoSelecionado);
             importarHorasUI.start(stage);
             primaryStage.close();
         });
@@ -142,14 +142,14 @@ public class ResumoUI extends Application {
         btnExportar.setText(PropertiesBundle.getProperty("BOTAO_EXPORTAR"));
         btnExportar.setOnAction((ActionEvent event) -> {
             Stage stage= new Stage();
-            ExportarHorasUI exportarHorasUI= new ExportarHorasUI(cursoSelecionado);
+            ExportacaoHorasUI exportarHorasUI= new ExportacaoHorasUI(cursoSelecionado);
             exportarHorasUI.start(stage);
             primaryStage.close();
         });
     }
 
     private void carregarRegrasDeCalculo() throws JAXBException {
-        ManipularXML<RegrasCalculoXML> manipulador = new ManipularXML<>("regras.xml");
+        ManipulaXML<RegrasCalculoXML> manipulador = new ManipulaXML<>("regras.xml");
         RegrasCalculoXML regrasCalculoXML = new RegrasCalculoXML();
         
         regrasCalculoXML = manipulador.buscar(RegrasCalculoXML.class);

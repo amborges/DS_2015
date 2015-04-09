@@ -18,13 +18,13 @@ import javax.xml.bind.JAXBException;
  *
  * @author Paulo
  */
-class ImportarHorasUI extends Application {
+class ImportacaoHorasUI extends Application {
 
     private Curso cursoSelecionado;
     Button btnAdicionar;
     Button btnCancelar;
 
-    public ImportarHorasUI(Curso cursoSelecionado) {
+    public ImportacaoHorasUI(Curso cursoSelecionado) {
         this.cursoSelecionado = cursoSelecionado;
     }
     
