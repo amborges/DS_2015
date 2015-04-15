@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextField;
@@ -106,7 +108,7 @@ public class CadastroDePerfil extends InterfaceGrafica {
     
     private Aluno gerarPerfil() {
         ManipulaXML<Aluno> manipulador = new ManipulaXML<>(txtMatricula.getText().concat(".xml"), "perfil/");
-        Aluno aluno = null;
+        Aluno aluno;
         
         try {
             aluno = manipulador.buscar(Aluno.class);
@@ -117,7 +119,6 @@ public class CadastroDePerfil extends InterfaceGrafica {
             aluno.setMatricula(txtMatricula.getText());
             aluno.setNome(txtNome.getText());
             aluno.setEmail(txtEmail.getText());
-            aluno.setCodigoCurso(curso.getCodigo());
             aluno.setCurso(curso);
             
             try {
