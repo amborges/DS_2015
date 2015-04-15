@@ -1,16 +1,12 @@
 package br.edu.ufpel.atividadecomplementar.interfacesgrafica;
 
+import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
 import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
 import br.edu.ufpel.atividadecomplementar.modelos.Curso;
 import br.edu.ufpel.atividadecomplementar.modelos.RegraCalculo;
 import br.edu.ufpel.atividadecomplementar.modelos.RegrasCalculoXML;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
-import br.edu.ufpel.atividadecomplementar.utils.ConstanteUtils;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -20,7 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javax.xml.bind.JAXBException;
 
-public class ResumoUI extends Application {
+public class ResumoUI extends InterfaceGrafica {
 
     private Curso cursoSelecionado;
     private RegraCalculo regraCalculo;
@@ -42,23 +38,15 @@ public class ResumoUI extends Application {
     }
     
     @Override
-    public void start(Stage primaryStage) {
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(ConstanteUtils.ESPACAMENTO_HORIZONTAL);
-        grid.setVgap(ConstanteUtils.ESPACAMENTO_VERTICAL);
-        // Insets(top, right, bottom, left)
-        grid.setPadding(new Insets(ConstanteUtils.PADDING_TOP, ConstanteUtils.PADDING_RIGHT, 
-                ConstanteUtils.PADDING_BOTTOM, ConstanteUtils.PADDING_LEFT));
-        
+    protected void inicializarElementos(GridPane grid, Stage stage) {
         inicializarGrafico();
-        inicializarBotaoAdicionar(primaryStage);
-        inicializarBotaoVisualizar(primaryStage);
-        inicializarBotaoImportar(primaryStage);
-        inicializarBotaoExportar(primaryStage);
+        inicializarBotaoAdicionar(stage);
+        inicializarBotaoVisualizar(stage);
+        inicializarBotaoImportar(stage);
+        inicializarBotaoExportar(stage);
         
         GridPane gridBotoes = new GridPane();
-        gridBotoes.setVgap(ConstanteUtils.ESPACAMENTO_HORIZONTAL * 2.0);
+        gridBotoes.setVgap(this.espacamentoVertical * 2.0);
         
         gridBotoes.add(btnAdicionar, 0, 1);
         gridBotoes.add(btnVisualizar, 0, 2);
@@ -69,12 +57,6 @@ public class ResumoUI extends Application {
         grid.add(grafico, 0, 0, 4, 1);
         // node, columnIndex, rowIndex
         grid.add(gridBotoes, 4, 0);
-        
-        Scene scene  = new Scene(grid, ConstanteUtils.TELA_LARGURA, ConstanteUtils.TELA_ALTURA);
-        
-        primaryStage.setTitle(PropertiesBundle.getProperty("TITULO_APLICACAO"));
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
     
     private void inicializarGrafico() {
@@ -107,7 +89,7 @@ public class ResumoUI extends Application {
         btnAdicionar.setOnAction((ActionEvent event) -> {
             Stage stage= new Stage();
             CadastroDeAtividades cadastroHorasUI = new CadastroDeAtividades(cursoSelecionado);
-            cadastroHorasUI.start(stage);
+            cadastroHorasUI.montarTela(stage);
             primaryStage.close();
         });
     }
@@ -117,9 +99,9 @@ public class ResumoUI extends Application {
         
         btnVisualizar.setText(PropertiesBundle.getProperty("BOTAO_VISUALIZAR"));
         btnVisualizar.setOnAction((ActionEvent event) -> {
-            Stage stage= new Stage();
+            Stage stage = new Stage();
             VisualizacaoDeAtividades visualizarHorasUI = new VisualizacaoDeAtividades(cursoSelecionado);
-            visualizarHorasUI.start(stage);
+            visualizarHorasUI.montarTela(stage);
             primaryStage.close();
         });
     }
@@ -130,8 +112,8 @@ public class ResumoUI extends Application {
         btnImportar.setText(PropertiesBundle.getProperty("BOTAO_IMPORTAR"));
         btnImportar.setOnAction((ActionEvent event) -> {
             Stage stage= new Stage();
-            ImportacaoHorasUI importarHorasUI= new ImportacaoHorasUI(cursoSelecionado);
-            importarHorasUI.start(stage);
+            ImportacaoDeAtividades importarHorasUI= new ImportacaoDeAtividades(cursoSelecionado);
+            importarHorasUI.montarTela(stage);
             primaryStage.close();
         });
     }
@@ -142,8 +124,8 @@ public class ResumoUI extends Application {
         btnExportar.setText(PropertiesBundle.getProperty("BOTAO_EXPORTAR"));
         btnExportar.setOnAction((ActionEvent event) -> {
             Stage stage= new Stage();
-            ExportacaoHorasUI exportarHorasUI= new ExportacaoHorasUI(cursoSelecionado);
-            exportarHorasUI.start(stage);
+            ExportacaoDeHoras exportarHorasUI= new ExportacaoDeHoras(cursoSelecionado);
+            exportarHorasUI.montarTela(stage);
             primaryStage.close();
         });
     }
@@ -164,5 +146,5 @@ public class ResumoUI extends Application {
             throw new NullPointerException("REGRAS_NAO_ENCONTRADAS");
         }
     }
-    
+
 }

@@ -14,7 +14,6 @@ import javax.xml.bind.Unmarshaller;
 public class ManipulaXML <T> {
 
     private final File file;
-    private static final String CONF_PATH = "conf/";
     
     /**
      * Construtor para manipular XMLs que estão no diretório 'conf/', normalmente
@@ -23,7 +22,7 @@ public class ManipulaXML <T> {
      * @param nomeXML nome do XML que será aberto
      */
     public ManipulaXML(String nomeXML) {
-        file = new File(CONF_PATH.concat(nomeXML));
+        file = new File("conf/".concat(nomeXML));
     }
     
     /**
@@ -67,6 +66,6 @@ public class ManipulaXML <T> {
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
         return (T) unmarshaller.unmarshal(file);
-    }
+    } 
     
 }

@@ -1,5 +1,6 @@
 package br.edu.ufpel.atividadecomplementar.interfacesgrafica;
 
+import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
 import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
 import br.edu.ufpel.atividadecomplementar.modelos.Aluno;
 import br.edu.ufpel.atividadecomplementar.modelos.Curso;
@@ -11,75 +12,53 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
-import br.edu.ufpel.atividadecomplementar.utils.ConstanteUtils;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javax.xml.bind.JAXBException;
 
-public class CadastroDePerfil extends Application {
+public class CadastroDePerfil extends InterfaceGrafica {
     
     private Button btnAvancar;
+    private Button btnVoltar;
     private ComboBox cbxCurso;
-    private Label lblCurso;
-    private Label lblMatricula;
-    private TextField txtMatricula;
-
+    private final Label lblCurso = new Label(PropertiesBundle.getProperty("INFORME_CURSO"));
+    private final Label lblEmail = new Label(PropertiesBundle.getProperty("EMAIL_LABEL"));
+    private final Label lblMatricula = new Label(PropertiesBundle.getProperty("MATRICULA_LABEL"));
+    private final Label lblNome = new Label(PropertiesBundle.getProperty("NOME_LABEL"));
+    private final TextField txtEmail = new TextField();
+    private final TextField txtMatricula = new TextField();
+    private final TextField txtNome = new TextField();
+    
+    public CadastroDePerfil() {
+        this.telaAltura = telaAltura / 1.5;
+        this.telaLargura = telaLargura / 1.5;
+    }
+    
     @Override
-    public void start(Stage primaryStage) {
-        int indiceColuna = 0;
-        int indiceLinha = 0;
-        
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setVgap(ConstanteUtils.ESPACAMENTO_VERTICAL);
-        // Insets(top, right, bottom, left)
-        grid.setPadding(new Insets(ConstanteUtils.PADDING_TOP, ConstanteUtils.PADDING_RIGHT, 
-                ConstanteUtils.PADDING_BOTTOM, ConstanteUtils.PADDING_LEFT));
-        
-        inicializarLabelMatricula();
-        inicializarTextFieldMatricula();
-        
-        inicializaLabelCurso();
+    protected void inicializarElementos(GridPane grid, Stage stage) {
         try {
-            inicializaComboboxCurso();
+            inicializarComboboxCurso();
         } catch (JAXBException ex) {
             AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
-            primaryStage.close();
         }
-        inicializarButtonAvancar(primaryStage);
+        inicializarButtonAvancar(stage);
+        inicializarButtonVoltar(stage);
         
-        grid.add(lblMatricula, indiceColuna, indiceLinha);
-        grid.add(txtMatricula, indiceColuna, ++indiceLinha);
-        grid.add(lblCurso, indiceColuna, ++indiceLinha);
-        grid.add(cbxCurso, indiceColuna, ++indiceLinha);
-        grid.add(btnAvancar, indiceColuna, ++indiceLinha);
-        
-        Scene scene  = new Scene(grid, ConstanteUtils.TELA_LARGURA / 2, ConstanteUtils.TELA_ALTURA / 2);
-        
-        primaryStage.setTitle(PropertiesBundle.getProperty("TITULO_APLICACAO"));
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        grid.add(lblMatricula, 0, 0, 2, 1);
+        grid.add(txtMatricula, 0, 1, 2, 1);
+        grid.add(lblCurso, 0, 2, 2, 1);
+        grid.add(cbxCurso, 0, 3, 2, 1);
+        grid.add(lblNome, 0, 4, 2, 1);
+        grid.add(txtNome, 0, 5, 2, 1);
+        grid.add(lblEmail, 0, 6, 2, 1);
+        grid.add(txtEmail, 0, 7, 2, 1);
+        grid.add(btnAvancar, 0, 8);
+        grid.add(btnVoltar, 1, 8);
     }
     
-    private void inicializarLabelMatricula() {
-        lblMatricula = new Label(PropertiesBundle.getProperty("MATRICULA_LABEL"));
-    }
-
-    private void inicializarTextFieldMatricula() {
-        txtMatricula = new TextField();
-    }
-    
-    private void inicializaLabelCurso() {
-        lblCurso = new Label(PropertiesBundle.getProperty("INFORME_CURSO"));
-    }
-    
-    private void inicializaComboboxCurso() throws JAXBException {
+    private void inicializarComboboxCurso() throws JAXBException {
         ObservableList<Curso> cursos = FXCollections.observableArrayList();
         ManipulaXML<CursosXML> manipulador = new ManipulaXML("cursos.xml");
       
@@ -90,7 +69,6 @@ public class CadastroDePerfil extends Application {
     
     private void inicializarButtonAvancar(Stage primaryStage) {
         btnAvancar = new Button();
-        
         btnAvancar.setText(PropertiesBundle.getProperty("BOTAO_AVANCAR"));
         btnAvancar.setOnAction((ActionEvent event) -> {
             System.out.println(txtMatricula.getText());
@@ -104,7 +82,7 @@ public class CadastroDePerfil extends Application {
                     
                     Stage stage= new Stage();
                     ResumoUI resumoUI= new ResumoUI((Curso)cbxCurso.getValue());
-                    resumoUI.start(stage);
+                    resumoUI.montarTela(stage);
                     primaryStage.close();
                 } catch(NullPointerException npex) {
                     AlertasUtils.exibeErro(npex.getMessage());
@@ -117,6 +95,15 @@ public class CadastroDePerfil extends Application {
         });
     }
     
+    private void inicializarButtonVoltar(Stage stage) {
+        btnVoltar = new Button();
+        btnVoltar.setText(PropertiesBundle.getProperty("BOTAO_VOLTAR"));
+        btnVoltar.setOnAction((ActionEvent event) -> {
+            SelecionaPerfil selecionaPerfil = new SelecionaPerfil();
+            selecionaPerfil.montarTela(stage);
+        });
+    }
+    
     private Aluno gerarPerfil() {
         ManipulaXML<Aluno> manipulador = new ManipulaXML<>(txtMatricula.getText().concat(".xml"), "perfil/");
         Aluno aluno = null;
@@ -124,10 +111,14 @@ public class CadastroDePerfil extends Application {
         try {
             aluno = manipulador.buscar(Aluno.class);
         } catch (JAXBException ex) {
+            Curso curso = (Curso) cbxCurso.getValue();
             aluno = new Aluno();
             
             aluno.setMatricula(txtMatricula.getText());
-            aluno.setCurso((Curso) cbxCurso.getValue());
+            aluno.setNome(txtNome.getText());
+            aluno.setEmail(txtEmail.getText());
+            aluno.setCodigoCurso(curso.getCodigo());
+            aluno.setCurso(curso);
             
             try {
                 manipulador.salvar(aluno, Aluno.class);
@@ -138,8 +129,5 @@ public class CadastroDePerfil extends Application {
         
         return aluno;
     }
-   
-    public static void main(String[] args) {
-        launch(args);    
-    }
+
 }

@@ -1,14 +1,10 @@
 package br.edu.ufpel.atividadecomplementar.interfacesgrafica;
 
+import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
 import br.edu.ufpel.atividadecomplementar.modelos.Curso;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
-import br.edu.ufpel.atividadecomplementar.utils.ConstanteUtils;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -18,7 +14,7 @@ import javax.xml.bind.JAXBException;
  *
  * @author Paulo
  */
-class VisualizacaoDeAtividades extends Application {
+class VisualizacaoDeAtividades extends InterfaceGrafica {
 
     private Curso cursoSelecionado;
     Button btnAdicionar;
@@ -29,26 +25,12 @@ class VisualizacaoDeAtividades extends Application {
     }
     
     @Override
-    public void start(Stage primaryStage) {
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(ConstanteUtils.ESPACAMENTO_HORIZONTAL);
-        grid.setVgap(ConstanteUtils.ESPACAMENTO_VERTICAL);
-        // Insets(top, right, bottom, left)
-        grid.setPadding(new Insets(ConstanteUtils.PADDING_TOP, ConstanteUtils.PADDING_RIGHT, 
-                ConstanteUtils.PADDING_BOTTOM, ConstanteUtils.PADDING_LEFT));
-        
-        inicializarBotaoAdicionar(primaryStage);
-        inicializarBotaoCancelar(primaryStage);
+    protected void inicializarElementos(GridPane grid, Stage stage) {
+        inicializarBotaoAdicionar(stage);
+        inicializarBotaoCancelar(stage);
         
         grid.add(btnAdicionar, 0, 1);
         grid.add(btnCancelar, 1, 1);
-        
-        Scene scene  = new Scene(grid, ConstanteUtils.TELA_LARGURA, ConstanteUtils.TELA_ALTURA);
-        
-        primaryStage.setTitle(PropertiesBundle.getProperty("TITULO_APLICACAO"));
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     private void inicializarBotaoAdicionar(Stage primaryStage) {
@@ -71,7 +53,7 @@ class VisualizacaoDeAtividades extends Application {
             try {
                 Stage stage= new Stage();
                 ResumoUI resumoUI= new ResumoUI(cursoSelecionado);
-                resumoUI.start(stage);
+                resumoUI.montarTela(stage);
                 primaryStage.close();
             } catch(NullPointerException ex) {
                 AlertasUtils.exibeErro(ex.getMessage());
@@ -80,5 +62,5 @@ class VisualizacaoDeAtividades extends Application {
             }
         });
     }
-    
+
 }
