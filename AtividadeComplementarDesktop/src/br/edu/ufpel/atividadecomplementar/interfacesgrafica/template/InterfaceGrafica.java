@@ -22,6 +22,7 @@ public abstract class InterfaceGrafica {
     protected double paddingTop = 10.0;
     protected double telaAltura = 480.0;
     protected double telaLargura = 640.0;
+    protected final double larguraMinimaBotao = 90.0;
     
     public void montarTela(Stage primaryStage) {
         GridPane grid = new GridPane();

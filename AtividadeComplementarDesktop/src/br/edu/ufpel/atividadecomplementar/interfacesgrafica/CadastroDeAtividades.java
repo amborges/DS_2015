@@ -1,7 +1,7 @@
 package br.edu.ufpel.atividadecomplementar.interfacesgrafica;
 
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
-import br.edu.ufpel.atividadecomplementar.modelos.Curso;
+import br.edu.ufpel.atividadecomplementar.modelos.Aluno;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
 import javafx.event.ActionEvent;
@@ -12,12 +12,12 @@ import javax.xml.bind.JAXBException;
 
 public class CadastroDeAtividades extends InterfaceGrafica {
 
-    private Curso cursoSelecionado;
+    private Aluno aluno;
     Button btnAdicionar;
     Button btnCancelar;
     
-    public CadastroDeAtividades(Curso cursoSelecionado) {
-        this.cursoSelecionado = cursoSelecionado;
+    public CadastroDeAtividades(Aluno aluno) {
+        this.aluno = aluno;
     }
     
     @Override
@@ -48,7 +48,7 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         btnCancelar.setOnAction((ActionEvent event) -> {
             try {
                 Stage stage= new Stage();
-                ResumoUI resumoUI= new ResumoUI(cursoSelecionado);
+                ResumoUI resumoUI= new ResumoUI(aluno);
                 resumoUI.montarTela(stage);
                 primaryStage.close();
             } catch(NullPointerException ex) {
