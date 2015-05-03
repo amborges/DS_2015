@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <alunos>
-    
+    <aluno>
+        <matricula>66786</matricula>
+        <nome>teste</nome>
+        <codigoCurso>4210</codigoCurso>
+        <horasEnsino>0.0</horasEnsino>
+        <horasExtensao>0.0</horasExtensao>
+        <horasPesquisa>0.0</horasPesquisa>
+        <estaPronto>false</estaPronto>
+    </aluno>
 </alunos>
