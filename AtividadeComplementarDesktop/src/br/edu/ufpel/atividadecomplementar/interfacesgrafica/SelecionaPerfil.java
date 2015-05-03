@@ -4,15 +4,14 @@ import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGr
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class SelecionaPerfil extends InterfaceGrafica {
 
     private Button btnPerfilNovo;
     private Button btnPerfilAbrir;
-    private Label lblPerfil;
     
     public SelecionaPerfil() {
         this.espacamentoHorizontal = espacamentoHorizontal * 2.0;
@@ -22,23 +21,18 @@ public class SelecionaPerfil extends InterfaceGrafica {
     
     @Override
     protected void inicializarElementos(GridPane grid, Stage stage) {
-        inicializarLabelPerfil();
         inicializarButtonAbrir(stage);
         inicializarButtonNovo(stage);
                 
-        grid.add(lblPerfil, 0, 0, 2, 1);
         grid.add(btnPerfilNovo, 0, 1);
-        grid.add(btnPerfilAbrir, 1, 1);
+        grid.add(btnPerfilAbrir, 0, 2);
     }
 
-    private void inicializarLabelPerfil() {
-        lblPerfil = new Label();
-        lblPerfil.setText(PropertiesBundle.getProperty("OPCAO_PERFIL"));
-    }
-    
     private void inicializarButtonAbrir(Stage stage) {
         btnPerfilAbrir = new Button();
         btnPerfilAbrir.setText(PropertiesBundle.getProperty("BOTAO_ABRIR_PERFIL"));
+        btnPerfilAbrir.setTextAlignment(TextAlignment.CENTER);
+        btnPerfilAbrir.setMinWidth(larguraMinimaBotao);
         btnPerfilAbrir.setOnAction((ActionEvent event) -> {
             InterfaceGrafica abrePerfil = new AberturaDePerfil();
             abrePerfil.montarTela(stage);
@@ -48,6 +42,8 @@ public class SelecionaPerfil extends InterfaceGrafica {
     private void inicializarButtonNovo(Stage stage) {
         btnPerfilNovo = new Button();
         btnPerfilNovo.setText(PropertiesBundle.getProperty("BOTAO_NOVO_PERFIL"));
+        btnPerfilNovo.setTextAlignment(TextAlignment.CENTER);
+        btnPerfilNovo.setMinWidth(larguraMinimaBotao);
         btnPerfilNovo.setOnAction((ActionEvent event) -> {
             InterfaceGrafica cadastraPerfil = new CadastroDePerfil();
             cadastraPerfil.montarTela(stage);
