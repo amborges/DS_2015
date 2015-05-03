@@ -23,6 +23,7 @@ public class ManipulaXML <T> {
      */
     public ManipulaXML(String nomeXML) {
         file = new File("conf/".concat(nomeXML));
+        file.getParentFile().mkdirs();
     }
     
     /**
