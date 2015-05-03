@@ -1,4 +1,4 @@
-package br.edu.ufpel.atividadecomplementar.interfacesgrafica;
+package br.edu.ufpel.atividadecomplementar.interfacesgrafica.perfil;
 
 import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
@@ -61,15 +61,13 @@ class AberturaDePerfil extends InterfaceGrafica {
         btnCarregar.setTextAlignment(TextAlignment.CENTER);
         btnCarregar.setMinWidth(larguraMinimaBotao);
         btnCarregar.setOnAction((ActionEvent event) -> {
-            Aluno alunoSelecionado = listaDePerfis.getSelectionModel().getSelectedItem();
+            Aluno aluno = listaDePerfis.getSelectionModel().getSelectedItem();
             
-            if (alunoSelecionado != null) {
+            if (aluno != null) {
                 try {
-                    Aluno aluno = carregarPerfil(alunoSelecionado);
-
                     Stage stage= new Stage();
-                    ResumoUI resumoUI= new ResumoUI(aluno);
-                    resumoUI.montarTela(stage);
+                    InterfaceGrafica resumoDoPerfil = new ResumoDoPerfil(aluno);
+                    resumoDoPerfil.montarTela(stage);
                     primaryStage.close();
                 } catch(NullPointerException npex) {
                     AlertasUtils.exibeErro(npex.getMessage());
@@ -90,7 +88,7 @@ class AberturaDePerfil extends InterfaceGrafica {
         btnVoltar.setTextAlignment(TextAlignment.CENTER);
         btnVoltar.setMinWidth(larguraMinimaBotao);
         btnVoltar.setOnAction((ActionEvent event) -> {
-            SelecionaPerfil selecionaPerfil = new SelecionaPerfil();
+            InterfaceGrafica selecionaPerfil = new SelecaoDePerfil();
             selecionaPerfil.montarTela(stage);
         });
     }

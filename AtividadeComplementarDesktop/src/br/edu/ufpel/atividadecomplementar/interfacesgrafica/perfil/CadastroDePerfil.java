@@ -1,4 +1,4 @@
-package br.edu.ufpel.atividadecomplementar.interfacesgrafica;
+package br.edu.ufpel.atividadecomplementar.interfacesgrafica.perfil;
 
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
 import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
@@ -81,8 +81,8 @@ public class CadastroDePerfil extends InterfaceGrafica {
                     Aluno aluno = gerarPerfil();
                     
                     Stage stage= new Stage();
-                    ResumoUI resumoUI= new ResumoUI(aluno);
-                    resumoUI.montarTela(stage);
+                    InterfaceGrafica resumoDoPerfil= new ResumoDoPerfil(aluno);
+                    resumoDoPerfil.montarTela(stage);
                     primaryStage.close();
                 } catch(NullPointerException npex) {
                     AlertasUtils.exibeErro(npex.getMessage());
@@ -101,7 +101,7 @@ public class CadastroDePerfil extends InterfaceGrafica {
         btnVoltar.setTextAlignment(TextAlignment.CENTER);
         btnVoltar.setMinWidth(larguraMinimaBotao);
         btnVoltar.setOnAction((ActionEvent event) -> {
-            SelecionaPerfil selecionaPerfil = new SelecionaPerfil();
+            InterfaceGrafica selecionaPerfil = new SelecaoDePerfil();
             selecionaPerfil.montarTela(stage);
         });
     }

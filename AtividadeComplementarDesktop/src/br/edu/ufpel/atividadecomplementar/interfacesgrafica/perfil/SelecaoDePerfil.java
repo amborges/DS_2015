@@ -1,4 +1,4 @@
-package br.edu.ufpel.atividadecomplementar.interfacesgrafica;
+package br.edu.ufpel.atividadecomplementar.interfacesgrafica.perfil;
 
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
@@ -8,12 +8,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-public class SelecionaPerfil extends InterfaceGrafica {
+public class SelecaoDePerfil extends InterfaceGrafica {
 
     private Button btnPerfilNovo;
     private Button btnPerfilAbrir;
     
-    public SelecionaPerfil() {
+    public SelecaoDePerfil() {
         this.espacamentoHorizontal = espacamentoHorizontal * 2.0;
         this.telaAltura = telaAltura / 2.0;
         this.telaLargura = telaLargura / 2.0;

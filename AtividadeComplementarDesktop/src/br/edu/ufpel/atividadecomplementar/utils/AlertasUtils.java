@@ -10,7 +10,12 @@ public class AlertasUtils {
         
         alert.setTitle(PropertiesBundle.getProperty("TITULO_ERRO"));
         alert.setHeaderText(null);
-        alert.setContentText(PropertiesBundle.getProperty(mensagem));
+        
+        try {
+            alert.setContentText(PropertiesBundle.getProperty(mensagem));
+        } catch (NullPointerException ex) {
+            alert.setContentText(mensagem);
+        }
         
         alert.showAndWait();
     }
@@ -20,7 +25,12 @@ public class AlertasUtils {
         
         alert.setTitle(PropertiesBundle.getProperty("TITULO_ERRO"));
         alert.setHeaderText(null);
-        alert.setContentText(PropertiesBundle.getProperty(mensagem));
+        
+        try {
+            alert.setContentText(PropertiesBundle.getProperty(mensagem));
+        } catch (NullPointerException ex) {
+            alert.setContentText(mensagem);
+        }
         
         alert.showAndWait();
     }

@@ -1,7 +1,9 @@
-package br.edu.ufpel.atividadecomplementar.interfacesgrafica;
+package br.edu.ufpel.atividadecomplementar.interfacesgrafica.perfil;
 
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
 import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
+import br.edu.ufpel.atividadecomplementar.interfacesgrafica.atividade.CadastroDeAtividades;
+import br.edu.ufpel.atividadecomplementar.interfacesgrafica.atividade.VisualizacaoDeAtividades;
 import br.edu.ufpel.atividadecomplementar.modelos.Aluno;
 import br.edu.ufpel.atividadecomplementar.modelos.RegraCalculo;
 import br.edu.ufpel.atividadecomplementar.modelos.RegrasCalculoXML;
@@ -18,14 +20,14 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javax.xml.bind.JAXBException;
 
-public class ResumoUI extends InterfaceGrafica {
+public class ResumoDoPerfil extends InterfaceGrafica {
 
     private Aluno aluno;
     private RegraCalculo regraCalculo;
     private BarChart<String, Number> grafico;
     private Button btnAdicionar;
     private Button btnVisualizar;
-    private Button btnImportar;
+    private Button btnGerarXML;
     private Button btnExportar;
     private Button btnSair;
     private final Label lblNomeAluno;
@@ -35,7 +37,7 @@ public class ResumoUI extends InterfaceGrafica {
     private static final String PESQUISA = PropertiesBundle.getProperty("PESQUISA");
     private static final String OUTROS = PropertiesBundle.getProperty("OUTROS");
     
-    public ResumoUI(Aluno aluno) throws JAXBException {
+    public ResumoDoPerfil(Aluno aluno) throws JAXBException {
         this.aluno = aluno;
         lblNomeAluno = new Label(PropertiesBundle.getProperty("ALUNO_LABEL").concat(" ").concat(aluno.getMatricula()).concat(" - ").concat(aluno.getNome()));
         lblNomeAluno.setStyle("-fx-font-weight: bold;");
@@ -48,7 +50,7 @@ public class ResumoUI extends InterfaceGrafica {
         inicializarGrafico();
         inicializarButtonAdicionar(stage);
         inicializarButtonVisualizar(stage);
-        inicializarButtonImportar(stage);
+        inicializarButtonGerarXML(stage);
         inicializarButtonExportar(stage);
         inicializarButtonSair(stage);
         
@@ -57,8 +59,8 @@ public class ResumoUI extends InterfaceGrafica {
         
         gridBotoes.add(btnAdicionar, 0, 1);
         gridBotoes.add(btnVisualizar, 0, 2);
-        gridBotoes.add(btnImportar, 0, 3);
-        gridBotoes.add(btnExportar, 0, 4);
+        gridBotoes.add(btnGerarXML, 0, 3);
+        //gridBotoes.add(btnExportar, 0, 4);
         
         grid.add(lblNomeAluno, 0, 0);
         
@@ -99,8 +101,8 @@ public class ResumoUI extends InterfaceGrafica {
         btnAdicionar.setText(PropertiesBundle.getProperty("BOTAO_ADICIONAR"));
         btnAdicionar.setOnAction((ActionEvent event) -> {
             Stage stage= new Stage();
-            CadastroDeAtividades cadastroHorasUI = new CadastroDeAtividades(aluno);
-            cadastroHorasUI.montarTela(stage);
+            InterfaceGrafica cadastroDeAtividades = new CadastroDeAtividades(aluno);
+            cadastroDeAtividades.montarTela(stage);
             primaryStage.close();
         });
     }
@@ -111,34 +113,34 @@ public class ResumoUI extends InterfaceGrafica {
         btnVisualizar.setText(PropertiesBundle.getProperty("BOTAO_VISUALIZAR"));
         btnVisualizar.setOnAction((ActionEvent event) -> {
             Stage stage = new Stage();
-            VisualizacaoDeAtividades visualizarHorasUI = new VisualizacaoDeAtividades(aluno);
-            visualizarHorasUI.montarTela(stage);
+            InterfaceGrafica visualizacaoDeAtividades = new VisualizacaoDeAtividades(aluno);
+            visualizacaoDeAtividades.montarTela(stage);
             primaryStage.close();
         });
     }
 
-    private void inicializarButtonImportar(Stage primaryStage) {
-        btnImportar = new Button();
+    private void inicializarButtonGerarXML(Stage primaryStage) {
+        btnGerarXML = new Button();
         
-        btnImportar.setText(PropertiesBundle.getProperty("BOTAO_IMPORTAR"));
-        btnImportar.setOnAction((ActionEvent event) -> {
-            Stage stage= new Stage();
-            ImportacaoDeAtividades importarHorasUI= new ImportacaoDeAtividades(aluno);
-            importarHorasUI.montarTela(stage);
-            primaryStage.close();
+        btnGerarXML.setText(PropertiesBundle.getProperty("BOTAO_IMPORTAR"));
+        btnGerarXML.setOnAction((ActionEvent event) -> {
+//            Stage stage= new Stage();
+//            ImportacaoDeAtividades importarHorasUI= new ImportacaoDeAtividades(aluno);
+//            importarHorasUI.montarTela(stage);
+//            primaryStage.close();
         });
     }
 
     private void inicializarButtonExportar(Stage primaryStage) {
-        btnExportar = new Button();
-        
-        btnExportar.setText(PropertiesBundle.getProperty("BOTAO_EXPORTAR"));
-        btnExportar.setOnAction((ActionEvent event) -> {
-            Stage stage= new Stage();
-            ExportacaoDeHoras exportarHorasUI= new ExportacaoDeHoras(aluno);
-            exportarHorasUI.montarTela(stage);
-            primaryStage.close();
-        });
+//        btnExportar = new Button();
+//        
+//        btnExportar.setText(PropertiesBundle.getProperty("BOTAO_EXPORTAR"));
+//        btnExportar.setOnAction((ActionEvent event) -> {
+//            Stage stage= new Stage();
+//            ExportacaoDeHoras exportarHorasUI= new ExportacaoDeHoras(aluno);
+//            exportarHorasUI.montarTela(stage);
+//            primaryStage.close();
+//        });
     }
     
     private void inicializarButtonSair(Stage stage) {
@@ -147,13 +149,13 @@ public class ResumoUI extends InterfaceGrafica {
         btnSair.setTextAlignment(TextAlignment.CENTER);
         btnSair.setMinWidth(larguraMinimaBotao);
         btnSair.setOnAction((ActionEvent event) -> {
-            SelecionaPerfil selecionaPerfil = new SelecionaPerfil();
+            SelecaoDePerfil selecionaPerfil = new SelecaoDePerfil();
             selecionaPerfil.montarTela(stage);
         });
     }
 
     private void carregarRegrasDeCalculo() throws JAXBException {
-        ManipulaXML<RegrasCalculoXML> manipulador = new ManipulaXML<>("regras.xml");
+        ManipulaXML<RegrasCalculoXML> manipulador = new ManipulaXML("regras.xml");
         RegrasCalculoXML regrasCalculoXML = new RegrasCalculoXML();
         
         regrasCalculoXML = manipulador.buscar(RegrasCalculoXML.class);

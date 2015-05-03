@@ -1,5 +1,6 @@
 package br.edu.ufpel.atividadecomplementar.interfacesgrafica;
 
+import br.edu.ufpel.atividadecomplementar.interfacesgrafica.perfil.ResumoDoPerfil;
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
 import br.edu.ufpel.atividadecomplementar.modelos.Aluno;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
@@ -39,7 +40,7 @@ class ExportacaoDeHoras extends InterfaceGrafica {
         btnAdicionar.setText(PropertiesBundle.getProperty("BOTAO_ADICIONAR"));
         btnAdicionar.setOnAction((ActionEvent event) -> {
 //                Stage stage= new Stage();
-//                ResumoUI resumoUI= new ResumoUI((Curso)cbxCurso.getValue());
+//                ResumoDoPerfil resumoUI= new ResumoDoPerfil((Curso)cbxCurso.getValue());
 //                resumoUI.start(stage);
 //                primaryStage.close();
         });
@@ -52,7 +53,7 @@ class ExportacaoDeHoras extends InterfaceGrafica {
         btnCancelar.setOnAction((ActionEvent event) -> {
             try {
                 Stage stage= new Stage();
-                ResumoUI resumoUI= new ResumoUI(aluno);
+                ResumoDoPerfil resumoUI= new ResumoDoPerfil(aluno);
                 resumoUI.montarTela(stage);
                 primaryStage.close();
             } catch(NullPointerException ex) {

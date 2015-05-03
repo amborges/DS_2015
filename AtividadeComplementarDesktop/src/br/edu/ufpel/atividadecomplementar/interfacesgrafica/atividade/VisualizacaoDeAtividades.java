@@ -1,5 +1,6 @@
-package br.edu.ufpel.atividadecomplementar.interfacesgrafica;
+package br.edu.ufpel.atividadecomplementar.interfacesgrafica.atividade;
 
+import br.edu.ufpel.atividadecomplementar.interfacesgrafica.perfil.ResumoDoPerfil;
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
 import br.edu.ufpel.atividadecomplementar.modelos.Aluno;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
@@ -14,11 +15,11 @@ import javax.xml.bind.JAXBException;
  *
  * @author Paulo
  */
-class VisualizacaoDeAtividades extends InterfaceGrafica {
+public class VisualizacaoDeAtividades extends InterfaceGrafica {
 
     private Aluno aluno;
-    Button btnAdicionar;
-    Button btnCancelar;
+    private Button btnAdicionar;
+    private Button btnCancelar;
 
     public VisualizacaoDeAtividades(Aluno aluno) {
         this.aluno = aluno;
@@ -39,7 +40,7 @@ class VisualizacaoDeAtividades extends InterfaceGrafica {
         btnAdicionar.setText(PropertiesBundle.getProperty("BOTAO_ADICIONAR"));
         btnAdicionar.setOnAction((ActionEvent event) -> {
 //                Stage stage= new Stage();
-//                ResumoUI resumoUI= new ResumoUI((Curso)cbxCurso.getValue());
+//                ResumoDoPerfil resumoUI= new ResumoDoPerfil((Curso)cbxCurso.getValue());
 //                resumoUI.start(stage);
 //                primaryStage.close();
         });
@@ -52,7 +53,7 @@ class VisualizacaoDeAtividades extends InterfaceGrafica {
         btnCancelar.setOnAction((ActionEvent event) -> {
             try {
                 Stage stage= new Stage();
-                ResumoUI resumoUI= new ResumoUI(aluno);
+                ResumoDoPerfil resumoUI= new ResumoDoPerfil(aluno);
                 resumoUI.montarTela(stage);
                 primaryStage.close();
             } catch(NullPointerException ex) {
