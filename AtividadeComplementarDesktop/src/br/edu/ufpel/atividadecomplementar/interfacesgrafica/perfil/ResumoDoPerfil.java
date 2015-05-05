@@ -5,9 +5,11 @@ import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.atividade.CadastroDeAtividades;
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.atividade.VisualizacaoDeAtividades;
 import br.edu.ufpel.atividadecomplementar.modelos.Aluno;
-import br.edu.ufpel.atividadecomplementar.modelos.RegraCalculo;
-import br.edu.ufpel.atividadecomplementar.modelos.RegrasCalculoXML;
+import br.edu.ufpel.atividadecomplementar.modelos.GrandeArea;
+import br.edu.ufpel.atividadecomplementar.modelos.GrandeAreaXML;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -23,7 +25,6 @@ import javax.xml.bind.JAXBException;
 public class ResumoDoPerfil extends InterfaceGrafica {
 
     private Aluno aluno;
-    private RegraCalculo regraCalculo;
     private BarChart<String, Number> grafico;
     private Button btnAdicionar;
     private Button btnVisualizar;
@@ -31,6 +32,7 @@ public class ResumoDoPerfil extends InterfaceGrafica {
     private Button btnExportar;
     private Button btnSair;
     private final Label lblNomeAluno;
+    private Map<String, GrandeArea> grandesAreas;
 
     private static final String ENSINO = PropertiesBundle.getProperty("ENSINO");
     private static final String EXTENSAO = PropertiesBundle.getProperty("EXTENSAO");
@@ -42,7 +44,7 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         lblNomeAluno = new Label(PropertiesBundle.getProperty("ALUNO_LABEL").concat(" ").concat(aluno.getMatricula()).concat(" - ").concat(aluno.getNome()));
         lblNomeAluno.setStyle("-fx-font-weight: bold;");
         
-        carregarRegrasDeCalculo();
+        carregarGrandesAreas();
     }
     
     @Override
@@ -63,8 +65,7 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         //gridBotoes.add(btnExportar, 0, 4);
         
         grid.add(lblNomeAluno, 0, 0);
-        
-                 
+               
         // node, columnIndex, rowIndex, colspan, rowspan
         grid.add(grafico, 0, 1, 4, 1);
         // node, columnIndex, rowIndex
@@ -87,9 +88,9 @@ public class ResumoDoPerfil extends InterfaceGrafica {
                 
         XYChart.Series serie2 = new XYChart.Series();
         serie2.setName(PropertiesBundle.getProperty("HORAS_NECESSARIAS"));
-        serie2.getData().add(new XYChart.Data(ENSINO, regraCalculo.getHorasTotalEnsino()));
-        serie2.getData().add(new XYChart.Data(EXTENSAO, regraCalculo.getHorasTotalExtensao()));
-        serie2.getData().add(new XYChart.Data(PESQUISA, regraCalculo.getHorasTotalPesquisa()));
+        serie2.getData().add(new XYChart.Data(ENSINO, grandesAreas.get(ENSINO).getHoraMinima()));
+        serie2.getData().add(new XYChart.Data(EXTENSAO, grandesAreas.get(EXTENSAO).getHoraMinima()));
+        serie2.getData().add(new XYChart.Data(PESQUISA, grandesAreas.get(PESQUISA).getHoraMinima()));
 //        serie2.getData().add(new XYChart.Data(OUTROS, 120.0));
         
         grafico.getData().addAll(serie1, serie2);
@@ -101,7 +102,7 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         btnAdicionar.setText(PropertiesBundle.getProperty("BOTAO_ADICIONAR"));
         btnAdicionar.setOnAction((ActionEvent event) -> {
             Stage stage= new Stage();
-            InterfaceGrafica cadastroDeAtividades = new CadastroDeAtividades(aluno);
+            InterfaceGrafica cadastroDeAtividades = new CadastroDeAtividades(aluno, grandesAreas);
             cadastroDeAtividades.montarTela(stage);
             primaryStage.close();
         });
@@ -154,20 +155,13 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         });
     }
 
-    private void carregarRegrasDeCalculo() throws JAXBException {
-        ManipulaXML<RegrasCalculoXML> manipulador = new ManipulaXML("regras.xml");
-        RegrasCalculoXML regrasCalculoXML = new RegrasCalculoXML();
+    private void carregarGrandesAreas() throws JAXBException {
+        ManipulaXML<GrandeAreaXML> manipulador = new ManipulaXML(aluno.getCurso().getCodigo().toString().concat("_grandes_areas.xml"));
+        GrandeAreaXML grandesAreasXML = manipulador.buscar(GrandeAreaXML.class);
+        grandesAreas = new HashMap();
         
-        regrasCalculoXML = manipulador.buscar(RegrasCalculoXML.class);
-        
-        for (RegraCalculo regra : regrasCalculoXML.getRegras()) {
-            if (regra.getCodigo().equals(aluno.getCurso().getCodigo())) {
-                this.regraCalculo = regra;
-            }
-        }
-        
-        if (this.regraCalculo == null) {
-            throw new NullPointerException("REGRAS_NAO_ENCONTRADAS");
+        for (GrandeArea grandeArea : grandesAreasXML.getGrandesAreas()) {
+            grandesAreas.put(grandeArea.getNome(), grandeArea);            
         }
     }
 

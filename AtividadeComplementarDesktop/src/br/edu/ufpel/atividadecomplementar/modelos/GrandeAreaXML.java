@@ -12,28 +12,27 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "grandesareas")
-@XmlAccessorType(XmlAccessType.FIELD)
-
 /**
  *
  * @author lucas
  */
+@XmlRootElement(name = "grandesareas")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class GrandeAreaXML {
     
     @XmlElement(name = "grandearea")
-    private GrandeArea grandeArea;
+    private List<GrandeArea> grandesAreas;
 
-    public GrandeAreaXML(GrandeArea grandeArea) {
-        this.grandeArea = grandeArea;
+    public GrandeAreaXML() {
+        this.grandesAreas = new ArrayList<>();
     }
 
-    public GrandeArea getGrandeArea() {
-        return grandeArea;
+    public List<GrandeArea> getGrandesAreas() {
+        return grandesAreas;
     }
 
-    public void setGrandeArea(GrandeArea grandeArea) {
-        this.grandeArea = grandeArea;
+    public void setGrandesAreas(List<GrandeArea> grandesAreas) {
+        this.grandesAreas = grandesAreas;
     }
-    
+
 }

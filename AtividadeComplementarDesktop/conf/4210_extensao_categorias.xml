@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<categorias>
+	<categoria>
+		<nomeCategoria>Bolsa de Graduação da UFPel</nomeCategoria>
+		<horasMaxima>102</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Participação em Atividades de Extensão</nomeCategoria>
+		<horasMaxima>153</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Projetos Voluntários</nomeCategoria>
+		<horasMaxima>102</horasMaxima>
+	</categoria>
+</categorias>

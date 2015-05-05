@@ -2,6 +2,8 @@ package br.edu.ufpel.atividadecomplementar.modelos;
 
 import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,6 +27,8 @@ public class Aluno {
     private boolean estaPronto;
     @XmlTransient
     private Curso curso;
+    @XmlTransient
+    private List<Atividade> listaDeAtividades;
 
     public Aluno() {
         horasEnsino = 0.0;
@@ -81,6 +85,29 @@ public class Aluno {
         this.estaPronto = estaPronto;
     }
 
+    public List<Atividade> getListaDeAtividades() {
+        if (listaDeAtividades == null) {
+            carregarAtividades();
+        }
+        return listaDeAtividades;
+    }
+    
+    public void adicionaAtividade(Atividade atividade) {
+        if (listaDeAtividades == null) {
+            carregarAtividades();
+        }
+        listaDeAtividades.add(atividade);
+        salvarAtividades();
+    }
+    
+    public void removeAtividade(Atividade atividade) {
+        if (listaDeAtividades == null) {
+            carregarAtividades();
+        }
+        listaDeAtividades.remove(atividade);
+        salvarAtividades();
+    }
+
     private void carregaCurso() {
         ManipulaXML<CursosXML> manipulador = new ManipulaXML("cursos.xml");
         CursosXML cursosXML;
@@ -98,10 +125,33 @@ public class Aluno {
             AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
         }
     }
+    
+    private void salvarAtividades() {
+        try {
+            ManipulaXML<AtividadeXML> manipulador = new ManipulaXML(matricula.concat("_atividades.xml"), "atividades/");
+            AtividadeXML atividadeXML = new AtividadeXML();
+        
+            atividadeXML.setAtividades(listaDeAtividades);
+        
+            manipulador.salvar(atividadeXML, AtividadeXML.class);
+        } catch (JAXBException ex) {
+            AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
+        }
+    }
+    
+    private void carregarAtividades() {
+        try {
+            ManipulaXML<AtividadeXML> manipulador = new ManipulaXML(matricula.concat("_atividades.xml"), "atividades/");
+
+            listaDeAtividades = manipulador.buscar(AtividadeXML.class).getAtividades();
+        } catch (JAXBException ex) {
+            listaDeAtividades = new ArrayList();
+        }    
+    }
 
     @Override
     public String toString() {
         return nome + ": " + matricula;
     }
-    
+
 }

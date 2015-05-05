@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<categorias>
+	<categoria>
+		<nomeCategoria>Certificações Profissionais</nomeCategoria>
+		<horasMaxima>102</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Disciplina Optativa ou Livre</nomeCategoria>
+		<horasMaxima>0</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Monitoria</nomeCategoria>
+		<horasMaxima>102</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Participação em Cursos e Escolas</nomeCategoria>
+		<horasMaxima>102</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Participação em Projetos de Ensino</nomeCategoria>
+		<horasMaxima>102</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Participação na Semana Acadêmica do Curso</nomeCategoria>
+		<horasMaxima>68</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Representação Estudantil</nomeCategoria>
+		<horasMaxima>102</horasMaxima>
+	</categoria>
+</categorias>

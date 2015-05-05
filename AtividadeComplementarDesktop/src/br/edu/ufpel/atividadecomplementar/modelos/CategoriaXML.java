@@ -12,19 +12,19 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "categorias")
-@XmlAccessorType(XmlAccessType.FIELD)
-
 /**
  *
  * @author lucas
  */
+@XmlRootElement(name = "categorias")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class CategoriaXML {
+    
     @XmlElement(name = "categoria")
     private List<Categoria> categoria;
 
-    public CategoriaXML(List<Categoria> categoria) {
-        this.categoria = categoria;
+    public CategoriaXML() {
+        this.categoria = new ArrayList();
     }
 
     public List<Categoria> getCategoria() {

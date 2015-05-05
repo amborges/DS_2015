@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<categorias>
+	<categoria>
+		<nomeCategoria>Iniciação Científica</nomeCategoria>
+		<horasMaxima>153</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Obtenção de Prêmios e Distinções</nomeCategoria>
+		<horasMaxima>136</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Participação em Eventos Científicos Internacionais</nomeCategoria>
+		<horasMaxima>68</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Participação em Eventos Científicos Nacionais</nomeCategoria>
+		<horasMaxima>68</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Participação em Eventos Científicos Regionais e Locais</nomeCategoria>
+		<horasMaxima>51</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Publicação em Eventos Científicos Internacionais</nomeCategoria>
+		<horasMaxima>136</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Publicação em Eventos Científicos Nacionais</nomeCategoria>
+		<horasMaxima>102</horasMaxima>
+	</categoria>
+	<categoria>
+		<nomeCategoria>Publicação em Eventos Científicos Regionais e Locais</nomeCategoria>
+		<horasMaxima>68</horasMaxima>
+	</categoria>
+</categorias>
