@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <grandesareas>
 	<grandearea>
 		<nome>Ensino</nome>
-		<horaMinima>90</horaMinima>
+		<horaMinima>100</horaMinima>
 		<codigoCurso>4210</codigoCurso>
 	</grandearea>
 	<grandearea>
@@ -12,7 +12,7 @@
 	</grandearea>
 	<grandearea>
 		<nome>Pesquisa</nome>
-		<horaMinima>110</horaMinima>
+		<horaMinima>100</horaMinima>
 		<codigoCurso>4210</codigoCurso>
 	</grandearea>
 </grandesareas>
