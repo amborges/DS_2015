@@ -19,8 +19,8 @@ public class Atividade {
     private String descricao;
     private double horaInformada;
     private double horaValidada;
-    private Date dataInicial;
-    private Date dataFinal;
+    private String dataInicial;
+    private String dataFinal;
     private Integer ano;
     private String semestre;
     
@@ -56,19 +56,19 @@ public class Atividade {
         this.horaValidada = horaValidada;
     }
 
-    public Date getDataInicial() {
+    public String getDataInicial() {
         return dataInicial;
     }
 
-    public void setDataInicial(Date dataInicial) {
+    public void setDataInicial(String dataInicial) {
         this.dataInicial = dataInicial;
     }
 
-    public Date getDataFinal() {
+    public String getDataFinal() {
         return dataFinal;
     }
 
-    public void setDataFinal(Date dataFinal) {
+    public void setDataFinal(String dataFinal) {
         this.dataFinal = dataFinal;
     }
 

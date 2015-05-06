@@ -54,6 +54,9 @@ public class VisualizacaoDeAtividades extends InterfaceGrafica {
         btnEditar.setText(PropertiesBundle.getProperty("BOTAO_EDITAR"));
         btnEditar.setTextAlignment(TextAlignment.CENTER);
         btnEditar.setMinWidth(larguraMinimaBotao);
+        
+        btnEditar.setDisable(true);
+        
         btnEditar.setOnAction((ActionEvent event) -> {
 //                Stage stage= new Stage();
 //                ResumoDoPerfil resumoUI= new ResumoDoPerfil((Curso)cbxCurso.getValue());
@@ -82,15 +85,15 @@ public class VisualizacaoDeAtividades extends InterfaceGrafica {
         TableColumn dataFinalCol = new TableColumn(PropertiesBundle.getProperty("DATA_FINAL"));
         dataFinalCol.setCellValueFactory(new PropertyValueFactory<Atividade, String>("dataFinal"));
     
-        TableColumn anoCol = new TableColumn(PropertiesBundle.getProperty("ANO"));
-        anoCol.setCellValueFactory(new PropertyValueFactory<Atividade, String>("ano"));
+        TableColumn horaInformadaCol = new TableColumn(PropertiesBundle.getProperty("HORAS_INFORMADA"));
+        horaInformadaCol.setCellValueFactory(new PropertyValueFactory<Atividade, String>("horaInformada"));
     
-        TableColumn semestreCol = new TableColumn(PropertiesBundle.getProperty("SEMESTRE"));
-        semestreCol.setCellValueFactory(new PropertyValueFactory<Atividade, String>("semestre"));
+        TableColumn horaValidadaCol = new TableColumn(PropertiesBundle.getProperty("HORAS_VALIDADA"));
+        horaValidadaCol.setCellValueFactory(new PropertyValueFactory<Atividade, String>("horaValidada"));
  
         tblAtividades = new TableView<>();
         tblAtividades.setItems(atividades);
-        tblAtividades.getColumns().addAll(descricaoCol, grandeAreaCol, categoriaCol, dataInicialCol, dataFinalCol, anoCol, semestreCol);
+        tblAtividades.getColumns().addAll(descricaoCol, grandeAreaCol, categoriaCol, dataInicialCol, dataFinalCol, horaInformadaCol, horaValidadaCol);
 
     }
     

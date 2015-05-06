@@ -100,6 +100,8 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         btnAdicionar = new Button();
         
         btnAdicionar.setText(PropertiesBundle.getProperty("BOTAO_ADICIONAR"));
+        btnAdicionar.setTextAlignment(TextAlignment.CENTER);
+        btnAdicionar.setMinWidth(larguraMinimaBotao);
         btnAdicionar.setOnAction((ActionEvent event) -> {
             Stage stage= new Stage();
             InterfaceGrafica cadastroDeAtividades = new CadastroDeAtividades(aluno, grandesAreas);
@@ -112,6 +114,8 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         btnVisualizar = new Button();
         
         btnVisualizar.setText(PropertiesBundle.getProperty("BOTAO_VISUALIZAR"));
+        btnVisualizar.setTextAlignment(TextAlignment.CENTER);
+        btnVisualizar.setMinWidth(larguraMinimaBotao);
         btnVisualizar.setOnAction((ActionEvent event) -> {
             Stage stage = new Stage();
             InterfaceGrafica visualizacaoDeAtividades = new VisualizacaoDeAtividades(aluno);
@@ -124,6 +128,11 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         btnGerarXML = new Button();
         
         btnGerarXML.setText(PropertiesBundle.getProperty("BOTAO_IMPORTAR"));
+        btnGerarXML.setTextAlignment(TextAlignment.CENTER);
+        btnGerarXML.setMinWidth(larguraMinimaBotao);
+        
+        btnGerarXML.setDisable(true);
+        
         btnGerarXML.setOnAction((ActionEvent event) -> {
 //            Stage stage= new Stage();
 //            ImportacaoDeAtividades importarHorasUI= new ImportacaoDeAtividades(aluno);

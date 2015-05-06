@@ -14,6 +14,7 @@ import br.edu.ufpel.atividadecomplementar.modelos.GrandeAreaXML;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
 import br.edu.ufpel.atividadecomplementar.utils.MaskFieldUtil;
+import br.edu.ufpel.atividadecomplementar.utils.StringUtils;
 import java.text.Normalizer;
 import java.util.Calendar;
 import java.util.Date;
@@ -91,19 +92,21 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         grid.add(lblCategoria, 0, ++numLinha);
         grid.add(cbxCategoria, 1, numLinha, 2, 1);
         
-        switch (tipoInformacao) {
-            case "A":
-                numLinha = inicializarTipoInformacao1(grid, numLinha);
-                break;
+        numLinha = inicializarTipoInformacao(grid, numLinha);
+        
+//        switch (tipoInformacao) {
+//            case "A":
+//                numLinha = inicializarTipoInformacao1(grid, numLinha);
+//                break;
                 
-            case "B":
-                numLinha = inicializarTipoInformacao2(grid, numLinha);
-                break;
+//            case "B":
+//                numLinha = inicializarTipoInformacao2(grid, numLinha);
+//                break;
                 
-            case "C":
-                numLinha = inicializarTipoInformacao3(grid, numLinha);
-                break;
-        }
+//            case "C":
+//                numLinha = inicializarTipoInformacao3(grid, numLinha);
+//                break;
+//        }
         
 //        grid.add(lblPdfAtividade, 0, ++numLinha);
 //        grid.add(btnPdfAtividade, 1, numLinha++);
@@ -155,7 +158,7 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         String nomeArquivo = aluno.getCurso().getCodigo().toString().concat("_")
                 .concat(nomeGrandeArea.toLowerCase().concat("_categorias.xml"));
         
-        manipulador = new ManipulaXML(removerAcentos(nomeArquivo));
+        manipulador = new ManipulaXML(StringUtils.removerAcentos(nomeArquivo));
       
         categorias.addAll(manipulador.buscar(CategoriaXML.class).getCategoria());
         cbxCategoria.setItems(categorias);
@@ -187,9 +190,9 @@ public class CadastroDeAtividades extends InterfaceGrafica {
                 atividade.setDescricao(txtDescricao.getText());
                 atividade.setNomeGrandeArea(((GrandeArea)cbxGrandeArea.getValue()).getNome());
                 atividade.setNomeCategoria(((Categoria)cbxCategoria.getValue()).getNomeCategoria());
-                //atividade.setHoraInformada();
-                //atividade.setDataInicial(dataInicial);
-                //atividade.setDataFinal(dataFinal);
+                atividade.setHoraInformada(Double.parseDouble(txtHoras.getText()));
+                atividade.setDataInicial(txtDataInicial.getText());
+                atividade.setDataFinal(txtDataFinal.getText());
                 //atividade.setAno();
                 //atividade.setSemestre(semestre);
                 
@@ -225,6 +228,30 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         });
     }
     
+    private int inicializarTipoInformacao(GridPane grid, int numLinha) {
+        lblHoras = new Label(PropertiesBundle.getProperty("LABEL_HORAS"));
+        lblDataInicial = new Label(PropertiesBundle.getProperty("LABEL_DATA_INICIO"));
+        lblDataFinal = new Label(PropertiesBundle.getProperty("LABEL_DATA_FIM"));
+        lblAno = new Label(PropertiesBundle.getProperty("LABEL_ANO"));
+        lblSemestre = new Label(PropertiesBundle.getProperty("LABEL_SEMESTRE"));
+        txtHoras = new TextField();
+        txtDataInicial = new TextField();
+        txtDataFinal = new TextField();
+        
+        MaskFieldUtil.dateField(txtDataInicial);
+        MaskFieldUtil.dateField(txtDataFinal);
+        
+        grid.add(lblHoras, 0, ++numLinha);
+        grid.add(txtHoras, 1, numLinha);
+        grid.add(lblDataInicial, 0, ++numLinha);
+        grid.add(txtDataInicial, 1, numLinha);
+        grid.add(lblDataFinal, 0, ++numLinha);
+        grid.add(txtDataFinal, 1, numLinha);
+        
+        return numLinha;
+    }
+
+/*
     private int inicializarTipoInformacao1(GridPane grid, int numLinha) {
         lblHoras = new Label(PropertiesBundle.getProperty("LABEL_HORAS"));
         lblDataInicial = new Label(PropertiesBundle.getProperty("LABEL_DATA"));
@@ -290,15 +317,5 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         
         return numLinha;
     }
-
-    /**
-     * Método para remover os acentos de uma string.
-     * 
-     * @param nomeArquivo String que representa o nome do arquivo.
-     * @return nome do arquivo sem acentos.
-     */
-    private String removerAcentos(String nomeArquivo) {
-        return Normalizer.normalize(nomeArquivo, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-    }
-    
+*/
 }

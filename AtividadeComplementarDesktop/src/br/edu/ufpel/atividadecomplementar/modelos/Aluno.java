@@ -1,9 +1,13 @@
 package br.edu.ufpel.atividadecomplementar.modelos;
 
 import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
+import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
+import br.edu.ufpel.atividadecomplementar.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -96,16 +100,25 @@ public class Aluno {
         if (listaDeAtividades == null) {
             carregarAtividades();
         }
+        
+        atividade.setHoraValidada(verificarHoras(atividade));
+        incrementarHoras(atividade);
+        
         listaDeAtividades.add(atividade);
         salvarAtividades();
+        salvarAluno();
     }
     
     public void removeAtividade(Atividade atividade) {
         if (listaDeAtividades == null) {
             carregarAtividades();
         }
+        
+        decrementarHoras(atividade);
+        
         listaDeAtividades.remove(atividade);
         salvarAtividades();
+        salvarAluno();
     }
 
     private void carregaCurso() {
@@ -147,6 +160,80 @@ public class Aluno {
         } catch (JAXBException ex) {
             listaDeAtividades = new ArrayList();
         }    
+    }
+    
+    private double verificarHoras(Atividade atividade) {
+        List<Categoria> categorias = new ArrayList();
+        ManipulaXML<CategoriaXML> manipulador;
+        String nomeArquivo = curso.getCodigo().toString().concat("_")
+                .concat(atividade.getNomeGrandeArea().toLowerCase().concat("_categorias.xml"));
+        
+        manipulador = new ManipulaXML(StringUtils.removerAcentos(nomeArquivo));
+      
+        try {
+            Categoria categoria = null;
+            
+            categorias.addAll(manipulador.buscar(CategoriaXML.class).getCategoria());
+            
+            for (Categoria categoriaAtual : categorias) {
+                if (categoriaAtual.getNomeCategoria().equals(atividade.getNomeCategoria())) {
+                    categoria = categoriaAtual;
+                }
+            }
+            
+            if (categoria != null) {
+                if (atividade.getHoraInformada() > categoria.getHorasMaxima()) {
+                    return categoria.getHorasMaxima();
+                } else {
+                    return atividade.getHoraInformada();
+                }
+            }
+        } catch (JAXBException ex) {
+            AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
+        }
+        
+        return 0;
+    }
+    
+    private void incrementarHoras(Atividade atividade) {
+        if (PropertiesBundle.getProperty("ENSINO").equals(atividade.getNomeGrandeArea())) {
+            horasEnsino = horasEnsino + atividade.getHoraValidada();
+        } else if (PropertiesBundle.getProperty("EXTENSAO").equals(atividade.getNomeGrandeArea())) {
+            horasExtensao = horasExtensao + atividade.getHoraValidada();
+        } else if (PropertiesBundle.getProperty("PESQUISA").equals(atividade.getNomeGrandeArea())) {
+            horasPesquisa = horasPesquisa + atividade.getHoraValidada();
+        } 
+    }
+    
+    private void decrementarHoras(Atividade atividade) {
+        if (PropertiesBundle.getProperty("ENSINO").equals(atividade.getNomeGrandeArea())) {
+            horasEnsino = horasEnsino - atividade.getHoraValidada();
+        } else if (PropertiesBundle.getProperty("EXTENSAO").equals(atividade.getNomeGrandeArea())) {
+            horasExtensao = horasExtensao - atividade.getHoraValidada();
+        } else if (PropertiesBundle.getProperty("PESQUISA").equals(atividade.getNomeGrandeArea())) {
+            horasPesquisa = horasPesquisa - atividade.getHoraValidada();
+        } 
+    }
+    
+    private void salvarAluno() {
+        try {
+            ManipulaXML<AlunosXML> manipuladorAlunosXML = new ManipulaXML("alunos.xml", "perfil/");
+            AlunosXML alunosXML = manipuladorAlunosXML.buscar(AlunosXML.class);
+            ManipulaXML<Aluno> manipuladorAluno = new ManipulaXML(matricula.concat(".xml"), "perfil/");
+            
+            manipuladorAluno.salvar(this, Aluno.class);
+            
+            for (Aluno alunoAtual : alunosXML.getAlunos()) {
+                if (alunoAtual.getMatricula().equals(this.matricula)) {
+                    alunosXML.getAlunos().remove(alunoAtual);
+                    alunosXML.getAlunos().add(this);
+                    manipuladorAlunosXML.salvar(alunosXML, AlunosXML.class);
+                    return;
+                }
+            }            
+        } catch (JAXBException ex) {
+            AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
+        }
     }
 
     @Override
