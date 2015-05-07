@@ -7,8 +7,8 @@ package br.edu.ufpel.atividadecomplementar.modelos;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 
 /**
  *
@@ -18,7 +18,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Categoria {
     
+    @XmlElement(name = "nomecategoria")
     private String nomeCategoria;
+    @XmlElement(name = "horasmaxima")
     private double horasMaxima;
     
     public String getNomeCategoria() {

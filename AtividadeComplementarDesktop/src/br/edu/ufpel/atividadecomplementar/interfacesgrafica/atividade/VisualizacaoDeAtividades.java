@@ -43,7 +43,7 @@ public class VisualizacaoDeAtividades extends InterfaceGrafica {
         inicializarBotaoCancelar(stage);
         
         grid.add(tblAtividades, 0, 0, 10, 2);
-        grid.add(btnEditar, 0, 4);
+        //grid.add(btnEditar, 0, 4);
         grid.add(btnExcluir, 1, 4);
         grid.add(btnCancelar, 2, 4);
     }
@@ -106,18 +106,21 @@ public class VisualizacaoDeAtividades extends InterfaceGrafica {
         btnExcluir.setOnAction((ActionEvent event) -> {
             
             Atividade atividadeSelecionada = tblAtividades.getSelectionModel().getSelectedItem();
-
-            aluno.removeAtividade(atividadeSelecionada);
-
-            this.montarTela(primaryStage);
             
+            if (atividadeSelecionada != null) {
+                aluno.removeAtividade(atividadeSelecionada);
+
+                this.montarTela(primaryStage);
+            } else {
+                AlertasUtils.exibeErro("SELECIONE_ATIVIDADE");
+            }
         });
     }
     
     private void inicializarBotaoCancelar(Stage primaryStage) {
         btnCancelar = new Button();
         
-        btnCancelar.setText(PropertiesBundle.getProperty("BOTAO_VOLTAR"));
+        btnCancelar.setText(PropertiesBundle.getProperty("BOTAO_CANCELAR"));
         btnCancelar.setTextAlignment(TextAlignment.CENTER);
         btnCancelar.setMinWidth(larguraMinimaBotao);
         btnCancelar.setOnAction((ActionEvent event) -> {

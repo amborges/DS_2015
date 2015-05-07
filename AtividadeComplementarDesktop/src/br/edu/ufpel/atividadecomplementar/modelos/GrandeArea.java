@@ -5,13 +5,11 @@
  */
 package br.edu.ufpel.atividadecomplementar.modelos;
 
-import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
-import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
-import javax.xml.bind.JAXBException;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -22,12 +20,11 @@ import javax.xml.bind.annotation.XmlTransient;
 public class GrandeArea {
     
     private String nome;
+    @XmlElement(name = "horaminima")
     private double horaMinima;
-    private Integer codigoCurso;
+    @XmlElement(name = "categorias")
+    private CategoriaXML categorias;
     
-    @XmlTransient
-    private Curso curso;
-
     public String getNome() {
         return nome;
     }
@@ -44,34 +41,12 @@ public class GrandeArea {
         this.horaMinima = horaMinima;
     }
 
-    public Curso getCurso() {
-        if (curso == null) {
-            carregaCurso();
-        }
-        return curso;
+    public List<Categoria> getCategorias() {
+        return categorias.getCategoria();
     }
 
-    public void setCurso(Curso curso) {
-        this.curso = curso;
-        this.codigoCurso = curso.getCodigo();
-    }
-    
-    private void carregaCurso() {
-        ManipulaXML<CursosXML> manipulador = new ManipulaXML("cursos.xml");
-        CursosXML cursosXML;
-        
-        try {
-            cursosXML = manipulador.buscar(CursosXML.class);
-            
-            for (Curso cursoAtual : cursosXML.getCursos()) {
-                if (codigoCurso.equals(cursoAtual.getCodigo())) {
-                    this.curso = cursoAtual;
-                    return;
-                }
-            }
-        } catch (JAXBException ex) {
-            AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
-        }
+    public void setCategorias(CategoriaXML categorias) {
+        this.categorias = categorias;
     }
 
     @Override

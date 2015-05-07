@@ -1,25 +1,14 @@
 package br.edu.ufpel.atividadecomplementar.interfacesgrafica.atividade;
 
-import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.perfil.ResumoDoPerfil;
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
 import br.edu.ufpel.atividadecomplementar.modelos.Aluno;
 import br.edu.ufpel.atividadecomplementar.modelos.Atividade;
 import br.edu.ufpel.atividadecomplementar.modelos.Categoria;
-import br.edu.ufpel.atividadecomplementar.modelos.CategoriaXML;
-import br.edu.ufpel.atividadecomplementar.modelos.Curso;
-import br.edu.ufpel.atividadecomplementar.modelos.CursosXML;
 import br.edu.ufpel.atividadecomplementar.modelos.GrandeArea;
-import br.edu.ufpel.atividadecomplementar.modelos.GrandeAreaXML;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
 import br.edu.ufpel.atividadecomplementar.utils.MaskFieldUtil;
-import br.edu.ufpel.atividadecomplementar.utils.StringUtils;
-import java.text.Normalizer;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -31,8 +20,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -63,11 +50,9 @@ public class CadastroDeAtividades extends InterfaceGrafica {
     private TextField txtHoras;
     private TextField txtDataInicial;
     private TextField txtDataFinal;
-    private final Map<String, GrandeArea> grandesAreas;
     
-    public CadastroDeAtividades(Aluno aluno, Map<String, GrandeArea> grandesAreas) {
+    public CadastroDeAtividades(Aluno aluno) {
         this.aluno = aluno;
-        this.grandesAreas = grandesAreas;
     }
 
     @Override
@@ -87,10 +72,13 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         
         grid.add(lblDescricao, 0, numLinha);
         grid.add(txtDescricao, 1, numLinha, 2, 1);
+        grid.add(obrigatorio(), 3, numLinha);
         grid.add(lblGrandeArea, 0, ++numLinha);
         grid.add(cbxGrandeArea, 1, numLinha, 2, 1);
+        grid.add(obrigatorio(), 3, numLinha);
         grid.add(lblCategoria, 0, ++numLinha);
         grid.add(cbxCategoria, 1, numLinha, 2, 1);
+        grid.add(obrigatorio(), 3, numLinha);
         
         numLinha = inicializarTipoInformacao(grid, numLinha);
         
@@ -116,31 +104,24 @@ public class CadastroDeAtividades extends InterfaceGrafica {
     
     private void inicializarTextAreaDescricao() {
         txtDescricao = new TextArea();
-        txtDescricao.setPrefRowCount(3);
-        txtDescricao.setPrefColumnCount(25);
+        txtDescricao.setPrefRowCount(2);
+        txtDescricao.setPrefColumnCount(20);
         txtDescricao.setWrapText(true);
     }
 
     private void inicializarComboBoxGrandeArea() throws JAXBException {
         ObservableList<GrandeArea> grandeArea = FXCollections.observableArrayList();
-        String[] nomesGrandeArea = {"Ensino", "Extensão", "Pesquisa"};
         
-        for (String nome : nomesGrandeArea) {
-            grandeArea.add(grandesAreas.get(nome));
-        }
+        grandeArea.addAll(aluno.getCurso().getGrandesAreas());
         
         cbxGrandeArea = new ComboBox();
         cbxGrandeArea.setItems(grandeArea);
         cbxGrandeArea.valueProperty().addListener(new ChangeListener() {
 
             @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                if (newValue != null) {
-                    try {
-                        atualizarComboBoxCategoria(newValue.toString());
-                    } catch (JAXBException ex) {
-                        AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
-                    }
+            public void changed(ObservableValue observable, Object grandeAreaAnterior, Object grandeAreaNova) {
+                if (grandeAreaNova != null) {
+                    atualizarComboBoxCategoria((GrandeArea) grandeAreaNova);
                 }
             }
             
@@ -152,15 +133,11 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         cbxCategoria.setDisable(true);
     }
     
-    private void atualizarComboBoxCategoria(String nomeGrandeArea) throws JAXBException {
+    private void atualizarComboBoxCategoria(GrandeArea grandeArea) {
         ObservableList<Categoria> categorias = FXCollections.observableArrayList();
-        ManipulaXML<CategoriaXML> manipulador;
-        String nomeArquivo = aluno.getCurso().getCodigo().toString().concat("_")
-                .concat(nomeGrandeArea.toLowerCase().concat("_categorias.xml"));
         
-        manipulador = new ManipulaXML(StringUtils.removerAcentos(nomeArquivo));
-      
-        categorias.addAll(manipulador.buscar(CategoriaXML.class).getCategoria());
+        categorias.addAll(grandeArea.getCategorias());
+        
         cbxCategoria.setItems(categorias);
         cbxCategoria.setDisable(false);
     }
@@ -186,32 +163,39 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         btnAdicionar.setTextAlignment(TextAlignment.CENTER);
         btnAdicionar.setMinWidth(larguraMinimaBotao);
         btnAdicionar.setOnAction((ActionEvent event) -> {
-                Atividade atividade = new Atividade();
-                atividade.setDescricao(txtDescricao.getText());
-                atividade.setNomeGrandeArea(((GrandeArea)cbxGrandeArea.getValue()).getNome());
-                atividade.setNomeCategoria(((Categoria)cbxCategoria.getValue()).getNomeCategoria());
-                atividade.setHoraInformada(Double.parseDouble(txtHoras.getText()));
-                atividade.setDataInicial(txtDataInicial.getText());
-                atividade.setDataFinal(txtDataFinal.getText());
-                //atividade.setAno();
-                //atividade.setSemestre(semestre);
+                String erros = validarDadosInformados();
                 
-//                Stage stage= new Stage();
-//                ResumoDoPerfil resumoUI= new ResumoDoPerfil((Curso)cbxCurso.getValue());
-//                resumoUI.start(stage);
-//                primaryStage.close();
-                aluno.adicionaAtividade(atividade);
+                if (erros == null) {
+                    Atividade atividade = new Atividade();
+                    atividade.setDescricao(txtDescricao.getText());
+                    atividade.setNomeGrandeArea(((GrandeArea)cbxGrandeArea.getValue()).getNome());
+                    atividade.setNomeCategoria(((Categoria)cbxCategoria.getValue()).getNomeCategoria());
+                    atividade.setHoraInformada(Double.parseDouble(txtHoras.getText()));
+                    atividade.setDataInicial(txtDataInicial.getText());
+                    atividade.setDataFinal(txtDataFinal.getText());
+                    //atividade.setAno();
+                    //atividade.setSemestre(semestre);
+
+    //                Stage stage= new Stage();
+    //                ResumoDoPerfil resumoUI= new ResumoDoPerfil((Curso)cbxCurso.getValue());
+    //                resumoUI.start(stage);
+    //                primaryStage.close();
+                    aluno.adicionaAtividade(atividade);
+
+                    AlertasUtils.exibeInformacao("ATIVIDADE_SALVA_SUCESSO");
+
+                    this.montarTela(primaryStage);
+                } else {
+                    AlertasUtils.exibeErro(erros);
+                }
                 
-                AlertasUtils.exibeInformacao("ATIVIDADE_SALVA");
-                
-                this.montarTela(primaryStage);
         });
     }
 
     private void inicializarButtonCancelar(Stage primaryStage) {
         btnCancelar = new Button();
         
-        btnCancelar.setText(PropertiesBundle.getProperty("BOTAO_VOLTAR"));
+        btnCancelar.setText(PropertiesBundle.getProperty("BOTAO_CANCELAR"));
         btnCancelar.setTextAlignment(TextAlignment.CENTER);
         btnCancelar.setMinWidth(larguraMinimaBotao);
         btnCancelar.setOnAction((ActionEvent event) -> {
@@ -233,7 +217,7 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         lblDataInicial = new Label(PropertiesBundle.getProperty("LABEL_DATA_INICIO"));
         lblDataFinal = new Label(PropertiesBundle.getProperty("LABEL_DATA_FIM"));
         lblAno = new Label(PropertiesBundle.getProperty("LABEL_ANO"));
-        lblSemestre = new Label(PropertiesBundle.getProperty("LABEL_SEMESTRE"));
+//        lblSemestre = new Label(PropertiesBundle.getProperty("LABEL_SEMESTRE"));
         txtHoras = new TextField();
         txtDataInicial = new TextField();
         txtDataFinal = new TextField();
@@ -242,11 +226,13 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         MaskFieldUtil.dateField(txtDataFinal);
         
         grid.add(lblHoras, 0, ++numLinha);
-        grid.add(txtHoras, 1, numLinha);
+        grid.add(txtHoras, 1, numLinha, 2, 1);
+        grid.add(obrigatorio(), 3, numLinha);
         grid.add(lblDataInicial, 0, ++numLinha);
-        grid.add(txtDataInicial, 1, numLinha);
+        grid.add(txtDataInicial, 1, numLinha, 2, 1);
+        grid.add(obrigatorio(), 3, numLinha);
         grid.add(lblDataFinal, 0, ++numLinha);
-        grid.add(txtDataFinal, 1, numLinha);
+        grid.add(txtDataFinal, 1, numLinha, 2, 1);
         
         return numLinha;
     }
@@ -318,4 +304,28 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         return numLinha;
     }
 */
+
+    private String validarDadosInformados() {
+        if (txtDescricao.getText() == null || txtDescricao.getText().isEmpty()) {
+            return "ERRO_DESCRICAO_OBRIGATORIA";
+        }
+        
+        if (cbxGrandeArea.getValue() == null) {
+            return "ERRO_GRANDEAREA_OBRIGATORIA";
+        }
+        
+        if (cbxCategoria.getValue() == null) {
+            return "ERRO_CATEGORIA_OBRIGATORIA";
+        }
+        
+        if (txtHoras.getText() == null || txtHoras.getText().isEmpty()) {
+            return "ERRO_HORAS_OBRIGATORIA";
+        }
+        
+        if (txtDataInicial.getText() == null || txtDataInicial.getText().isEmpty()) {
+            return "ERRO_DATAINICIAL_OBRIGATORIA";
+        }
+        
+        return null;
+    }
 }

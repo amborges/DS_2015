@@ -4,7 +4,9 @@ import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -42,6 +44,14 @@ public abstract class InterfaceGrafica {
         primaryStage.show();
     } 
 
+    protected Label obrigatorio() {
+        Label lblRequerido = new Label("*");
+        
+        lblRequerido.setTextFill(Color.RED);
+        
+        return lblRequerido;
+    }
+    
     /**
      * Método que deve ser implementado pelo objeto quem herda esta classe. 
      * Neste método deve ser inicializado os elementos e estes atribuídos a <b>grid</b>.

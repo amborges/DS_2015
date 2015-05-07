@@ -3,9 +3,12 @@ package br.edu.ufpel.atividadecomplementar.interfacesgrafica.perfil;
 import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
 import br.edu.ufpel.atividadecomplementar.modelos.Aluno;
+import br.edu.ufpel.atividadecomplementar.modelos.AlunoInfoBasicas;
 import br.edu.ufpel.atividadecomplementar.modelos.AlunosXML;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,8 +26,8 @@ import javax.xml.bind.JAXBException;
 class AberturaDePerfil extends InterfaceGrafica {
     
     private Button btnCarregar;
-    private Button btnVoltar;
-    private ListView<Aluno> listaDePerfis;
+    private Button btnCancelar;
+    private ListView<AlunoInfoBasicas> listaDePerfis;
     
     public AberturaDePerfil() {
         this.telaAltura = telaAltura / 1.5;
@@ -33,26 +36,26 @@ class AberturaDePerfil extends InterfaceGrafica {
     
     @Override
     protected void inicializarElementos(GridPane grid, Stage stage) {
-        try {
-            inicializarListViewPerfis();
-        } catch (JAXBException ex) {
-            AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
-        }
+        inicializarListViewPerfis();
         inicializarButtonCarregar(stage);
-        inicializarButtonVoltar(stage);
+        inicializarButtonCancelar(stage);
         
-        grid.add(listaDePerfis, 0, 0, 5, 4);
-        grid.add(btnCarregar, 1, 4);
-        grid.add(btnVoltar, 2, 4);
+        grid.add(listaDePerfis, 0, 0, 4, 4);
+        grid.add(btnCarregar, 0, 4);
+        grid.add(btnCancelar, 1, 4);
     }
     
-    private void inicializarListViewPerfis() throws JAXBException {
-        ObservableList<Aluno> alunos = FXCollections.observableArrayList();
+    private void inicializarListViewPerfis() {
+        ObservableList<AlunoInfoBasicas> alunosInformacoesBasicas = FXCollections.observableArrayList();
         ManipulaXML<AlunosXML> manipulador = new ManipulaXML("alunos.xml", "perfil/");
         
         listaDePerfis = new ListView();
-        alunos.addAll(manipulador.buscar(AlunosXML.class).getAlunos());
-        listaDePerfis.setItems(alunos);
+        
+        try {
+            alunosInformacoesBasicas.addAll(manipulador.buscar(AlunosXML.class).getAlunos());
+        } catch (JAXBException ex) {}
+        
+        listaDePerfis.setItems(alunosInformacoesBasicas);
     }
     
     private void inicializarButtonCarregar(Stage primaryStage) {
@@ -61,12 +64,12 @@ class AberturaDePerfil extends InterfaceGrafica {
         btnCarregar.setTextAlignment(TextAlignment.CENTER);
         btnCarregar.setMinWidth(larguraMinimaBotao);
         btnCarregar.setOnAction((ActionEvent event) -> {
-            Aluno aluno = listaDePerfis.getSelectionModel().getSelectedItem();
+            AlunoInfoBasicas alunoInformacoesBasicas = listaDePerfis.getSelectionModel().getSelectedItem();
             
-            if (aluno != null) {
+            if (alunoInformacoesBasicas != null) {
                 try {
                     Stage stage= new Stage();
-                    InterfaceGrafica resumoDoPerfil = new ResumoDoPerfil(aluno);
+                    InterfaceGrafica resumoDoPerfil = new ResumoDoPerfil(carregarPerfil(alunoInformacoesBasicas));
                     resumoDoPerfil.montarTela(stage);
                     primaryStage.close();
                 } catch(NullPointerException npex) {
@@ -82,22 +85,23 @@ class AberturaDePerfil extends InterfaceGrafica {
         });
     }
     
-    private void inicializarButtonVoltar(Stage stage) {
-        btnVoltar = new Button();
-        btnVoltar.setText(PropertiesBundle.getProperty("BOTAO_VOLTAR"));
-        btnVoltar.setTextAlignment(TextAlignment.CENTER);
-        btnVoltar.setMinWidth(larguraMinimaBotao);
-        btnVoltar.setOnAction((ActionEvent event) -> {
+    private void inicializarButtonCancelar(Stage stage) {
+        btnCancelar = new Button();
+        btnCancelar.setText(PropertiesBundle.getProperty("BOTAO_CANCELAR"));
+        btnCancelar.setTextAlignment(TextAlignment.CENTER);
+        btnCancelar.setMinWidth(larguraMinimaBotao);
+        btnCancelar.setOnAction((ActionEvent event) -> {
             InterfaceGrafica selecionaPerfil = new SelecaoDePerfil();
             selecionaPerfil.montarTela(stage);
         });
     }
 
-    private Aluno carregarPerfil(Aluno alunoSelecionado) {
+    private Aluno carregarPerfil(AlunoInfoBasicas alunoSelecionado) {
         ManipulaXML<Aluno> manipulador = new ManipulaXML(alunoSelecionado.getMatricula().concat(".xml"), "perfil/");
         Aluno aluno;
         
         try {
+            
             aluno = manipulador.buscar(Aluno.class);
         } catch (JAXBException ex) {
                 throw new RuntimeException("PROBLEMA_CRIAR_PERFIL");

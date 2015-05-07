@@ -3,6 +3,7 @@ package br.edu.ufpel.atividadecomplementar.interfacesgrafica.perfil;
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
 import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
 import br.edu.ufpel.atividadecomplementar.modelos.Aluno;
+import br.edu.ufpel.atividadecomplementar.modelos.AlunoInfoBasicas;
 import br.edu.ufpel.atividadecomplementar.modelos.AlunosXML;
 import br.edu.ufpel.atividadecomplementar.modelos.Curso;
 import br.edu.ufpel.atividadecomplementar.modelos.CursosXML;
@@ -13,9 +14,12 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
+import br.edu.ufpel.atividadecomplementar.utils.MaskFieldUtil;
+import br.edu.ufpel.atividadecomplementar.utils.StringUtils;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextAlignment;
@@ -23,8 +27,9 @@ import javax.xml.bind.JAXBException;
 
 public class CadastroDePerfil extends InterfaceGrafica {
     
+    private static final int TAMANHO_MAXIMO_MATRICULA = 10;
     private Button btnAvancar;
-    private Button btnVoltar;
+    private Button btnCancelar;
     private ComboBox cbxCurso;
     private final Label lblCurso = new Label(PropertiesBundle.getProperty("CURSO_LABEL"));
     private final Label lblMatricula = new Label(PropertiesBundle.getProperty("MATRICULA_LABEL"));
@@ -45,16 +50,22 @@ public class CadastroDePerfil extends InterfaceGrafica {
             AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
         }
         inicializarButtonAvancar(stage);
-        inicializarButtonVoltar(stage);
+        inicializarButtonCancelar(stage);
+        
+        MaskFieldUtil.numericField(txtMatricula);
+        StringUtils.adicionarTamanhoMaximoTextField(txtMatricula, TAMANHO_MAXIMO_MATRICULA);
         
         grid.add(lblNome, 0, 0, 1, 1);
         grid.add(txtNome, 1, 0, 2, 1);
+        grid.add(obrigatorio(), 3, 0);
         grid.add(lblMatricula, 0, 1, 1, 1);
         grid.add(txtMatricula, 1, 1, 2, 1);
+        grid.add(obrigatorio(), 3, 1);
         grid.add(lblCurso, 0, 2, 1, 1);
         grid.add(cbxCurso, 1, 2, 2, 1);
+        grid.add(obrigatorio(), 3, 2);
         grid.add(btnAvancar, 1, 3);
-        grid.add(btnVoltar, 2, 3);
+        grid.add(btnCancelar, 2, 3);
     }
     
     private void inicializarComboboxCurso() throws JAXBException {
@@ -72,11 +83,9 @@ public class CadastroDePerfil extends InterfaceGrafica {
         btnAvancar.setTextAlignment(TextAlignment.CENTER);
         btnAvancar.setMinWidth(larguraMinimaBotao);
         btnAvancar.setOnAction((ActionEvent event) -> {
-            if (txtMatricula.getText() == null || txtMatricula.getText().isEmpty()) {
-                AlertasUtils.exibeErro("MATRICULA_ERRO");
-            } else if (cbxCurso.getValue() == null) {
-                AlertasUtils.exibeErro("INFORME_CURSO_ERRO");
-            } else {            
+            String erros = validarDadosInformados();
+            
+            if (erros == null) {            
                 try {
                     Aluno aluno = gerarPerfil();
                     
@@ -91,16 +100,19 @@ public class CadastroDePerfil extends InterfaceGrafica {
                 } catch(RuntimeException rtex) {
                     AlertasUtils.exibeErro(rtex.getMessage());
                 }
+            } else {
+                AlertasUtils.exibeErro(erros);
             }
+            
         });
     }
     
-    private void inicializarButtonVoltar(Stage stage) {
-        btnVoltar = new Button();
-        btnVoltar.setText(PropertiesBundle.getProperty("BOTAO_VOLTAR"));
-        btnVoltar.setTextAlignment(TextAlignment.CENTER);
-        btnVoltar.setMinWidth(larguraMinimaBotao);
-        btnVoltar.setOnAction((ActionEvent event) -> {
+    private void inicializarButtonCancelar(Stage stage) {
+        btnCancelar = new Button();
+        btnCancelar.setText(PropertiesBundle.getProperty("BOTAO_CANCELAR"));
+        btnCancelar.setTextAlignment(TextAlignment.CENTER);
+        btnCancelar.setMinWidth(larguraMinimaBotao);
+        btnCancelar.setOnAction((ActionEvent event) -> {
             InterfaceGrafica selecionaPerfil = new SelecaoDePerfil();
             selecionaPerfil.montarTela(stage);
         });
@@ -115,30 +127,51 @@ public class CadastroDePerfil extends InterfaceGrafica {
             
             AlertasUtils.exibeAlerta("PERFIL_JA_EXISTE");
         } catch (JAXBException ex) {
-            Curso curso = (Curso) cbxCurso.getValue();
-            aluno = new Aluno();
-            
-            aluno.setMatricula(txtMatricula.getText());
-            aluno.setNome(txtNome.getText());
-            aluno.setCurso(curso);
-            
             try {
+                Curso curso = ((Curso) cbxCurso.getValue()).carregarInformacoes();
+                aluno = new Aluno();
+
+                aluno.setMatricula(txtMatricula.getText());
+                aluno.setNome(txtNome.getText());
+                aluno.setCurso(curso);
+            
                 manipulador.salvar(aluno, Aluno.class);
                 
                 ManipulaXML<AlunosXML> manipuladorAlunos = new ManipulaXML("alunos.xml", "perfil/");
-                AlunosXML alunosXML = manipuladorAlunos.buscar(AlunosXML.class);
-                List<Aluno> alunos = alunosXML.getAlunos();
-                alunos.add(aluno);
-                alunos.sort((Aluno e1, Aluno e2) -> e1.getNome().compareTo(e2.getNome()));
-                alunosXML.setAlunos(alunos);
-                manipuladorAlunos.salvar(alunosXML, AlunosXML.class);
+                AlunosXML alunosXML;
                 
-            } catch (JAXBException ex1) {
+                try {
+                    alunosXML = manipuladorAlunos.buscar(AlunosXML.class);
+                } catch (JAXBException ex1) {
+                    alunosXML = new AlunosXML();
+                }
+                
+                alunosXML.adicionarAluno(aluno);
+                
+                manipuladorAlunos.salvar(alunosXML, AlunosXML.class);
+
+            } catch (JAXBException ex2) {
                 throw new RuntimeException("PROBLEMA_CRIAR_PERFIL");
             }
         }
         
         return aluno;
+    }
+
+    private String validarDadosInformados() {
+        if (txtNome.getText() == null || txtNome.getText().isEmpty()) {
+            return "ERRO_NOME_OBRIGATORIO";
+        }
+        
+        if (txtMatricula.getText() == null || txtMatricula.getText().isEmpty()) {
+            return "ERRO_MATRICULA_OBRIGATORIA";
+        }
+        
+        if (cbxCurso.getValue() == null) {
+            return "ERRO_CURSO_OBRIGATORIO";
+        }
+        
+        return null;
     }
 
 }

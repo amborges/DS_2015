@@ -3,16 +3,14 @@ package br.edu.ufpel.atividadecomplementar.modelos;
 import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
-import br.edu.ufpel.atividadecomplementar.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -24,16 +22,14 @@ public class Aluno {
     
     private String matricula;
     private String nome;
-    private Integer codigoCurso;
+    private Curso curso;
+    @XmlElement(name = "atividades")
+    private AtividadeXML listaDeAtividades;
     private double horasEnsino;
     private double horasExtensao;
     private double horasPesquisa;
     private boolean estaPronto;
-    @XmlTransient
-    private Curso curso;
-    @XmlTransient
-    private List<Atividade> listaDeAtividades;
-
+    
     public Aluno() {
         horasEnsino = 0.0;
         horasExtensao = 0.0;
@@ -56,17 +52,25 @@ public class Aluno {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
+    
     public Curso getCurso() {
-        if (curso == null) {
-            carregaCurso();
-        }
         return curso;
     }
 
     public void setCurso(Curso curso) {
         this.curso = curso;
-        this.codigoCurso = curso.getCodigo();
+    }
+
+    public List<Atividade> getListaDeAtividades() {
+        if (listaDeAtividades != null) {
+            return listaDeAtividades.getAtividades();
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    public void setListaDeAtividades(AtividadeXML listaDeAtividades) {
+        this.listaDeAtividades = listaDeAtividades;
     }
     
     public double getHorasEnsino() {
@@ -89,107 +93,52 @@ public class Aluno {
         this.estaPronto = estaPronto;
     }
 
-    public List<Atividade> getListaDeAtividades() {
-        if (listaDeAtividades == null) {
-            carregarAtividades();
-        }
-        return listaDeAtividades;
-    }
-    
     public void adicionaAtividade(Atividade atividade) {
         if (listaDeAtividades == null) {
-            carregarAtividades();
+            listaDeAtividades = new AtividadeXML();
         }
         
         atividade.setHoraValidada(verificarHoras(atividade));
         incrementarHoras(atividade);
-        
-        listaDeAtividades.add(atividade);
-        salvarAtividades();
+        listaDeAtividades.getAtividades().add(atividade);
+        listaDeAtividades.getAtividades().sort((Atividade a1, Atividade a2) -> a1.getDescricao().compareTo(a2.getDescricao()));
         salvarAluno();
     }
     
     public void removeAtividade(Atividade atividade) {
-        if (listaDeAtividades == null) {
-            carregarAtividades();
+        if (listaDeAtividades != null) {
+            decrementarHoras(atividade);
+            listaDeAtividades.getAtividades().remove(atividade);
+            salvarAluno();
         }
-        
-        decrementarHoras(atividade);
-        
-        listaDeAtividades.remove(atividade);
-        salvarAtividades();
-        salvarAluno();
-    }
-
-    private void carregaCurso() {
-        ManipulaXML<CursosXML> manipulador = new ManipulaXML("cursos.xml");
-        CursosXML cursosXML;
-        
-        try {
-            cursosXML = manipulador.buscar(CursosXML.class);
-            
-            for (Curso cursoAtual : cursosXML.getCursos()) {
-                if (codigoCurso.equals(cursoAtual.getCodigo())) {
-                    this.curso = cursoAtual;
-                    return;
-                }
-            }
-        } catch (JAXBException ex) {
-            AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
-        }
-    }
-    
-    private void salvarAtividades() {
-        try {
-            ManipulaXML<AtividadeXML> manipulador = new ManipulaXML(matricula.concat("_atividades.xml"), "atividades/");
-            AtividadeXML atividadeXML = new AtividadeXML();
-        
-            atividadeXML.setAtividades(listaDeAtividades);
-        
-            manipulador.salvar(atividadeXML, AtividadeXML.class);
-        } catch (JAXBException ex) {
-            AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
-        }
-    }
-    
-    private void carregarAtividades() {
-        try {
-            ManipulaXML<AtividadeXML> manipulador = new ManipulaXML(matricula.concat("_atividades.xml"), "atividades/");
-
-            listaDeAtividades = manipulador.buscar(AtividadeXML.class).getAtividades();
-        } catch (JAXBException ex) {
-            listaDeAtividades = new ArrayList();
-        }    
     }
     
     private double verificarHoras(Atividade atividade) {
-        List<Categoria> categorias = new ArrayList();
-        ManipulaXML<CategoriaXML> manipulador;
-        String nomeArquivo = curso.getCodigo().toString().concat("_")
-                .concat(atividade.getNomeGrandeArea().toLowerCase().concat("_categorias.xml"));
+        GrandeArea grandeArea = null;
+        Categoria categoria = null;
         
-        manipulador = new ManipulaXML(StringUtils.removerAcentos(nomeArquivo));
-      
         try {
-            Categoria categoria = null;
-            
-            categorias.addAll(manipulador.buscar(CategoriaXML.class).getCategoria());
-            
-            for (Categoria categoriaAtual : categorias) {
+            for (GrandeArea grandeAreaAtual : curso.getGrandesAreas()) {
+                if (grandeAreaAtual.getNome().equals(atividade.getNomeGrandeArea())) {
+                    grandeArea = grandeAreaAtual;
+                    break;
+                }
+            }
+
+            for (Categoria categoriaAtual : grandeArea.getCategorias()) {
                 if (categoriaAtual.getNomeCategoria().equals(atividade.getNomeCategoria())) {
                     categoria = categoriaAtual;
+                    break;
                 }
             }
-            
-            if (categoria != null) {
-                if (atividade.getHoraInformada() > categoria.getHorasMaxima()) {
-                    return categoria.getHorasMaxima();
-                } else {
-                    return atividade.getHoraInformada();
-                }
+
+            if (atividade.getHoraInformada() > categoria.getHorasMaxima()) {
+                return categoria.getHorasMaxima();
+            } else {
+                return atividade.getHoraInformada();
             }
-        } catch (JAXBException ex) {
-            AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
+        } catch (NullPointerException ex) {
+            AlertasUtils.exibeErro("PROBLEMA_CATEGORIA_AREA");
         }
         
         return 0;
@@ -218,19 +167,13 @@ public class Aluno {
     private void salvarAluno() {
         try {
             ManipulaXML<AlunosXML> manipuladorAlunosXML = new ManipulaXML("alunos.xml", "perfil/");
-            AlunosXML alunosXML = manipuladorAlunosXML.buscar(AlunosXML.class);
             ManipulaXML<Aluno> manipuladorAluno = new ManipulaXML(matricula.concat(".xml"), "perfil/");
             
             manipuladorAluno.salvar(this, Aluno.class);
             
-            for (Aluno alunoAtual : alunosXML.getAlunos()) {
-                if (alunoAtual.getMatricula().equals(this.matricula)) {
-                    alunosXML.getAlunos().remove(alunoAtual);
-                    alunosXML.getAlunos().add(this);
-                    manipuladorAlunosXML.salvar(alunosXML, AlunosXML.class);
-                    return;
-                }
-            }            
+            AlunosXML alunosXML = manipuladorAlunosXML.buscar(AlunosXML.class);
+            alunosXML.adicionarAluno(this);
+            manipuladorAlunosXML.salvar(alunosXML, AlunosXML.class);            
         } catch (JAXBException ex) {
             AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
         }

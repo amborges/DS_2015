@@ -9,6 +9,7 @@ import br.edu.ufpel.atividadecomplementar.modelos.GrandeArea;
 import br.edu.ufpel.atividadecomplementar.modelos.GrandeAreaXML;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.scene.chart.BarChart;
@@ -43,8 +44,6 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         this.aluno = aluno;
         lblNomeAluno = new Label(PropertiesBundle.getProperty("ALUNO_LABEL").concat(" ").concat(aluno.getMatricula()).concat(" - ").concat(aluno.getNome()));
         lblNomeAluno.setStyle("-fx-font-weight: bold;");
-        
-        carregarGrandesAreas();
     }
     
     @Override
@@ -61,7 +60,7 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         
         gridBotoes.add(btnAdicionar, 0, 1);
         gridBotoes.add(btnVisualizar, 0, 2);
-        gridBotoes.add(btnGerarXML, 0, 3);
+        //gridBotoes.add(btnGerarXML, 0, 3);
         //gridBotoes.add(btnExportar, 0, 4);
         
         grid.add(lblNomeAluno, 0, 0);
@@ -84,14 +83,21 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         serie1.getData().add(new XYChart.Data(ENSINO, aluno.getHorasEnsino()));
         serie1.getData().add(new XYChart.Data(EXTENSAO, aluno.getHorasExtensao()));
         serie1.getData().add(new XYChart.Data(PESQUISA, aluno.getHorasPesquisa()));
-        //serie1.getData().add(new XYChart.Data(OUTROS, 1.0));
                 
         XYChart.Series serie2 = new XYChart.Series();
         serie2.setName(PropertiesBundle.getProperty("HORAS_NECESSARIAS"));
-        serie2.getData().add(new XYChart.Data(ENSINO, grandesAreas.get(ENSINO).getHoraMinima()));
-        serie2.getData().add(new XYChart.Data(EXTENSAO, grandesAreas.get(EXTENSAO).getHoraMinima()));
-        serie2.getData().add(new XYChart.Data(PESQUISA, grandesAreas.get(PESQUISA).getHoraMinima()));
-//        serie2.getData().add(new XYChart.Data(OUTROS, 120.0));
+        
+        List<GrandeArea> grandeAreas = aluno.getCurso().getGrandesAreas();
+        
+        for (GrandeArea grandeAreaAtual : grandeAreas) {
+            if (ENSINO.equals(grandeAreaAtual.getNome())) {
+                serie2.getData().add(new XYChart.Data(ENSINO, grandeAreaAtual.getHoraMinima()));
+            } else if (EXTENSAO.equals(grandeAreaAtual.getNome())) {
+                serie2.getData().add(new XYChart.Data(EXTENSAO, grandeAreaAtual.getHoraMinima()));
+            } else if (PESQUISA.equals(grandeAreaAtual.getNome())) {
+                serie2.getData().add(new XYChart.Data(PESQUISA, grandeAreaAtual.getHoraMinima()));
+            }
+        }
         
         grafico.getData().addAll(serie1, serie2);
     }
@@ -104,7 +110,7 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         btnAdicionar.setMinWidth(larguraMinimaBotao);
         btnAdicionar.setOnAction((ActionEvent event) -> {
             Stage stage= new Stage();
-            InterfaceGrafica cadastroDeAtividades = new CadastroDeAtividades(aluno, grandesAreas);
+            InterfaceGrafica cadastroDeAtividades = new CadastroDeAtividades(aluno);
             cadastroDeAtividades.montarTela(stage);
             primaryStage.close();
         });
@@ -162,16 +168,6 @@ public class ResumoDoPerfil extends InterfaceGrafica {
             SelecaoDePerfil selecionaPerfil = new SelecaoDePerfil();
             selecionaPerfil.montarTela(stage);
         });
-    }
-
-    private void carregarGrandesAreas() throws JAXBException {
-        ManipulaXML<GrandeAreaXML> manipulador = new ManipulaXML(aluno.getCurso().getCodigo().toString().concat("_grandes_areas.xml"));
-        GrandeAreaXML grandesAreasXML = manipulador.buscar(GrandeAreaXML.class);
-        grandesAreas = new HashMap();
-        
-        for (GrandeArea grandeArea : grandesAreasXML.getGrandesAreas()) {
-            grandesAreas.put(grandeArea.getNome(), grandeArea);            
-        }
     }
 
 }

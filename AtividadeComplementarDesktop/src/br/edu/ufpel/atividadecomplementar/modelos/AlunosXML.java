@@ -12,18 +12,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AlunosXML {
     
     @XmlElement(name = "aluno")
-    private List<Aluno> alunos;
+    private List<AlunoInfoBasicas> alunos;
 
     public AlunosXML() {
         alunos = new ArrayList<>();
     }
-    
-    public List<Aluno> getAlunos() {
+
+    public List<AlunoInfoBasicas> getAlunos() {
         return alunos;
     }
 
-    public void setAlunos(List<Aluno> alunos) {
+    public void setAlunos(List<AlunoInfoBasicas> alunos) {
         this.alunos = alunos;
+    }
+    
+    public void adicionarAluno(Aluno aluno) {
+        AlunoInfoBasicas alunoInfoBasicas = new AlunoInfoBasicas(aluno);
+        
+        alunos.remove(alunoInfoBasicas);
+        alunos.add(alunoInfoBasicas);
+        alunos.sort((AlunoInfoBasicas e1, AlunoInfoBasicas e2) -> e1.getNome().compareTo(e2.getNome()));
     }
     
 }
