@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<aluno>
+    <matricula>11200288</matricula>
+    <nome>Alex Borges</nome>
+    <curso>
+        <codigo>4210</codigo>
+        <nome>Ciência da Computação</nome>
+        <grandesareas>
+            <grandearea>
+                <nome>Ensino</nome>
+                <horaminima>100.0</horaminima>
+                <categorias>
+                    <categoria>
+                        <nomecategoria>Certificações Profissionais</nomecategoria>
+                        <horasmaxima>102.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Disciplina Optativa ou Livre</nomecategoria>
+                        <horasmaxima>0.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Monitoria</nomecategoria>
+                        <horasmaxima>102.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Participação em Cursos e Escolas</nomecategoria>
+                        <horasmaxima>102.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Participação em Projetos de Ensino</nomecategoria>
+                        <horasmaxima>102.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Participação na Semana Acadêmica do Curso</nomecategoria>
+                        <horasmaxima>68.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Representação Estudantil</nomecategoria>
+                        <horasmaxima>102.0</horasmaxima>
+                    </categoria>
+                </categorias>
+            </grandearea>
+            <grandearea>
+                <nome>Extensão</nome>
+                <horaminima>100.0</horaminima>
+                <categorias>
+                    <categoria>
+                        <nomecategoria>Bolsa de Graduação da UFPel</nomecategoria>
+                        <horasmaxima>102.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Participação em Atividades de Extensão</nomecategoria>
+                        <horasmaxima>153.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Projetos Voluntários</nomecategoria>
+                        <horasmaxima>102.0</horasmaxima>
+                    </categoria>
+                </categorias>
+            </grandearea>
+            <grandearea>
+                <nome>Pesquisa</nome>
+                <horaminima>100.0</horaminima>
+                <categorias>
+                    <categoria>
+                        <nomecategoria>Iniciação Científica</nomecategoria>
+                        <horasmaxima>153.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Obtenção de Prêmios e Distinções</nomecategoria>
+                        <horasmaxima>136.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Participação em Eventos Científicos Internacionais</nomecategoria>
+                        <horasmaxima>68.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Participação em Eventos Científicos Nacionais</nomecategoria>
+                        <horasmaxima>68.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Participação em Eventos Científicos Regionais e Locais</nomecategoria>
+                        <horasmaxima>51.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Publicação em Eventos Científicos Internacionais</nomecategoria>
+                        <horasmaxima>136.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Publicação em Eventos Científicos Nacionais</nomecategoria>
+                        <horasmaxima>102.0</horasmaxima>
+                    </categoria>
+                    <categoria>
+                        <nomecategoria>Publicação em Eventos Científicos Regionais e Locais</nomecategoria>
+                        <horasmaxima>68.0</horasmaxima>
+                    </categoria>
+                </categorias>
+            </grandearea>
+        </grandesareas>
+    </curso>
+    <atividades>
+        <atividade>
+            <descricao>Simposio de Microeletronica (SIM) 2015</descricao>
+            <horaInformada>30.0</horaInformada>
+            <horaValidada>30.0</horaValidada>
+            <dataInicial>05/05/2015</dataInicial>
+            <dataFinal>09/05/2015</dataFinal>
+            <nomeGrandeArea>Pesquisa</nomeGrandeArea>
+            <nomeCategoria>Participação em Eventos Científicos Regionais e Locais</nomeCategoria>
+        </atividade>
+    </atividades>
+    <horasEnsino>0.0</horasEnsino>
+    <horasExtensao>0.0</horasExtensao>
+    <horasPesquisa>30.0</horasPesquisa>
+    <estaPronto>false</estaPronto>
+</aluno>
