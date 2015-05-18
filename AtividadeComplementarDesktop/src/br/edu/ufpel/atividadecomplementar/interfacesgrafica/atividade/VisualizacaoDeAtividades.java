@@ -6,7 +6,6 @@ import br.edu.ufpel.atividadecomplementar.modelos.Aluno;
 import br.edu.ufpel.atividadecomplementar.modelos.Atividade;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
-import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,26 +42,9 @@ public class VisualizacaoDeAtividades extends InterfaceGrafica {
         inicializarBotaoCancelar(stage);
         
         grid.add(tblAtividades, 0, 0, 10, 2);
-        //grid.add(btnEditar, 0, 4);
+        grid.add(btnEditar, 0, 4);
         grid.add(btnExcluir, 1, 4);
         grid.add(btnCancelar, 2, 4);
-    }
-
-    private void inicializarBotaoEditar(Stage primaryStage) {
-        btnEditar = new Button();
-        
-        btnEditar.setText(PropertiesBundle.getProperty("BOTAO_EDITAR"));
-        btnEditar.setTextAlignment(TextAlignment.CENTER);
-        btnEditar.setMinWidth(larguraMinimaBotao);
-        
-        btnEditar.setDisable(true);
-        
-        btnEditar.setOnAction((ActionEvent event) -> {
-//                Stage stage= new Stage();
-//                ResumoDoPerfil resumoUI= new ResumoDoPerfil((Curso)cbxCurso.getValue());
-//                resumoUI.start(stage);
-//                primaryStage.close();
-        });
     }
     
     private void inicializarTableViewAtividades() {
@@ -71,30 +53,49 @@ public class VisualizacaoDeAtividades extends InterfaceGrafica {
         atividades.addAll(aluno.getListaDeAtividades());
         
         TableColumn descricaoCol = new TableColumn(PropertiesBundle.getProperty("DESCRICAO"));
-        descricaoCol.setCellValueFactory(new PropertyValueFactory<Atividade, String>("descricao"));
+        descricaoCol.setCellValueFactory(new PropertyValueFactory<>("descricao"));
  
         TableColumn grandeAreaCol = new TableColumn(PropertiesBundle.getProperty("GRANDE_AREA"));
-        grandeAreaCol.setCellValueFactory(new PropertyValueFactory<Atividade, String>("nomeGrandeArea"));
+        grandeAreaCol.setCellValueFactory(new PropertyValueFactory<>("nomeGrandeArea"));
  
         TableColumn categoriaCol = new TableColumn(PropertiesBundle.getProperty("CATEGORIA"));
-        categoriaCol.setCellValueFactory(new PropertyValueFactory<Atividade, String>("nomeCategoria"));
+        categoriaCol.setCellValueFactory(new PropertyValueFactory<>("nomeCategoria"));
         
         TableColumn dataInicialCol = new TableColumn(PropertiesBundle.getProperty("DATA_INICIAL"));
-        dataInicialCol.setCellValueFactory(new PropertyValueFactory<Atividade, String>("dataInicial"));
+        dataInicialCol.setCellValueFactory(new PropertyValueFactory<>("dataInicial"));
         
         TableColumn dataFinalCol = new TableColumn(PropertiesBundle.getProperty("DATA_FINAL"));
-        dataFinalCol.setCellValueFactory(new PropertyValueFactory<Atividade, String>("dataFinal"));
+        dataFinalCol.setCellValueFactory(new PropertyValueFactory<>("dataFinal"));
     
-        TableColumn horaInformadaCol = new TableColumn(PropertiesBundle.getProperty("HORAS_INFORMADA"));
-        horaInformadaCol.setCellValueFactory(new PropertyValueFactory<Atividade, String>("horaInformada"));
+        TableColumn horasInformadasCol = new TableColumn(PropertiesBundle.getProperty("HORAS_INFORMADA"));
+        horasInformadasCol.setCellValueFactory(new PropertyValueFactory<>("horasInformadas"));
     
-        TableColumn horaValidadaCol = new TableColumn(PropertiesBundle.getProperty("HORAS_VALIDADA"));
-        horaValidadaCol.setCellValueFactory(new PropertyValueFactory<Atividade, String>("horaValidada"));
+        TableColumn horasContabilizadasCol = new TableColumn(PropertiesBundle.getProperty("HORAS_VALIDADA"));
+        horasContabilizadasCol.setCellValueFactory(new PropertyValueFactory<>("horasContabilizadas"));
  
         tblAtividades = new TableView<>();
         tblAtividades.setItems(atividades);
-        tblAtividades.getColumns().addAll(descricaoCol, grandeAreaCol, categoriaCol, dataInicialCol, dataFinalCol, horaInformadaCol, horaValidadaCol);
+        tblAtividades.getColumns().addAll(descricaoCol, grandeAreaCol, categoriaCol, dataInicialCol, dataFinalCol, horasInformadasCol, horasContabilizadasCol);
+    }
 
+    private void inicializarBotaoEditar(Stage primaryStage) {
+        btnEditar = new Button();
+        
+        btnEditar.setText(PropertiesBundle.getProperty("BOTAO_EDITAR"));
+        btnEditar.setTextAlignment(TextAlignment.CENTER);
+        btnEditar.setMinWidth(larguraMinimaBotao);
+        btnEditar.setOnAction((ActionEvent event) -> {
+            Atividade atividadeSelecionada = tblAtividades.getSelectionModel().getSelectedItem();
+            
+            if (atividadeSelecionada != null) {
+                Stage stage= new Stage();
+                InterfaceGrafica edicaoDeAtividades = new CadastroDeAtividades(aluno, atividadeSelecionada);
+                edicaoDeAtividades.montarTela(stage);
+                primaryStage.close();
+            } else {
+                AlertasUtils.exibeErro("SELECIONE_ATIVIDADE");
+            }
+        });
     }
     
     private void inicializarBotaoExcluir(Stage primaryStage) {
@@ -104,11 +105,10 @@ public class VisualizacaoDeAtividades extends InterfaceGrafica {
         btnExcluir.setTextAlignment(TextAlignment.CENTER);
         btnExcluir.setMinWidth(larguraMinimaBotao);
         btnExcluir.setOnAction((ActionEvent event) -> {
-            
             Atividade atividadeSelecionada = tblAtividades.getSelectionModel().getSelectedItem();
             
             if (atividadeSelecionada != null) {
-                aluno.removeAtividade(atividadeSelecionada);
+                aluno.removerAtividade(atividadeSelecionada);
 
                 this.montarTela(primaryStage);
             } else {

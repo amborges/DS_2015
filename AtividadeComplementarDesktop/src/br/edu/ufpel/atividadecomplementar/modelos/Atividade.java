@@ -1,12 +1,9 @@
 package br.edu.ufpel.atividadecomplementar.modelos;
 
-import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
-import java.util.Date;
-import javax.xml.bind.JAXBException;
+import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -17,21 +14,27 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Atividade {
     
     private String descricao;
-    private double horaInformada;
-    private double horaValidada;
+    private Double horasInformadas;
+    private Double horasContabilizadas;
     private String dataInicial;
     private String dataFinal;
-    private Integer ano;
-    private String semestre;
-    
-//    private String enderecoCertificado;
-    private String matricula;
     private String nomeGrandeArea;
     private String nomeCategoria;
     
-    @XmlTransient
-    private Aluno aluno;
+    /* Construtores */
+    public Atividade() {}
+
+    public Atividade(Atividade atividade) {
+        this.descricao = atividade.getDescricao();
+        this.horasInformadas = atividade.getHorasInformadas();
+        this.horasContabilizadas = atividade.getHorasContabilizadas();
+        this.dataInicial = atividade.getDataInicial();
+        this.dataFinal = atividade.getDataFinal();
+        this.nomeGrandeArea = atividade.getNomeGrandeArea();
+        this.nomeCategoria = atividade.getNomeCategoria();
+    }
     
+    /* Getters e Setters */
     public String getDescricao() {
         return descricao;
     }
@@ -40,20 +43,16 @@ public class Atividade {
         this.descricao = descricao;
     }
 
-    public double getHoraInformada() {
-        return horaInformada;
+    public Double getHorasInformadas() {
+        return horasInformadas;
     }
 
-    public void setHoraInformada(double horaInformada) {
-        this.horaInformada = horaInformada;
+    public void setHorasInformadas(Double horaInformada) {
+        this.horasInformadas = horaInformada;
     }
 
-    public double getHoraValidada() {
-        return horaValidada;
-    }
-
-    public void setHoraValidada(double horaValidada) {
-        this.horaValidada = horaValidada;
+    public Double getHorasContabilizadas() {
+        return horasContabilizadas;
     }
 
     public String getDataInicial() {
@@ -72,50 +71,6 @@ public class Atividade {
         this.dataFinal = dataFinal;
     }
 
-    public Integer getAno() {
-        return ano;
-    }
-
-    public void setAno(Integer ano) {
-        this.ano = ano;
-    }
-
-    public String getSemestre() {
-        return semestre;
-    }
-
-    public void setSemestre(String semestre) {
-        this.semestre = semestre;
-    }
-    
-//    public String getEnderecoCertificado() {
-//        return enderecoCertificado;
-//    }
-//
-//    public void setEnderecoCertificado(String enderecoCertificado) {
-//        this.enderecoCertificado = enderecoCertificado;
-//    }
-//
-//    public Periodo getPeriodo() {
-//        return periodo;
-//    }
-//
-//    public void setPeriodo(Periodo periodo) {
-//        this.periodo = periodo;
-//    }
-
-    public Aluno getAluno() {
-        if (aluno == null) {
-            carregaAluno();
-        }
-        return aluno;
-    }
-
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
-        this.matricula = aluno.getMatricula();
-    }
-
     public String getNomeGrandeArea() {
         return nomeGrandeArea;
     }
@@ -132,13 +87,27 @@ public class Atividade {
         this.nomeCategoria = nomeCategoria;
     }
 
-    private void carregaAluno() {
-        ManipulaXML<Aluno> manipulador = new ManipulaXML(matricula.concat(".xml"), "perfil/");
-        
+    /* Regras de negócio */
+    public void calculaHorasValidada(Curso curso) {
         try {
-            this.aluno = manipulador.buscar(Aluno.class);
-        } catch (JAXBException ex) {
-            throw new RuntimeException("PROBLEMA_CRIAR_PERFIL");
+            for (GrandeArea grandeAreaAtual : curso.getGrandesAreas()) {
+                if (grandeAreaAtual.getNome().equals(nomeGrandeArea)) {
+                    for (Categoria categoriaAtual : grandeAreaAtual.getCategorias()) {
+                        if (categoriaAtual.getNomeCategoria().equals(nomeCategoria)) {
+                            if (horasInformadas > categoriaAtual.getHorasMaxima()) {
+                                horasContabilizadas = categoriaAtual.getHorasMaxima();
+                            } else {
+                                horasContabilizadas = horasInformadas;
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }            
+        } catch (NullPointerException ex) {
+            AlertasUtils.exibeErro("PROBLEMA_CATEGORIA_AREA");
+            horasContabilizadas = Double.valueOf(0);
         }
     }
     

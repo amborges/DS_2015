@@ -21,7 +21,7 @@ public class Categoria {
     @XmlElement(name = "nomecategoria")
     private String nomeCategoria;
     @XmlElement(name = "horasmaxima")
-    private double horasMaxima;
+    private Double horasMaxima;
     
     public String getNomeCategoria() {
         return nomeCategoria;
@@ -31,11 +31,11 @@ public class Categoria {
         this.nomeCategoria = nomeCategoria;
     }
 
-    public double getHorasMaxima() {
+    public Double getHorasMaxima() {
         return horasMaxima;
     }
 
-    public void setHorasMaxima(double horasMaxima) {
+    public void setHorasMaxima(Double horasMaxima) {
         this.horasMaxima = horasMaxima;
     }
 

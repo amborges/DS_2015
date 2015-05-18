@@ -1,17 +1,20 @@
 package br.edu.ufpel.atividadecomplementar.interfacesgrafica.perfil;
 
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGrafica;
-import br.edu.ufpel.atividadecomplementar.dadosXML.ManipulaXML;
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.atividade.CadastroDeAtividades;
 import br.edu.ufpel.atividadecomplementar.interfacesgrafica.atividade.VisualizacaoDeAtividades;
 import br.edu.ufpel.atividadecomplementar.modelos.Aluno;
 import br.edu.ufpel.atividadecomplementar.modelos.GrandeArea;
-import br.edu.ufpel.atividadecomplementar.modelos.GrandeAreaXML;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
+import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -20,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javax.xml.bind.JAXBException;
 
@@ -28,22 +32,21 @@ public class ResumoDoPerfil extends InterfaceGrafica {
     private Aluno aluno;
     private BarChart<String, Number> grafico;
     private Button btnAdicionar;
-    private Button btnVisualizar;
-    private Button btnGerarXML;
     private Button btnExportar;
     private Button btnSair;
+    private Button btnVisualizar;
     private final Label lblNomeAluno;
     private Map<String, GrandeArea> grandesAreas;
 
     private static final String ENSINO = PropertiesBundle.getProperty("ENSINO");
     private static final String EXTENSAO = PropertiesBundle.getProperty("EXTENSAO");
     private static final String PESQUISA = PropertiesBundle.getProperty("PESQUISA");
-    private static final String OUTROS = PropertiesBundle.getProperty("OUTROS");
     
     public ResumoDoPerfil(Aluno aluno) throws JAXBException {
         this.aluno = aluno;
-        lblNomeAluno = new Label(PropertiesBundle.getProperty("ALUNO_LABEL").concat(" ").concat(aluno.getMatricula()).concat(" - ").concat(aluno.getNome()));
-        lblNomeAluno.setStyle("-fx-font-weight: bold;");
+        lblNomeAluno = new Label(PropertiesBundle.getProperty("LABEL_ALUNO").concat(" ").concat(aluno.getMatricula()).concat(" - ").concat(aluno.getNome()));
+        lblNomeAluno.setStyle("-fx-font-weight: bold; -fx-font-size: 12px;");
+        carregarGrandesAreas();
     }
     
     @Override
@@ -51,7 +54,6 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         inicializarGrafico();
         inicializarButtonAdicionar(stage);
         inicializarButtonVisualizar(stage);
-        inicializarButtonGerarXML(stage);
         inicializarButtonExportar(stage);
         inicializarButtonSair(stage);
         
@@ -60,8 +62,7 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         
         gridBotoes.add(btnAdicionar, 0, 1);
         gridBotoes.add(btnVisualizar, 0, 2);
-        //gridBotoes.add(btnGerarXML, 0, 3);
-        //gridBotoes.add(btnExportar, 0, 4);
+        gridBotoes.add(btnExportar, 0, 3);
         
         grid.add(lblNomeAluno, 0, 0);
                
@@ -74,37 +75,52 @@ public class ResumoDoPerfil extends InterfaceGrafica {
     
     private void inicializarGrafico() {
         grafico = new BarChart<>(new CategoryAxis(), new NumberAxis());
-        
         grafico.setTitle(PropertiesBundle.getProperty("HORAS"));
         
-        XYChart.Series serie1 = new XYChart.Series();
+        XYChart.Data ensinoBar = new XYChart.Data(ENSINO, aluno.getHorasEnsino());
+        XYChart.Data extensaoBar = new XYChart.Data(EXTENSAO, aluno.getHorasExtensao());
+        XYChart.Data pesquisaBar = new XYChart.Data(PESQUISA, aluno.getHorasPesquisa());
         
+        adicionarListener(ensinoBar);
+        adicionarListener(extensaoBar);
+        adicionarListener(pesquisaBar);
+        
+        XYChart.Series serie1 = new XYChart.Series();
         serie1.setName(PropertiesBundle.getProperty("HORAS_CALCULADAS"));
-        serie1.getData().add(new XYChart.Data(ENSINO, aluno.getHorasEnsino()));
-        serie1.getData().add(new XYChart.Data(EXTENSAO, aluno.getHorasExtensao()));
-        serie1.getData().add(new XYChart.Data(PESQUISA, aluno.getHorasPesquisa()));
+        serie1.getData().add(ensinoBar);
+        serie1.getData().add(extensaoBar);
+        serie1.getData().add(pesquisaBar);
                 
         XYChart.Series serie2 = new XYChart.Series();
         serie2.setName(PropertiesBundle.getProperty("HORAS_NECESSARIAS"));
-        
-        List<GrandeArea> grandeAreas = aluno.getCurso().getGrandesAreas();
-        
-        for (GrandeArea grandeAreaAtual : grandeAreas) {
-            if (ENSINO.equals(grandeAreaAtual.getNome())) {
-                serie2.getData().add(new XYChart.Data(ENSINO, grandeAreaAtual.getHoraMinima()));
-            } else if (EXTENSAO.equals(grandeAreaAtual.getNome())) {
-                serie2.getData().add(new XYChart.Data(EXTENSAO, grandeAreaAtual.getHoraMinima()));
-            } else if (PESQUISA.equals(grandeAreaAtual.getNome())) {
-                serie2.getData().add(new XYChart.Data(PESQUISA, grandeAreaAtual.getHoraMinima()));
-            }
-        }
+        serie2.getData().add(new XYChart.Data(ENSINO, grandesAreas.get(ENSINO).getHoraMinima()));
+        serie2.getData().add(new XYChart.Data(EXTENSAO, grandesAreas.get(EXTENSAO).getHoraMinima()));
+        serie2.getData().add(new XYChart.Data(PESQUISA, grandesAreas.get(PESQUISA).getHoraMinima()));
         
         grafico.getData().addAll(serie1, serie2);
+        grafico.setLegendVisible(false);
     }
 
+    private void adicionarListener(final XYChart.Data data) {
+        data.nodeProperty().addListener(new ChangeListener<Node>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Node> observable, Node oldNode, Node newNode) {
+                if (newNode != null) {
+                    GrandeArea grandeArea = grandesAreas.get(data.getXValue().toString());
+                    if (grandeArea.getHoraMinima().compareTo((Double) data.getYValue()) > 0) {
+                        newNode.setStyle("-fx-bar-fill: red;");
+                    } else {
+                        newNode.setStyle("-fx-bar-fill: green;");
+                    }
+                }
+            }
+            
+        });
+    }
+    
     private void inicializarButtonAdicionar(Stage primaryStage) {
         btnAdicionar = new Button();
-        
         btnAdicionar.setText(PropertiesBundle.getProperty("BOTAO_ADICIONAR"));
         btnAdicionar.setTextAlignment(TextAlignment.CENTER);
         btnAdicionar.setMinWidth(larguraMinimaBotao);
@@ -118,7 +134,6 @@ public class ResumoDoPerfil extends InterfaceGrafica {
 
     private void inicializarButtonVisualizar(Stage primaryStage) {
         btnVisualizar = new Button();
-        
         btnVisualizar.setText(PropertiesBundle.getProperty("BOTAO_VISUALIZAR"));
         btnVisualizar.setTextAlignment(TextAlignment.CENTER);
         btnVisualizar.setMinWidth(larguraMinimaBotao);
@@ -130,33 +145,32 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         });
     }
 
-    private void inicializarButtonGerarXML(Stage primaryStage) {
-        btnGerarXML = new Button();
-        
-        btnGerarXML.setText(PropertiesBundle.getProperty("BOTAO_IMPORTAR"));
-        btnGerarXML.setTextAlignment(TextAlignment.CENTER);
-        btnGerarXML.setMinWidth(larguraMinimaBotao);
-        
-        btnGerarXML.setDisable(true);
-        
-        btnGerarXML.setOnAction((ActionEvent event) -> {
-//            Stage stage= new Stage();
-//            ImportacaoDeAtividades importarHorasUI= new ImportacaoDeAtividades(aluno);
-//            importarHorasUI.montarTela(stage);
-//            primaryStage.close();
-        });
-    }
-
     private void inicializarButtonExportar(Stage primaryStage) {
-//        btnExportar = new Button();
-//        
-//        btnExportar.setText(PropertiesBundle.getProperty("BOTAO_EXPORTAR"));
-//        btnExportar.setOnAction((ActionEvent event) -> {
-//            Stage stage= new Stage();
-//            ExportacaoDeHoras exportarHorasUI= new ExportacaoDeHoras(aluno);
-//            exportarHorasUI.montarTela(stage);
-//            primaryStage.close();
-//        });
+        btnExportar = new Button();
+        
+        btnExportar.setText(PropertiesBundle.getProperty("BOTAO_EXPORTAR"));
+        btnExportar.setOnAction((ActionEvent event) -> {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            File destinoExportacao = null;
+            
+            if (aluno.getDestinoExportacaoPadrao() != null) {
+                directoryChooser.setInitialDirectory(aluno.getDestinoExportacaoPadrao());
+            }   
+            
+            destinoExportacao = directoryChooser.showDialog(primaryStage);
+            
+            if (destinoExportacao != null) {
+                try {
+                    String nomeArquivo = aluno.exportarXML(destinoExportacao);
+                    
+                    nomeArquivo = PropertiesBundle.getProperty("ARQUIVO_EXPORTADO_SUCESSO").replace("{0}", nomeArquivo);
+                    
+                    AlertasUtils.exibeInformacao(nomeArquivo);
+                } catch (IOException ex) {
+                    AlertasUtils.exibeErro(PropertiesBundle.getProperty("ERRO_ABRIR_ARQUIVO"));
+                }
+            }
+        });
     }
     
     private void inicializarButtonSair(Stage stage) {
@@ -165,9 +179,16 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         btnSair.setTextAlignment(TextAlignment.CENTER);
         btnSair.setMinWidth(larguraMinimaBotao);
         btnSair.setOnAction((ActionEvent event) -> {
-            SelecaoDePerfil selecionaPerfil = new SelecaoDePerfil();
+            InterfaceGrafica selecionaPerfil = new SelecaoDePerfil();
             selecionaPerfil.montarTela(stage);
         });
+    }
+
+    private void carregarGrandesAreas() {
+        grandesAreas = new HashMap<>();
+        for (GrandeArea grandeAreaAtual : aluno.getCurso().getGrandesAreas()) {
+            grandesAreas.put(grandeAreaAtual.getNome(), grandeAreaAtual);
+        }
     }
 
 }

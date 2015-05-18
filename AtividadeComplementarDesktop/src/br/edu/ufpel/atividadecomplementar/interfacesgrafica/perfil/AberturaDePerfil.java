@@ -7,8 +7,6 @@ import br.edu.ufpel.atividadecomplementar.modelos.AlunoInfoBasicas;
 import br.edu.ufpel.atividadecomplementar.modelos.AlunosXML;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -73,11 +71,11 @@ class AberturaDePerfil extends InterfaceGrafica {
                     resumoDoPerfil.montarTela(stage);
                     primaryStage.close();
                 } catch(NullPointerException npex) {
-                    AlertasUtils.exibeErro(npex.getMessage());
+                    AlertasUtils.exibeErro(npex);
                 } catch(JAXBException jbex) {
                     AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
                 } catch(RuntimeException rtex) {
-                    AlertasUtils.exibeErro(rtex.getMessage());
+                    AlertasUtils.exibeErro(rtex);
                 }
             } else {
                 AlertasUtils.exibeErro("SELECIONE_PERFIL");
@@ -101,10 +99,9 @@ class AberturaDePerfil extends InterfaceGrafica {
         Aluno aluno;
         
         try {
-            
             aluno = manipulador.buscar(Aluno.class);
         } catch (JAXBException ex) {
-                throw new RuntimeException("PROBLEMA_CRIAR_PERFIL");
+            throw new RuntimeException("PROBLEMA_CRIAR_PERFIL");
         }
         
         return aluno;

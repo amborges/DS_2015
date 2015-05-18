@@ -9,6 +9,8 @@ import br.edu.ufpel.atividadecomplementar.modelos.GrandeArea;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
 import br.edu.ufpel.atividadecomplementar.utils.MaskFieldUtil;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,8 +19,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextAlignment;
@@ -28,88 +28,103 @@ import javax.xml.bind.JAXBException;
 public class CadastroDeAtividades extends InterfaceGrafica {
 
     private Aluno aluno;
-    private Button btnAdicionar;
+    private Atividade atividade;
     private Button btnCancelar;
-//    private Button btnPdfAtividade; 
-    private ComboBox cbxAno;
+    private Button btnSalvar;
     private ComboBox cbxCategoria;
     private ComboBox cbxGrandeArea;
-    private Label lblAno;
     private final Label lblCategoria = new Label(PropertiesBundle.getProperty("LABEL_CATEGORIA"));
-    private Label lblDataFinal;
-    private Label lblDataInicial;
+    private final Label lblDataFinal = new Label(PropertiesBundle.getProperty("LABEL_DATA_FIM"));
+    private final Label lblDataInicial = new Label(PropertiesBundle.getProperty("LABEL_DATA_INICIO"));
     private final Label lblDescricao = new Label(PropertiesBundle.getProperty("LABEL_DESCRICAO"));
     private final Label lblGrandeArea = new Label(PropertiesBundle.getProperty("LABEL_GRANDE_AREA"));
-    private Label lblHoras;
-//    private final Label lblPdfAtividade = new Label(PropertiesBundle.getProperty("LABEL_PDF_ATIVIDADE"));
-    private Label lblSemestre;
-    private RadioButton rdbSemestre1;
-    private RadioButton rdbSemestre2;
-    private String tipoInformacao = "D";
-    private TextArea txtDescricao;
-    private TextField txtHoras;
+    private final Label lblHoras = new Label(PropertiesBundle.getProperty("LABEL_HORAS"));
+    private Label lblTitulo;
     private TextField txtDataInicial;
     private TextField txtDataFinal;
+    private TextField txtDescricao;
+    private TextField txtHoras;
     
+    /**
+     * Construtor para a criação de atividades
+     * 
+     * @param aluno que terá a atividade cadastrada
+     */
     public CadastroDeAtividades(Aluno aluno) {
         this.aluno = aluno;
+        this.atividade = null;
+    }
+    
+    /**
+     * Construtor para edição de atividades
+     * 
+     * @param aluno que possui a atividade que será editada
+     * @param atividade que será editada
+     */
+    public CadastroDeAtividades(Aluno aluno, Atividade atividade) {
+        this.aluno = aluno;
+        this.atividade = atividade;
     }
 
     @Override
     protected void inicializarElementos(GridPane grid, Stage stage) {
-        inicializarTextAreaDescricao();
-        try {
-            inicializarComboBoxGrandeArea();
-            inicializarComboBoxCategoria();
-        } catch (JAXBException ex) {
-            AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
-        }
-//        inicializarButtonPdfAtividade(stage);
-        inicializarButtonAdicionar(stage);
+        inicializarLabelTitulo();
+        inicilizarTextFieldDescricao();
+        inicializarComboBoxGrandeArea();
+        inicializarComboBoxCategoria();
+        inicializarTextFieldHoras();
+        inicializarTextFieldDataInicial();
+        inicializarTextFieldDataFinal();
+        inicializarButtonSalvar(stage);
         inicializarButtonCancelar(stage);
         
-        Integer numLinha = 0;
+        int linha = 0;
         
-        grid.add(lblDescricao, 0, numLinha);
-        grid.add(txtDescricao, 1, numLinha, 2, 1);
-        grid.add(obrigatorio(), 3, numLinha);
-        grid.add(lblGrandeArea, 0, ++numLinha);
-        grid.add(cbxGrandeArea, 1, numLinha, 2, 1);
-        grid.add(obrigatorio(), 3, numLinha);
-        grid.add(lblCategoria, 0, ++numLinha);
-        grid.add(cbxCategoria, 1, numLinha, 2, 1);
-        grid.add(obrigatorio(), 3, numLinha);
+        grid.add(lblTitulo, 1, linha++);
         
-        numLinha = inicializarTipoInformacao(grid, numLinha);
+        grid.add(lblDescricao, 0, ++linha);
+        grid.add(txtDescricao, 1, linha, 2, 1);
+        grid.add(obrigatorio(), 3, linha);
+        grid.add(lblGrandeArea, 0, ++linha);
+        grid.add(cbxGrandeArea, 1, linha, 2, 1);
+        grid.add(obrigatorio(), 3, linha);
+        grid.add(lblCategoria, 0, ++linha);
+        grid.add(cbxCategoria, 1, linha, 2, 1);
+        grid.add(obrigatorio(), 3, linha);
+        grid.add(lblHoras, 0, ++linha);
+        grid.add(txtHoras, 1, linha, 2, 1);
+        grid.add(obrigatorio(), 3, linha);
+        grid.add(lblDataInicial, 0, ++linha);
+        grid.add(txtDataInicial, 1, linha, 2, 1);
+        grid.add(obrigatorio(), 3, linha);
+        grid.add(lblDataFinal, 0, ++linha);
+        grid.add(txtDataFinal, 1, linha++, 2, 1);
+        grid.add(btnSalvar, 1, ++linha);
+        grid.add(btnCancelar, 2, linha);
         
-//        switch (tipoInformacao) {
-//            case "A":
-//                numLinha = inicializarTipoInformacao1(grid, numLinha);
-//                break;
-                
-//            case "B":
-//                numLinha = inicializarTipoInformacao2(grid, numLinha);
-//                break;
-                
-//            case "C":
-//                numLinha = inicializarTipoInformacao3(grid, numLinha);
-//                break;
-//        }
-        
-//        grid.add(lblPdfAtividade, 0, ++numLinha);
-//        grid.add(btnPdfAtividade, 1, numLinha++);
-        grid.add(btnAdicionar, 1, numLinha+=2);
-        grid.add(btnCancelar, 2, numLinha);
+        if (atividade != null) {
+            popularInformacoesEdicao();
+        }
     }
     
-    private void inicializarTextAreaDescricao() {
-        txtDescricao = new TextArea();
-        txtDescricao.setPrefRowCount(2);
-        txtDescricao.setPrefColumnCount(20);
-        txtDescricao.setWrapText(true);
+    private void inicializarLabelTitulo() {
+        String titulo;
+        
+        if (atividade == null) {
+            titulo = PropertiesBundle.getProperty("LABEL_CADASTRO_ATIVIDADE");
+        } else {
+            titulo = PropertiesBundle.getProperty("LABEL_EDICAO_ATIVIDADE");
+        }
+        
+        lblTitulo = new Label(titulo);
+        lblTitulo.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
     }
-
-    private void inicializarComboBoxGrandeArea() throws JAXBException {
+    
+    private void inicilizarTextFieldDescricao() {
+        txtDescricao = new TextField();
+    }
+    
+    private void inicializarComboBoxGrandeArea() {
         ObservableList<GrandeArea> grandeArea = FXCollections.observableArrayList();
         
         grandeArea.addAll(aluno.getCurso().getGrandesAreas());
@@ -138,53 +153,67 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         
         categorias.addAll(grandeArea.getCategorias());
         
+        cbxCategoria.setItems(null);
         cbxCategoria.setItems(categorias);
         cbxCategoria.setDisable(false);
+        cbxCategoria.valueProperty().addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ObservableValue observable, Object categoriaAnterior, Object categoriaNova) {
+                boolean disabled;
+                
+                if (categoriaNova != null) {
+                    Categoria categoria = (Categoria) categoriaNova;
+                    txtHoras.setText(categoria.getHorasMaxima().toString());
+                    disabled = false;
+                } else {
+                    disabled = true;
+                }
+                
+                txtHoras.setDisable(disabled);
+                txtDataInicial.setDisable(disabled);
+                txtDataFinal.setDisable(disabled);
+            }
+            
+        });
     }
     
-//    private void inicializarButtonPdfAtividade(Stage primaryStage) {
-//        btnPdfAtividade = new Button();
-//        
-//        btnPdfAtividade.setText(PropertiesBundle.getProperty("BOTAO_CARREGAR_ARQUIVO"));
-//        btnPdfAtividade.setTextAlignment(TextAlignment.CENTER);
-//        btnPdfAtividade.setMinWidth(larguraMinimaBotao);
-//        btnPdfAtividade.setOnAction((ActionEvent event) -> {
-//                Stage stage= new Stage();
-//                ResumoDoPerfil resumoUI= new ResumoDoPerfil((Curso)cbxCurso.getValue());
-//                resumoUI.start(stage);
-//                primaryStage.close();
-//        });
-//    }
-
-    private void inicializarButtonAdicionar(Stage primaryStage) {
-        btnAdicionar = new Button();
+    private void inicializarTextFieldHoras() {
+        txtHoras = new TextField();
+        txtHoras.setDisable(true);
+    }
+    
+    private void inicializarTextFieldDataInicial() {
+        txtDataInicial = new TextField();
+        txtDataInicial.setDisable(true);
         
-        btnAdicionar.setText(PropertiesBundle.getProperty("BOTAO_ADICIONAR"));
-        btnAdicionar.setTextAlignment(TextAlignment.CENTER);
-        btnAdicionar.setMinWidth(larguraMinimaBotao);
-        btnAdicionar.setOnAction((ActionEvent event) -> {
+        MaskFieldUtil.dateField(txtDataInicial);
+    }
+    
+    private void inicializarTextFieldDataFinal() {
+        txtDataFinal = new TextField();
+        txtDataFinal.setDisable(true);
+        
+        MaskFieldUtil.dateField(txtDataFinal);
+    }
+    
+    private void inicializarButtonSalvar(Stage primaryStage) {
+        btnSalvar = new Button();
+        
+        btnSalvar.setText(PropertiesBundle.getProperty("BOTAO_SALVAR"));
+        btnSalvar.setTextAlignment(TextAlignment.CENTER);
+        btnSalvar.setMinWidth(larguraMinimaBotao);
+        btnSalvar.setOnAction((ActionEvent event) -> {
                 String erros = validarDadosInformados();
                 
                 if (erros == null) {
-                    Atividade atividade = new Atividade();
-                    atividade.setDescricao(txtDescricao.getText());
-                    atividade.setNomeGrandeArea(((GrandeArea)cbxGrandeArea.getValue()).getNome());
-                    atividade.setNomeCategoria(((Categoria)cbxCategoria.getValue()).getNomeCategoria());
-                    atividade.setHoraInformada(Double.parseDouble(txtHoras.getText()));
-                    atividade.setDataInicial(txtDataInicial.getText());
-                    atividade.setDataFinal(txtDataFinal.getText());
-                    //atividade.setAno();
-                    //atividade.setSemestre(semestre);
-
-    //                Stage stage= new Stage();
-    //                ResumoDoPerfil resumoUI= new ResumoDoPerfil((Curso)cbxCurso.getValue());
-    //                resumoUI.start(stage);
-    //                primaryStage.close();
-                    aluno.adicionaAtividade(atividade);
-
-                    AlertasUtils.exibeInformacao("ATIVIDADE_SALVA_SUCESSO");
-
-                    this.montarTela(primaryStage);
+                    if (atividade == null) {
+                        cadastrarAtividade();
+                        atividade = null;
+                        this.montarTela(primaryStage);
+                    } else {
+                        editarAtividade();
+                    }
                 } else {
                     AlertasUtils.exibeErro(erros);
                 }
@@ -201,8 +230,15 @@ public class CadastroDeAtividades extends InterfaceGrafica {
         btnCancelar.setOnAction((ActionEvent event) -> {
             try {
                 Stage stage= new Stage();
-                InterfaceGrafica resumoDoPerfil= new ResumoDoPerfil(aluno);
-                resumoDoPerfil.montarTela(stage);
+                InterfaceGrafica interfaceGrafica;
+                        
+                if (atividade == null) {
+                    interfaceGrafica = new ResumoDoPerfil(aluno);
+                } else {
+                    interfaceGrafica = new VisualizacaoDeAtividades(aluno);
+                }
+                
+                interfaceGrafica.montarTela(stage);
                 primaryStage.close();
             } catch(NullPointerException ex) {
                 AlertasUtils.exibeErro(ex.getMessage());
@@ -211,121 +247,102 @@ public class CadastroDeAtividades extends InterfaceGrafica {
             }
         });
     }
-    
-    private int inicializarTipoInformacao(GridPane grid, int numLinha) {
-        lblHoras = new Label(PropertiesBundle.getProperty("LABEL_HORAS"));
-        lblDataInicial = new Label(PropertiesBundle.getProperty("LABEL_DATA_INICIO"));
-        lblDataFinal = new Label(PropertiesBundle.getProperty("LABEL_DATA_FIM"));
-        lblAno = new Label(PropertiesBundle.getProperty("LABEL_ANO"));
-//        lblSemestre = new Label(PropertiesBundle.getProperty("LABEL_SEMESTRE"));
-        txtHoras = new TextField();
-        txtDataInicial = new TextField();
-        txtDataFinal = new TextField();
-        
-        MaskFieldUtil.dateField(txtDataInicial);
-        MaskFieldUtil.dateField(txtDataFinal);
-        
-        grid.add(lblHoras, 0, ++numLinha);
-        grid.add(txtHoras, 1, numLinha, 2, 1);
-        grid.add(obrigatorio(), 3, numLinha);
-        grid.add(lblDataInicial, 0, ++numLinha);
-        grid.add(txtDataInicial, 1, numLinha, 2, 1);
-        grid.add(obrigatorio(), 3, numLinha);
-        grid.add(lblDataFinal, 0, ++numLinha);
-        grid.add(txtDataFinal, 1, numLinha, 2, 1);
-        
-        return numLinha;
-    }
-
-/*
-    private int inicializarTipoInformacao1(GridPane grid, int numLinha) {
-        lblHoras = new Label(PropertiesBundle.getProperty("LABEL_HORAS"));
-        lblDataInicial = new Label(PropertiesBundle.getProperty("LABEL_DATA"));
-        txtHoras = new TextField();
-        txtDataInicial = new TextField();
-        
-        MaskFieldUtil.dateField(txtDataInicial);
-                
-        grid.add(lblHoras, 0, ++numLinha);
-        grid.add(txtHoras, 1, numLinha);
-        grid.add(lblDataInicial, 0, ++numLinha);
-        grid.add(txtDataInicial, 1, numLinha);
-        
-        return numLinha;
-    }
-    
-    private int inicializarTipoInformacao2(GridPane grid, int numLinha) {
-        lblHoras = new Label(PropertiesBundle.getProperty("LABEL_HORAS"));
-        lblDataInicial = new Label(PropertiesBundle.getProperty("LABEL_DATA_INICIO"));
-        lblDataFinal = new Label(PropertiesBundle.getProperty("LABEL_DATA_FIM"));
-        txtHoras = new TextField();
-        txtDataInicial = new TextField();
-        txtDataFinal = new TextField();
-        
-        MaskFieldUtil.dateField(txtDataInicial);
-        MaskFieldUtil.dateField(txtDataFinal);
-        
-        grid.add(lblHoras, 0, ++numLinha);
-        grid.add(txtHoras, 1, numLinha);
-        grid.add(lblDataInicial, 0, ++numLinha);
-        grid.add(txtDataInicial, 1, numLinha);
-        grid.add(lblDataFinal, 0, ++numLinha);
-        grid.add(txtDataFinal, 1, numLinha);
-        
-        return numLinha;
-    }
-    
-    private int inicializarTipoInformacao3(GridPane grid, int numLinha) {
-        cbxAno = new ComboBox();
-        lblAno = new Label(PropertiesBundle.getProperty("LABEL_ANO"));
-        lblSemestre = new Label(PropertiesBundle.getProperty("LABEL_SEMESTRE"));
-        final ToggleGroup group = new ToggleGroup();
-        
-        ObservableList<Integer> anos = FXCollections.observableArrayList();
-        
-        for (int ano = Calendar.getInstance().get(Calendar.YEAR); ano > 2000; ano--) {
-            anos.add(ano);
-        }
-        
-        cbxAno.setItems(anos);
-        
-        rdbSemestre1 = new RadioButton(PropertiesBundle.getProperty("SEMESTRE_UM"));
-        rdbSemestre1.setToggleGroup(group);
-        
-        rdbSemestre2 = new RadioButton(PropertiesBundle.getProperty("SEMESTRE_DOIS"));
-        rdbSemestre2.setToggleGroup(group);
-        
-        grid.add(lblAno, 0, ++numLinha);
-        grid.add(cbxAno, 1, numLinha);
-        grid.add(lblSemestre, 0, ++numLinha);
-        grid.add(rdbSemestre1, 1, numLinha);
-        grid.add(rdbSemestre2, 2, numLinha);
-        
-        return numLinha;
-    }
-*/
 
     private String validarDadosInformados() {
-        if (txtDescricao.getText() == null || txtDescricao.getText().isEmpty()) {
+        if ( ! campoFoiPreenchido(txtDescricao)) {
             return "ERRO_DESCRICAO_OBRIGATORIA";
         }
         
-        if (cbxGrandeArea.getValue() == null) {
+        if ( ! comboFoiSelecionada(cbxGrandeArea)) {
             return "ERRO_GRANDEAREA_OBRIGATORIA";
         }
         
-        if (cbxCategoria.getValue() == null) {
+        if ( ! comboFoiSelecionada(cbxCategoria)) {
             return "ERRO_CATEGORIA_OBRIGATORIA";
         }
         
-        if (txtHoras.getText() == null || txtHoras.getText().isEmpty()) {
+        if ( ! campoFoiPreenchido(txtHoras)) {
             return "ERRO_HORAS_OBRIGATORIA";
         }
         
-        if (txtDataInicial.getText() == null || txtDataInicial.getText().isEmpty()) {
+        if ( ! campoFoiPreenchido(txtDataInicial)) {
             return "ERRO_DATAINICIAL_OBRIGATORIA";
+        }
+        
+        if (campoFoiPreenchido(txtDataFinal)) {
+            LocalDate dataInicial = LocalDate.parse(txtDataInicial.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            LocalDate dataFinal = LocalDate.parse(txtDataFinal.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            
+            if (dataFinal.compareTo(dataInicial) < 0) {
+                return "ERRO_DATAFINAL_MENOR";
+            }
         }
         
         return null;
     }
+    
+    private boolean campoFoiPreenchido(TextField campo) {
+        if (campo.getText() != null && !campo.getText().isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    private boolean comboFoiSelecionada(ComboBox combobox) {
+        if (combobox.getValue() != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void cadastrarAtividade() {
+        atividade = new Atividade();
+        popularInformacoesAtividade();
+        aluno.adicionarAtividade(atividade);
+        AlertasUtils.exibeInformacao("ATIVIDADE_SALVA_SUCESSO");
+    }
+
+    private void editarAtividade() {
+        Atividade atividadeAntiga = new Atividade(atividade);
+        popularInformacoesAtividade();
+        aluno.alterarAtividade(atividadeAntiga, atividade);
+        AlertasUtils.exibeInformacao("ATIVIDADE_SALVA_SUCESSO");
+    }
+    
+    private void popularInformacoesAtividade() {
+        atividade.setDescricao(txtDescricao.getText());
+        atividade.setNomeGrandeArea(((GrandeArea)cbxGrandeArea.getValue()).getNome());
+        atividade.setNomeCategoria(((Categoria)cbxCategoria.getValue()).getNomeCategoria());
+        atividade.setHorasInformadas(Double.parseDouble(txtHoras.getText()));
+        atividade.setDataInicial(txtDataInicial.getText());
+        atividade.setDataFinal(txtDataFinal.getText());
+    }
+    
+    private void popularInformacoesEdicao() {
+        txtDescricao.setText(atividade.getDescricao());
+        
+        for(GrandeArea grandeAreaAtual : aluno.getCurso().getGrandesAreas()) {
+            if (grandeAreaAtual.getNome().equals(atividade.getNomeGrandeArea())) {
+                cbxGrandeArea.setValue(grandeAreaAtual);
+                for (Categoria categoriaAtual : grandeAreaAtual.getCategorias()) {
+                    if (categoriaAtual.getNomeCategoria().equals(atividade.getNomeCategoria())) {
+                        cbxCategoria.setValue(categoriaAtual);
+                        cbxCategoria.setDisable(false);
+                        txtHoras.setDisable(false);
+                        txtDataInicial.setDisable(false);
+                        txtDataFinal.setDisable(false);
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        
+        txtHoras.setText(atividade.getHorasInformadas().toString());
+        txtDataInicial.setText(atividade.getDataInicial());
+        txtDataFinal.setText(atividade.getDataFinal());
+    }
+
 }

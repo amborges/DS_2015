@@ -21,7 +21,7 @@ public class GrandeArea {
     
     private String nome;
     @XmlElement(name = "horaminima")
-    private double horaMinima;
+    private Double horaMinima;
     @XmlElement(name = "categorias")
     private CategoriaXML categorias;
     
@@ -33,11 +33,11 @@ public class GrandeArea {
         this.nome = nome;
     }
 
-    public double getHoraMinima() {
+    public Double getHoraMinima() {
         return horaMinima;
     }
 
-    public void setHoraMinima(double horaMinima) {
+    public void setHoraMinima(Double horaMinima) {
         this.horaMinima = horaMinima;
     }
 
