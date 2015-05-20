@@ -4,6 +4,12 @@
 	
 	//print_r($_FILES);
 	
+	function adjustData($d){
+		$d = explode("/", $d);
+		$d = $d[2] ."-". $d[1] ."-". $d[0];
+		return $d;
+	}
+	
 	try{
 		if(!isset($_FILES['fileToUpload']['error']) || is_array($_FILES['fileToUpload']['error'])){
 			throw new RuntimeException('Invalid parameters.');
@@ -91,14 +97,10 @@
 				$seq = 0;
 			
 			/*PROBLEMA*/
-			$q = "SELECT `idCurso` FROM `CURSO` WHERE `nomeCurso` = '" . $xml->curso->nome . "';";
-			echo $q."\n";
-			
+			$q = "SELECT `idCurso` FROM `CURSO` WHERE `nomeCurso` = '" . utf8_decode($xml->curso->nome) . "';";
 			$idCurso = $conn->query($q);
 			
-			//print_r($idCurso);
-			
-			if($idCurso->num_rows == 0){
+			if($idCurso->num_rows > 0){
 				$idCurso = $idCurso->fetch_assoc();
 				$idCurso = $idCurso['idCurso'];
 			}
@@ -114,14 +116,12 @@
 			
 			for($i = 0; $i < $maxi; $i++){
 				$at = $xml->atividades->atividade[$i];
-			//foreach($xml->atividades as $at){
-				
-				
 				
 				$seqGA = $conn->query("SELECT `seqGA` FROM `GRANDEAREA`
 						WHERE `idCurso` = '" . $idCurso . "' 
-						AND `nomeGA` = '" . $at->nomeGrandeArea . "';");
-			
+						AND `nomeGA` = '" . utf8_decode($at->nomeGrandeArea) . "';");
+				
+				
 				if($seqGA->num_rows > 0){
 					$seqGA = $seqGA->fetch_assoc();
 					$seqGA = $seqGA['seqGA'];
@@ -136,11 +136,11 @@
 				$seqCat = $conn->query("SELECT `seqCategoria` FROM `CATEGORIA`
 					WHERE `idCurso` = '" . $idCurso . "'
 					AND `seqGA` = '" . $seqGA . "'
-					AND `nomeCategoria` = '" . $at->nomeCategoria . "';");
+					AND `nomeCategoria` = '" . utf8_decode($at->nomeCategoria) . "';");
 			
 				if($seqCat->num_rows > 0){
 					$seqCat = $seqCat->fetch_assoc();
-					$seqCat = $seqCat['seqGA'];
+					$seqCat = $seqCat['seqCategoria'];
 				}
 				else{
 					$atividadesNaoForam .= $at->descricao . " [Categoria não encontrada]\n";
@@ -148,18 +148,22 @@
 				}
 				
 				
+				$horasInf 	= ($at->horasInformadas > 0)? $at->horasInformadas : 0;
+				$horasCont 	= ($at->horasContabilizadas > 0)? $at->horasContabilizadas : 0;
+				$dataInicio	=	adjustData($at->dataInicial);
+				$dataFim 		= (strlen($at->dataFinal) > 1)? adjustData($at->dataFinal) : 'NULL';
 				
 				$seq = $seq + 1;
-				
+								
 				$sql .= "(".
 					$xml->matricula 					.",".
-					$seq 											.",".
-					$at->descricao 						.",".
-					$at->horasInformadas 			.",".
-					$at->horasContabilizadas  .",".
-					$at->dataInicio						.",".
-					$at->dataFinal						.",".
-					$at-> NULL 								.",". //arquivo, cadê?
+					$seq 											.",'".
+					$at->descricao 						."',".
+					$horasInf 								.",".
+					$horasCont 								.",'".
+					$dataInicio								."','".
+					$dataFim									."',"
+										 								."'null',". //arquivo, cadê?
 					$idCurso									.",".
 					$seqGA										.",".
 					$seqCat										."),";
@@ -168,12 +172,13 @@
 				//remove a ultima virgula por um ponto-e-virgula
 			$sql = substr_replace($sql, ";", -1);
 			
-			echo $sql;
-			
-			
-			echo "\n\nAtividades do aluno sob a matricula " . $xml->matricula ."
-				foram incluidas com sucesso, exceto as descritas abaixo, para essas, favor,
-				inserir manualmente no sistema WEB.\n\n" . $atividadesNaoForam . "\n\n";
+			if($conn->query($sql)){
+				echo "\n\nAtividades do aluno sob a matricula " . $xml->matricula . 
+				" foram incluidas com sucesso, exceto as descritas abaixo, para essas, favor, ".
+				" inserir manualmente no sistema WEB.\n\n" . $atividadesNaoForam . "\n\n";
+			}
+			else
+				throw new RuntimeException("Ocorreu um erro na insersão das atividades do aluno. Veja o SQL tentado:\n".$sql);
 			
 		}
 		else
