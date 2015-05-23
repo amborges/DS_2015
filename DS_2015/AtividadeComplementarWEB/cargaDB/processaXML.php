@@ -83,8 +83,10 @@
 		$r = $conn->query($sql); //procurando o usuário aluno, se existir, continua
 		
 		if($r->num_rows > 0){
-			
-			//print_r($xml->atividades->atividade[2]);
+			$r = $r->fetch_assoc();
+			if($r['utilizouXML'] == true){
+				throw new RuntimeException("Aluno, você já realizou atualizações de atividades utilizando DESKTOP, com carga via XML. Esse procedimento só é permitido uma vez. Utilize o sistema WEB para incluir novas atividades.\n");
+			}
 			
 			$seq = $conn->query("SELECT `seqAtividade` FROM `ATIVIDADE` 
 					WHERE `matricula` = '" . $xml->matricula . "' ORDER BY `seqAtividade` DESC;");
@@ -172,13 +174,19 @@
 				//remove a ultima virgula por um ponto-e-virgula
 			$sql = substr_replace($sql, ";", -1);
 			
+			if(strlen($sql) < 201)
+				echo "Houve algum problema com a requisição, nenhum dos valores inseridos no XML foram reconhecidos: \n $atividadesNaoForam \n";
+				
 			if($conn->query($sql)){
 				echo "\n\nAtividades do aluno sob a matricula " . $xml->matricula . 
 				" foram incluidas com sucesso, exceto as descritas abaixo, para essas, favor, ".
 				" inserir manualmente no sistema WEB.\n\n" . $atividadesNaoForam . "\n\n";
+				
+				$conn->query("UPDATE `DS_20151`.`ALUNO` SET `utilizouXML` = '1' WHERE `ALUNO`.`matricula` = '" . $xml->matricula . "';"); //proibe nova utilização de XML
 			}
-			else
+			else{
 				throw new RuntimeException("Ocorreu um erro na insersão das atividades do aluno. Veja o SQL tentado:\n".$sql);
+			}
 			
 		}
 		else
