@@ -16,7 +16,7 @@ public class AlertasUtils {
         final StringWriter sw = new StringWriter();
         final PrintWriter pw = new PrintWriter(sw, true);
         ex.printStackTrace(pw);
-        montaMensagem(new Alert(Alert.AlertType.ERROR) ,sw.getBuffer().toString());
+        montaMensagem(new Alert(Alert.AlertType.ERROR), sw.getBuffer().toString());
     }
     
     public static void exibeAlerta(String mensagem) {
