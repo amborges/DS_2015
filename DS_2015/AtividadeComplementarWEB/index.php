@@ -1,10 +1,6 @@
-<! PAGINA TESTE >
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body> 
-	HELLO WORLD
-	<img src='http://static.comicvine.com/uploads/scale_medium/5/56434/1497739-meh.ro1196.jpg'>
-</body>
-</html>
+<?php 
+    // Configrações gerais da aplicação
+    require_once 'config.php';
+    
+    // Carrega o loader, que vai carregar a aplicação inteira
+    require_once ABSPATH . '/loader.php';
