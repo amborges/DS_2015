@@ -4,12 +4,24 @@ class AtividadesFunctions {
     
     public static function init_menus($user, $clicked_menu) {
         // TODO: adicionar validação para definir o menu conforme o tipo de usuário logado(parametro $user)
-        $menus = $this->student_menus($clicked_menu);
+//        switch ($clicked_menu) {
+//            case "aluno":
+                $menus = AtividadesFunctions::student_menus($clicked_menu);
+//                break;
+//            case "avaliador":
+//                $menus = AtividadesFunctions::evaluator_menus($clicked_menu);
+//                break;
+//            case "coordenador":
+//                $menus = AtividadesFunctions::coordinator_menus($clicked_menu);
+//                break;
+//            default:
+//                break;
+//        }
         
         return $menus;
     }
     
-    private function student_menus($clicked_menu) {
+    private static function student_menus($clicked_menu) {
         return array(
                     array('action' => '#', 
                             'value' => 'Home', 
@@ -32,7 +44,7 @@ class AtividadesFunctions {
                 );
     }
     
-    private function evaluator_menus($clicked_menu) {
+    private static function evaluator_menus($clicked_menu) {
         return array(
                     array('action' => '#', 
                             'value' => 'Home', 
@@ -46,7 +58,7 @@ class AtividadesFunctions {
                 );
     }
     
-    private function coordinator_menus($clicked_menu) {
+    private static function coordinator_menus($clicked_menu) {
         return array(
                     array('action' => '#', 
                             'value' => 'Home', 
