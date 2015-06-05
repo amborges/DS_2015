@@ -22,7 +22,6 @@ class AtividadesMVC {
      */
     private $parameters;
     
-    private $pp;
     /**
      * Construtor da classe
      * 
@@ -37,6 +36,10 @@ class AtividadesMVC {
         // Verifica se o controlador existe.
         // Caso não exista, chama o método index() do controlador padrão (controllers/login_controller.php)
         if ( ! $this->controller) {
+            $this->load_default_controller();
+            return;
+        }
+        if ( $this->controller === "_controller") { //corrige um erro de load default
             $this->load_default_controller();
             return;
         }
@@ -107,12 +110,6 @@ class AtividadesMVC {
                 $this->parameters = array_values($path[4]);
             }
         }
-    }
-    
-    public function imp(){
-    	print_r($this);
-    	echo "<br>";
-    	print_r($_GET);
     }
     
     // Carrega o controller padrão - login_controller.php

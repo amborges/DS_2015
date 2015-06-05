@@ -13,5 +13,14 @@ class HomeController {
         $main_page = ABSPATH . '/views/home_page.php';
         
         require ABSPATH . '/views/includes/template.php';
-    }    
+    }
+    
+    public function aluno() {
+        require_once ABSPATH . '/functions/atividades_functions.php';
+        $menus = AtividadesFunctions::init_menus(null, 0);
+        $main_page = ABSPATH . '/views/home_page.php';
+        
+        require ABSPATH . '/views/includes/template.php';
+    }
+    
 }

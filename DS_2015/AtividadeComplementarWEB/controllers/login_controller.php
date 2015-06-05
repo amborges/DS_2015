@@ -13,22 +13,33 @@ class LoginController {
         $main_page = ABSPATH . '/views/login_page.php';
         
         require ABSPATH . '/views/includes/template.php';
-        
-        
     }
     
     public function logar() {
         /*
         Obter matricula
-        filter_input(INPUT_POST, 'matricula')
         */
+        $matricula = filter_input(INPUT_POST, 'matricula');
+        
         /* 
         Obter senha
-        filter_input(INPUT_POST, 'senha')
         */
+        $senha = filter_input(INPUT_POST, 'senha');
+        
         // CRIAR SESSÃO
-        $main_page = ABSPATH . '/views/logar_page.php';
-        require ABSPATH . '/views/includes/template.php';
+        // incluir código para tal, código abaixo apenas para exemplo
+				
+        if($matricula == "aluno")
+        	redirect('homealuno');
+        else if($matricula == "professor")
+        	redirect('homeprofessor');
+        else if($matricula == "coordenador")
+        	redirect('homecoordenador');
+        else{	
+        	redirect('login');
+        	//$main_page = ABSPATH . '/views/login_view.php';
+        	//require ABSPATH . '/views/includes/template.php';
+        }
         //redirect('home');
     }
     

@@ -35,7 +35,8 @@ class AtividadesMVC {
         
         // Verifica se o controlador existe.
         // Caso não exista, chama o método index() do controlador padrão (controllers/login_controller.php)
-        if ( ! $this->controller) {
+        if ( ! $this->controller || $this->controller === "_controller") {
+        																		//corrige um erro de load default
             $this->load_default_controller();
             return;
         }

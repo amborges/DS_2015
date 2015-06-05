@@ -3,9 +3,9 @@
 /**
  * Description of home_controller
  *
- * @author Paulo
+ * @author Alex
  */
-class HomeController {
+class HomeProfessorController {
     
     public function index() {
         require_once ABSPATH . '/functions/atividades_functions.php';
