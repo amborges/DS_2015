@@ -10,7 +10,7 @@
 class LoginController {
     
     public function index() {
-        $main_page = ABSPATH . '/views/login_page.php';
+        $main_page = ABSPATH . '/views/logar_page.php';
         
         require ABSPATH . '/views/includes/template.php';
         

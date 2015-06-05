@@ -1,4 +1,5 @@
 <?php 
+		
     // Configrações gerais da aplicação
     require_once 'config.php';
     

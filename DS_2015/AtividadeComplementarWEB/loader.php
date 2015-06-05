@@ -20,4 +20,5 @@
     require_once ABSPATH . '/functions/global_functions.php';
 
     // Carrega a aplicação
+    $_GET['path'] = $_SERVER['REQUEST_URI'];
     $atividades_mvc = new AtividadesMVC();

@@ -22,6 +22,7 @@ class AtividadesMVC {
      */
     private $parameters;
     
+    private $pp;
     /**
      * Construtor da classe
      * 
@@ -106,6 +107,12 @@ class AtividadesMVC {
                 $this->parameters = array_values($path[4]);
             }
         }
+    }
+    
+    public function imp(){
+    	print_r($this);
+    	echo "<br>";
+    	print_r($_GET);
     }
     
     // Carrega o controller padrão - login_controller.php
