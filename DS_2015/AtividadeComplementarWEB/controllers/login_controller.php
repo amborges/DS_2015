@@ -14,7 +14,21 @@ class LoginController {
     }
     
     public function logar() {
+        /*
+        Obter matricula
+        filter_input(INPUT_POST, 'matricula')
+        */
+        /* 
+        Obter senha
+        filter_input(INPUT_POST, 'senha')
+        */
+        // CRIAR SESSÃO
         redirect('home');
+    }
+    
+    public function sair() {
+        // MATAR SESSÃO
+        redirect('login');
     }
     
 }

@@ -23,10 +23,10 @@ class AtividadesFunctions {
     
     private static function student_menus($clicked_menu) {
         return array(
-                    array('action' => '#', 
+                    array('action' => BASE_URL . 'home', 
                             'value' => 'Home', 
                             'active' => ($clicked_menu == 0) ? 'active' : ''),
-                    array('action' => '#', 
+                    array('action' => BASE_URL . 'atividades/importar', 
                             'value' => 'Importar atividades', 
                             'active' => ($clicked_menu == 1) ? 'active' : ''),
                     array('action' => '#', 
@@ -38,7 +38,7 @@ class AtividadesFunctions {
                     array('action' => '#', 
                             'value' => 'Enviar para avaliação', 
                             'active' => ($clicked_menu == 4) ? 'active' : ''),
-                    array('action' => '#', 
+                    array('action' => BASE_URL . 'login/sair', 
                             'value' => 'Logout', 
                             'active' => '')
                 );

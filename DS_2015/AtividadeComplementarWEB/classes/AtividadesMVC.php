@@ -82,7 +82,7 @@ class AtividadesMVC {
      */
     private function get_url_data() {
         // Verifica se o parâmetro path foi enviado
-        if (filter_input(INPUT_GET, 'path') !== null) {
+        if (filter_input(INPUT_GET, 'path') !== NULL) {
             // Captura o valor de $_GET['path']
             $informed_path = filter_input(INPUT_GET, 'path');
             // Limpa os dados

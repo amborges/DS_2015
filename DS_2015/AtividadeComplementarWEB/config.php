@@ -11,7 +11,7 @@
     define('UP_ABSPATH', ABSPATH . '/uploads');
     
     // URL da home
-    define('BASE_URL', 'http://127.0.0.1/AtividadeComplementarWEB/');
+    define('BASE_URL', 'http://localhost/AtividadeComplementarWEB/');
     
     // Charset da conexão PDO (PHP Data Object)
     define('DB_CHARSET', 'utf8');
