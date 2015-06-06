@@ -22,7 +22,16 @@ class AtividadesFunctions {
     }
     
     private static function student_menus($clicked_menu) {
-    	    	
+    	/*
+    		há uma falha nesse menu, se a gente escolhe o importar,
+    		todos os outros links, fora o home, acabam tendo o termo
+    		"atividades" incluidos em seu url. Ou seja, para os demais
+    		links do menu funcionarem, é preciso ir primeiro ao home, senão
+    		vai dar erro, pq ele não consegue ir pra pagina correta.
+    	*/
+    	
+    	echo BASE_URL;
+    	
         return array(
                     array('action' => BASE_URL . 'homealuno', 
                             'value' => 'Home', 

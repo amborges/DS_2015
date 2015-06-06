@@ -34,6 +34,10 @@ class PlotFunctions {
 		#Definimos os dados do gráfico
 		$plot->SetDataValues($data);
 		$plot->SetPlotType("bars");
+		
+		#Definindo as legendas do grafico
+		$legendas = array(utf8_decode("Acumuladas"), utf8_decode("Mínimo"));
+		$plot->SetLegend($legendas);
 	
 		#Exibimos o gráfico
 		$plot->SetIsInline(TRUE);

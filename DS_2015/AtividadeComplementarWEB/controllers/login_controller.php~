@@ -27,7 +27,7 @@ class LoginController {
         $senha = filter_input(INPUT_POST, 'senha');
         
         // CRIAR SESSÃO
-        // incluir código para tal
+        // incluir código para tal, código abaixo apenas para exemplo
 				
         if($matricula == "aluno")
         	redirect('homealuno');

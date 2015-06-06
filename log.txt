@@ -1,3 +1,21 @@
+commit 6c73d2fdd1736f794a9fb4032dea76817a10ad61
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Fri Jun 5 19:22:17 2015 -0300
+
+    Inclui 3 possibilidades de homes, a index do homealuno ja esta pronta. SOMENTE FRONT-END
+
+commit ba74ad5d00a98970fb17fce8bf9e029c3ae19262
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Fri Jun 5 14:28:09 2015 -0300
+
+    Problemas com a url amigaveis resolvido
+
+commit 6f57eb3d812d9a72dff9534967132fa052ad87c5
+Author: Paulo Fernandes <>
+Date:   Fri Jun 5 01:57:59 2015 -0300
+
+    Front-end, SEM validação e SEM o back-end, das telas cadastro de aluno e importação das atividades. É necessário o desenvolvimento de validações e das regras de negócio no back-end
+
 commit eb246914ce9d9ee59f16259ccdea843c4c6b425f
 Author: Paulo <Paulo@Ash>
 Date:   Mon Jun 1 00:21:37 2015 -0300

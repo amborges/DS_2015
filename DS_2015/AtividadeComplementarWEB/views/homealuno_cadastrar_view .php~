@@ -1,0 +1,11 @@
+<?php if ( ! defined('ABSPATH')) exit; ?>
+
+<h1>Bem-vindo ALUNO</h1>
+
+<?php
+	/*
+		Mostra a janela de carregamento do XML
+	*/
+	
+	
+?>
