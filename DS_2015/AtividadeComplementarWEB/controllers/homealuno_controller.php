@@ -32,7 +32,7 @@ class HomeAlunoController {
     
   public function cadastrar(){
   	require_once ABSPATH . '/functions/atividades_functions.php';
-  	$menus = AtividadesFunctions::init_menus(null, 0);
+  	$menus = AtividadesFunctions::init_menus(null, 2);
   	$main_page = ABSPATH . '/views/homealuno_cadastrar_view.php';
       
   	require ABSPATH . '/views/includes/template.php';
@@ -40,7 +40,7 @@ class HomeAlunoController {
   
   public function visualizar(){
   	require_once ABSPATH . '/functions/atividades_functions.php';
-  	$menus = AtividadesFunctions::init_menus(null, 0);
+  	$menus = AtividadesFunctions::init_menus(null, 3);
   	$main_page = ABSPATH . '/views/homealuno_visualizar_view.php';
       
   	require ABSPATH . '/views/includes/template.php';
@@ -48,7 +48,7 @@ class HomeAlunoController {
   
   public function enviar(){
   	require_once ABSPATH . '/functions/atividades_functions.php';
-  	$menus = AtividadesFunctions::init_menus(null, 0);
+  	$menus = AtividadesFunctions::init_menus(null, 4);
   	$main_page = ABSPATH . '/views/homealuno_enviar_view.php';
       
   	require ABSPATH . '/views/includes/template.php';

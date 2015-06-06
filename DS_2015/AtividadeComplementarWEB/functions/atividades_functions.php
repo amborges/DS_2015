@@ -6,7 +6,7 @@ class AtividadesFunctions {
         // TODO: adicionar validação para definir o menu conforme o tipo de usuário logado(parametro $user)
 //        switch ($clicked_menu) {
 //            case "aluno":
-                $menus = AtividadesFunctions::student_menus($clicked_menu);
+//                $menus = AtividadesFunctions::student_menus($clicked_menu);
 //                break;
 //            case "avaliador":
 //                $menus = AtividadesFunctions::evaluator_menus($clicked_menu);
@@ -18,6 +18,11 @@ class AtividadesFunctions {
 //                break;
 //        }
         
+        if($user === "coordenador")
+        	$menus = AtividadesFunctions::coordinator_menus($clicked_menu);
+        else
+        	$menus = AtividadesFunctions::student_menus($clicked_menu);
+        	
         return $menus;
     }
     
@@ -47,7 +52,7 @@ class AtividadesFunctions {
     
     private static function evaluator_menus($clicked_menu) {
         return array(
-                    array('action' => '#', 
+                    array('action' => BASE_URL . 'homeprofessor', 
                             'value' => 'Home', 
                             'active' => ($clicked_menu == 0) ? 'active' : ''),
                     array('action' => '#', 
@@ -61,19 +66,19 @@ class AtividadesFunctions {
     
     private static function coordinator_menus($clicked_menu) {
         return array(
-                    array('action' => '#', 
+                    array('action' => BASE_URL . 'homecoordenador', 
                             'value' => 'Home', 
                             'active' => ($clicked_menu == 0) ? 'active' : ''),
-                    array('action' => '#', 
-                            'value' => 'Adicionar professor', 
+                    array('action' => BASE_URL . 'homecoordenador/novoprofessor', 
+                            'value' => 'Adicionar usuario', 
                             'active' => ($clicked_menu == 1) ? 'active' : ''),
-                    array('action' => '#', 
-                            'value' => 'Editar professor', 
+                    array('action' => BASE_URL . 'homecoordenador/editarprofessor', 
+                            'value' => 'Editar usuário', 
                             'active' => ($clicked_menu == 2) ? 'active' : ''),
-                    array('action' => '#', 
+                    array('action' => BASE_URL . 'homecoordenador/memorando', 
                             'value' => 'Enviar memorando', 
                             'active' => ($clicked_menu == 3) ? 'active' : ''),
-                    array('action' => '#', 
+                    array('action' => BASE_URL . 'login/sair', 
                             'value' => 'Logout', 
                             'active' => '')
                 );
