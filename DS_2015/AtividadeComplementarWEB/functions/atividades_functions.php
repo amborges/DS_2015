@@ -20,6 +20,8 @@ class AtividadesFunctions {
         
         if($user === "coordenador")
         	$menus = AtividadesFunctions::coordinator_menus($clicked_menu);
+        else if($user === "professor")
+        	$menus = AtividadesFunctions::evaluator_menus($clicked_menu);
         else
         	$menus = AtividadesFunctions::student_menus($clicked_menu);
         	
@@ -55,10 +57,10 @@ class AtividadesFunctions {
                     array('action' => BASE_URL . 'homeprofessor', 
                             'value' => 'Home', 
                             'active' => ($clicked_menu == 0) ? 'active' : ''),
-                    array('action' => '#', 
+                    array('action' => BASE_URL . 'homeprofessor/validar', 
                             'value' => 'Validar atividades', 
                             'active' => ($clicked_menu == 1) ? 'active' : ''),
-                    array('action' => '#', 
+                    array('action' => BASE_URL . 'login/sair', 
                             'value' => 'Logout', 
                             'active' => '')
                 );

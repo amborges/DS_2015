@@ -1,3 +1,15 @@
+commit 586b4dc1a9cf67c9190731e964e1082c19e9a315
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Sat Jun 6 11:51:24 2015 -0300
+
+    Janelas de coordenador foram iniciadas, menus laterais foram modificados
+
+commit c51b44e1b5b65148c9a4128c0e90273ae7a0f16b
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Sat Jun 6 10:00:50 2015 -0300
+
+    Front-End do aluno ja esta quase pronta, alguns detalhes que nao sei fazer. Mas ja da pra seguir trabalhando em cima.
+
 commit 6c73d2fdd1736f794a9fb4032dea76817a10ad61
 Author: Alex Borges <amborges@inf.ufpel.edu.br>
 Date:   Fri Jun 5 19:22:17 2015 -0300

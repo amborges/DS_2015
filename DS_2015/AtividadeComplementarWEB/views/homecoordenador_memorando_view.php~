@@ -1,6 +1,6 @@
 <?php if ( ! defined('ABSPATH')) exit; ?>
 
-<h1>Bem-vindo Coordenador</h1>
+<h1>Bem-vindo ALUNO</h1>
 
 <?php
 	/*
