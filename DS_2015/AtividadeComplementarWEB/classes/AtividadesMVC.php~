@@ -35,11 +35,8 @@ class AtividadesMVC {
         
         // Verifica se o controlador existe.
         // Caso não exista, chama o método index() do controlador padrão (controllers/login_controller.php)
-        if ( ! $this->controller) {
-            $this->load_default_controller();
-            return;
-        }
-        if ( $this->controller === "_controller") { //corrige um erro de load default
+        if ( ! $this->controller || $this->controller === "_controller") {
+        																		//corrige um erro de load default
             $this->load_default_controller();
             return;
         }
@@ -106,8 +103,11 @@ class AtividadesMVC {
             $this->action = chk_array($path, 3);
             //if (chk_array($path, 2)) {
             if (chk_array($path, 4)) {
+            		$params = array();
+            		for($i = 4; $i < sizeof($path); $i++)
+            			$params[] = $path[$i];
                 //$this->parameters = array_values($path[2]);
-                $this->parameters = array_values($path[4]);
+                $this->parameters = array_values($params);
             }
         }
     }

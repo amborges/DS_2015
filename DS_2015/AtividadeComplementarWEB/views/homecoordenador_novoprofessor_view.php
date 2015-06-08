@@ -62,7 +62,7 @@
         </div>                         
     </div>
     
-    <!-- Data Inicial -->
+    <!-- Usuário do tipo -->
     <div class="form-group">
         <label for="tipo" class="col-xs-offset-1 col-xs-2 col-lg-offset-1 col-lg-2 col-md-offset-1 col-md-2 col-sm-offset-1 col-sm-2 control-label">Tipo de Usuário:</label>
         <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4">

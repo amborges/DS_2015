@@ -103,8 +103,11 @@ class AtividadesMVC {
             $this->action = chk_array($path, 3);
             //if (chk_array($path, 2)) {
             if (chk_array($path, 4)) {
+            		$params = array(); //passa como array todos os parametros da URL
+            		for($i = 4; $i < sizeof($path); $i++)
+            			$params[] = $path[$i];
                 //$this->parameters = array_values($path[2]);
-                $this->parameters = array_values($path[4]);
+                $this->parameters = array_values($params);
             }
         }
     }
