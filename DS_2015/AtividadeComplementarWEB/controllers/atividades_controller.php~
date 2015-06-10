@@ -128,6 +128,13 @@ class AtividadesController {
         foreach($xml->curso->grandesareas->grandearea as $ga){
         	$grandes_areas[] = array(	'seqGA' => $seqga,
                                 		'nomeGA' => $ga->nome);
+          
+          $st1 = utf8_encode($ga->nome);
+          $st2 = utf8_encode($xml->atividades->atividade[1]->nomeGrandeArea);
+          if($st1 === $st2)
+          	echo " FOI ";
+          else
+          	echo " NAO " . $st1 . " :: " . $st2;
           	
           $seqcat = 1;
           

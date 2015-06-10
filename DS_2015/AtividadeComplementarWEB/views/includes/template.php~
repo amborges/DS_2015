@@ -10,7 +10,7 @@
         <title><?php echo APP_NAME ?></title>
         <div class="row">
             <!--h1><p class="text-center">ATIVIDADES COMPLEMENTARES - WEB</p></h1-->
-            <img src="<?php echo 'http://localhost/AtividadeComplementarWEB/fonts/logo2.gif'; ?>" width="90%" align="middle" />
+            <img src="<?php echo 'http://localhost/AtividadeComplementarWEB/fonts/logo2.gif'; ?>" width="90%" align="right" />
         </div>
         <!-- Bootstrap -->
         <link href="<?php echo BASE_URL; ?>css/bootstrap.min.css" rel="stylesheet">
@@ -53,9 +53,14 @@
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="<?php echo BASE_URL; ?>js/bootstrap.min.js"></script>
     </body>
-    <!--
+    
     <footer>
-        <h1>FOOTER</h1>
+		  <div id="footer">
+		    <div class="container">
+		    	<br><br><br>
+		      <p class="muted credit"> ©2015 - <?php echo date("Y"); ?>. Universidade Federal de Pelotas. Desenvolvido por  <a href="http://martinbean.co.uk">Alex Borges</a>, <a href="http://martinbean.co.uk">Bruno Pinto</a>, <a href="http://martinbean.co.uk">Lucas Bonine</a>, <a href="http://martinbean.co.uk">Mateus Noremberg</a>, <a href="http://martinbean.co.uk">Natália Darley</a> and <a href="http://ryanfait.com/sticky-footer/">Paulo Fernandes</a>.</p>
+		    </div>
+		  </div>
     </footer>
-    -->
+    
 </html>

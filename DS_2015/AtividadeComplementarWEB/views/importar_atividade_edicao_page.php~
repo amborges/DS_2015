@@ -59,7 +59,7 @@
                             echo '<option value="0"></option>';
                             
                             foreach($categorias as $categoria) {
-                                $selected = (utf8_decode($atividade['categoria']) === utf8_decode($categoria['nomeCategoria'])) ? 'selected' : '';
+                                $selected = ($atividade['categoria'] === $categoria['nomeCategoria']) ? 'selected' : '';
                                 echo '<option value="'. $categoria['seqCategoria'] . '" '. $selected . ' >' . $categoria['nomeCategoria'] . '</option>';
                             }
                                 

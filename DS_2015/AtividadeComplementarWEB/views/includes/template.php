@@ -53,9 +53,14 @@
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="<?php echo BASE_URL; ?>js/bootstrap.min.js"></script>
     </body>
-    <!--
+    
     <footer>
-        <h1>FOOTER</h1>
+		  <div id="footer">
+		    <div class="container">
+		    	<br><br><br>
+		      <p class="muted credit"> ©2015 - <?php echo date("Y"); ?>. Universidade Federal de Pelotas. Desenvolvido por  <a href="https://www.facebook.com/AlexBorges85">Alex Borges</a>, <a href="https://www.facebook.com/bruno.giacobopinto">Bruno Pinto</a>, <a href="https://www.facebook.com/lucas.barrosbonine">Lucas Bonine</a>, <a href="https://www.facebook.com/mateus.noremberg">Mateus Noremberg</a>, <a href="https://www.facebook.com/natalia.darley">Natália Darley</a> and <a href="https://www.facebook.com/pauloeffernandes">Paulo Fernandes</a>.</p>
+		    </div>
+		  </div>
     </footer>
-    -->
+    
 </html>

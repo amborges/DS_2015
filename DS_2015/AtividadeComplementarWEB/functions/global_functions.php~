@@ -64,7 +64,6 @@
     /**
      * Recebe uma data no formato string de mm/dd/yy
      * e retorna no formato yy-mm-dd
-     * formato de entrada de data no banco de dados mysql
      * 
      * @param string 
      * @return string

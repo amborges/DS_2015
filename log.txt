@@ -1,3 +1,15 @@
+commit dd092538f74cce93b9628afc329f5a23e2e41cae
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon Jun 8 13:17:24 2015 -0300
+
+    Janelas iniciais terminadas. Falta toda a parte backend e adequacao do front-end para trabalhar com dados vindo do banco de dados
+
+commit e9583ac861765444e6f5dfef51d694110fff8f2f
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Sat Jun 6 14:48:33 2015 -0300
+
+    Janelas do professor iniciadas. Nenhum conteudo nelas, ainda
+
 commit 586b4dc1a9cf67c9190731e964e1082c19e9a315
 Author: Alex Borges <amborges@inf.ufpel.edu.br>
 Date:   Sat Jun 6 11:51:24 2015 -0300
