@@ -29,15 +29,15 @@
                             
                             // Descrição
                             echo '<div class="form-group">';
-                            echo '<label for="descricao[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Descrição:</label>';
+                            echo '<label for="descricao[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span> Descrição:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="descricao[]" name="descricao[]" type="text"  value="' . $atividade['descricao'] . '" required="true" class="form-control" maxlength="128"/>';
+                            echo '<input id="descricao[]" name="descricao[]" type="text"  value="' . $atividade['descricao'] . '" required="true" class="form-control" maxlength="255"/>';
                             echo '</div>';                       
                             echo '</div>';
                             
                             // Grande área
                             echo '<div class="form-group">';
-                            echo '<label for="grande_area[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Grande área:</label>';
+                            echo '<label for="grande_area[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span> Grande área:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
                             echo '<select id="grande_area[]" name="grande_area[]" class="form-control">';
                             echo '<option value="0"></option>';
@@ -53,7 +53,7 @@
                             
                             // Categoria
                             echo '<div class="form-group">';
-                            echo '<label for="categoria[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Categoria:</label>';
+                            echo '<label for="categoria[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span> Categoria:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
                             echo '<select id="categoria[]" name="categoria[]" class="form-control">';
                             echo '<option value="0"></option>';
@@ -69,9 +69,9 @@
                             
                             // Horas
                             echo '<div class="form-group">';
-                            echo '<label for="horas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Horas:</label>';
+                            echo '<label for="horas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span> Horas:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="horas[]" name="horas[]" type="text"  value="' . $atividade['horas'] . '" required="true" class="form-control" maxlength="128"/>';
+                            echo '<input id="horas[]" name="horas[]" type="text"  value="' . $atividade['horas'] . '" required="true" class="form-control" maxlength="10"/>';
                             echo '</div>';                       
                             echo '</div>';
                             
@@ -79,23 +79,23 @@
                             echo '<div class="form-group">';
                             echo '<label for="horascalculadas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Horas Calculadas:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="horascalculadas[]" name="horascalculadas[]" type="text"  value="' . $atividade['horascontabilizadas'] . '" required="true" class="form-control" maxlength="128"/>';
+                            echo '<input id="horascalculadas[]" name="horascalculadas[]" type="text"  value="' . $atividade['horascontabilizadas'] . '" required="true" class="form-control" maxlength="10"/>';
                             echo '</div>';                       
                             echo '</div>';
                                 
                             // Data inicial
                             echo '<div class="form-group">';
-                            echo '<label for="data_inicial[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Data inicial:</label>';
+                            echo '<label for="data_inicial' . $atividade['id'] . '" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span> Data inicial:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="data_inicial[]" name="data_inicial[]" type="text"  value="' . $atividade['data_inicial'] . '" required="true" class="form-control" maxlength="128"/>';
-                            echo '</div>';                       
+                            echo '<input id="data_inicial' . $atividade['id'] . '" name="data_inicial[]" type="text"  value="' . $atividade['data_inicial'] . '" required="true" class="form-control date_picker" maxlength="10"/>';
+                            echo '</div>';
                             echo '</div>';
                             
                             // Data final
                             echo '<div class="form-group">';
-                            echo '<label for="data_final[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Data final:</label>';
+                            echo '<label for="data_final' . $atividade['id'] . '" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Data final:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="data_final[]" name="data_final[]" type="text"  value="' . $atividade['data_final'] . '" class="form-control" maxlength="128"/>';
+                            echo '<input id="data_final' . $atividade['id'] . '" name="data_final[]" type="text"  value="' . $atividade['data_final'] . '" class="form-control date_picker" maxlength="10"/>';
                             echo '</div>';                       
                             echo '</div>';
                             
@@ -136,3 +136,18 @@
         </div>
     </div>
 </form>
+
+<link href="<?php echo BASE_URL; ?>js/jquery-ui-1.11.4.datapicker/jquery-ui.min.css" rel="stylesheet">
+<script src="<?php echo BASE_URL; ?>js/jquery-ui-1.11.4.datapicker/external/jquery/jquery.js"></script>
+<script src="<?php echo BASE_URL; ?>js/jquery-ui-1.11.4.datapicker/jquery-ui.min.js"></script>
+<script src="<?php echo BASE_URL; ?>js/jquery-ui-1.11.4.datapicker/i18n/datepicker-pt-BR.js"></script>
+<script src="<?php echo BASE_URL; ?>js/masked_input/jquery.maskedinput.min.js"></script>
+
+<script>
+    $(".date_picker").datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+    
+    $(".date_picker").mask("99/99/9999");
+</script>

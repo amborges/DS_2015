@@ -1,0 +1,13 @@
+.header {
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+.footer {
+    margin-top: 30px;
+}
+
+.red_bold {
+    color: #FF0000;
+    font-weight: bold;
+}

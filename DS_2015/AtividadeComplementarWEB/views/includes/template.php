@@ -8,12 +8,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title><?php echo APP_NAME ?></title>
-        <div class="row">
-            <!--h1><p class="text-center">ATIVIDADES COMPLEMENTARES - WEB</p></h1-->
-            <img src="<?php echo 'http://localhost/AtividadeComplementarWEB/fonts/logo2.gif'; ?>" width="90%" align="right" />
+        <div class="row header">
+            <div class="col-lg-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-offset-1">
+                <img src="<?php echo 'http://localhost/AtividadeComplementarWEB/fonts/logo2.gif'; ?>" width="90%" />
+            </div>
         </div>
         <!-- Bootstrap -->
-        <link href="<?php echo BASE_URL; ?>css/bootstrap.min.css" rel="stylesheet">
+        <link href="<?php echo BASE_URL; ?>css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <!-- Atividades complementares custom -->
         <link href="<?php echo BASE_URL; ?>css/atividades.css" rel="stylesheet">
 
@@ -51,16 +52,16 @@
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="<?php echo BASE_URL; ?>js/bootstrap.min.js"></script>
+        <script src="<?php echo BASE_URL; ?>js/bootstrap/bootstrap.min.js"></script>
     </body>
     
     <footer>
-		  <div id="footer">
-		    <div class="container">
-		    	<br><br><br>
-		      <p class="muted credit"> ©2015 - <?php echo date("Y"); ?>. Universidade Federal de Pelotas. Desenvolvido por  <a href="https://www.facebook.com/AlexBorges85">Alex Borges</a>, <a href="https://www.facebook.com/bruno.giacobopinto">Bruno Pinto</a>, <a href="https://www.facebook.com/lucas.barrosbonine">Lucas Bonine</a>, <a href="https://www.facebook.com/mateus.noremberg">Mateus Noremberg</a>, <a href="https://www.facebook.com/natalia.darley">Natália Darley</a> and <a href="https://www.facebook.com/pauloeffernandes">Paulo Fernandes</a>.</p>
-		    </div>
-		  </div>
+        <div id="footer" class="row footer">
+            <div class="col-lg-offset-1 col-lg-9 col-sm-offset-1 col-sm-9 col-md-offset-1 col-md-9 col-xs-offset-1 col-xs-9">
+                <p align="center" class="muted credit"> ©2015 - <?php echo date("Y"); ?>. Universidade Federal de Pelotas. </p>
+                <p align="center" class="muted credit"> Desenvolvido por  <a href="https://www.facebook.com/AlexBorges85">Alex Borges</a>, <a href="https://www.facebook.com/bruno.giacobopinto">Bruno Pinto</a>, <a href="https://www.facebook.com/lucas.barrosbonine">Lucas Bonine</a>, <a href="https://www.facebook.com/mateus.noremberg">Mateus Noremberg</a>, <a href="https://www.facebook.com/natalia.darley">Natália Darley</a> and <a href="https://www.facebook.com/pauloeffernandes">Paulo Fernandes</a>.</p>
+            </div>
+        </div>
     </footer>
     
 </html>
