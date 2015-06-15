@@ -58,7 +58,7 @@
                             echo '<select id="categoria[]" name="categoria[]" class="form-control">';
                             echo '<option value="0"></option>';
                             
-                            foreach($categorias as $categoria) {
+                            foreach($atividade['categorias'] as $categoria) {
                                 $selected = (utf8_decode($atividade['categoria']) === utf8_decode($categoria['nomeCategoria'])) ? 'selected' : '';
                                 echo '<option value="'. $categoria['seqCategoria'] . '" '. $selected . ' >' . $categoria['nomeCategoria'] . '</option>';
                             }

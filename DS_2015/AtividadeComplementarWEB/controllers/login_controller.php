@@ -26,8 +26,17 @@ class LoginController {
         */
         $senha = filter_input(INPUT_POST, 'senha');
         
-        // CRIAR SESSÃO
-        // incluir código para tal, código abaixo apenas para exemplo
+        // TODO - buscar o usuario do banco
+        $user = array('matricula' => $matricula,
+                        'nomeAluno' => 'Aluno 007',
+                        'idCurso' => '1');
+        
+        // Envia os dados de usuário para a sessão
+		$_SESSION['userdata'] = $user;
+				
+		// Atualiza o ID da sessão
+        session_regenerate_id();
+		$_SESSION['userdata']['user_session_id'] = session_id();
 				
         if($matricula == "aluno")
         	redirect('homealuno');
@@ -37,15 +46,19 @@ class LoginController {
         	redirect('homecoordenador');
         else{	
         	redirect('login');
-        	//$main_page = ABSPATH . '/views/login_view.php';
-        	//require ABSPATH . '/views/includes/template.php';
         }
-        //redirect('home');
+        
     }
     
     public function sair() {
-        // MATAR SESSÃO
-        redirect('login');
+        // Remover os dados da sessão
+		$_SESSION['userdata'] = array();
+		
+		unset($_SESSION['userdata']);
+		
+		session_regenerate_id();
+		
+		redirect('login');
     }
     
 }

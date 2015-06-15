@@ -101,33 +101,40 @@ class AtividadesController {
         // TODO: buscar as atividades do xml convertido
         $atividades;
         
+        require_once ABSPATH . '/models/categoria_model.php';
+        require_once ABSPATH . '/models/grande_area_model.php';
+        
         foreach($xml->atividades->atividade as $at){
         	$horasInf 	= ($at->horasInformadas > 0)? $at->horasInformadas : 0;
-					$horasCont 	= ($at->horasContabilizadas > 0)? $at->horasContabilizadas : 0;
-					$dataInicio	=	adjustData($at->dataInicial);
-					$dataFim 		= (strlen($at->dataFinal) > 1)? adjustData($at->dataFinal) : 'NULL';
-				
+			$horasCont 	= ($at->horasContabilizadas > 0)? $at->horasContabilizadas : 0;
+			$dataInicio	= adjustData($at->dataInicial);
+			$dataFim = (strlen($at->dataFinal) > 1)? adjustData($at->dataFinal) : 'NULL';
+            
         	$atividades[] = array('id' => $seq,
-																'descricao' => $at->descricao, 
-																'grande_area' => $at->nomeGrandeArea,
-																'categoria' => $at->nomeCategoria,
-																'horas' => $horasInf,
-																'horascontabilizadas' => $horasCont,
-																'data_inicial' => $at->dataInicial,
-																'data_final' => $at->dataFinal);
-          $seq = $seq + 1;
-				}
+								'descricao' => $at->descricao, 
+								'grande_area' => $at->nomeGrandeArea,
+								'categoria' => $at->nomeCategoria,
+                                'categorias' => $this->find_categorias(utf8_decode($at->nomeGrandeArea)),
+								'horas' => $horasInf,
+								'horascontabilizadas' => $horasCont,
+								'data_inicial' => $at->dataInicial,
+								'data_final' => $at->dataFinal);
+            $seq = $seq + 1;
+		}
+        
+        $grandes_areas = $this->find_grande_areas();
         
         
-        // TODO: buscar as grandes áreas do banco de dados
-        //Aqui está pegando do xml
-        $grandes_areas;
+        /*
         $categorias;
+        
+        
+        
         
         $seqga = 1;
         foreach($xml->curso->grandesareas->grandearea as $ga){
-        	$grandes_areas[] = array(	'seqGA' => $seqga,
-                                		'nomeGA' => $ga->nome);
+        	//$grandes_areas[] = array(	'seqGA' => $seqga,
+            //                    		'nomeGA' => $ga->nome);
           	
           $seqcat = 1;
           
@@ -141,8 +148,8 @@ class AtividadesController {
             $seqcat = $seqcat + 1;
           }
           $seqga = $seqga + 1;
-				}
-        
+		}
+        */
         
         $main_page = ABSPATH . '/views/importar_atividade_edicao_page.php';
         
@@ -151,6 +158,51 @@ class AtividadesController {
     
     public function salvar() {
         redirect('home');
+    }
+    
+    private function find_categorias($nome_GA) {
+        $session = $_SESSION['userdata'];
+        
+        $grandes_area_model = new GrandeAreaModel();
+        $result = $grandes_area_model->find_by_curso_and_nomeGA(1, $nome_GA);
+        
+        if (!$result) {
+            throw new Exception("Database Error");
+        }
+        
+        $result = $result->fetch_assoc();
+            
+        $categoria_model = new CategoriaModel();
+        $result = $categoria_model->find_by_curso_and_grande_area("1", $result['seqGA']);
+        
+        $categorias = array();
+        if ($result->num_rows > 0) {
+            $i = 0;
+            while ($row = $result->fetch_assoc()) {
+                $categorias[$i] = array('seqCategoria' => $row['seqCategoria'], 'nomeCategoria' => utf8_decode($row['nomeCategoria']));
+                $i++;
+            }
+        }
+        
+        return $categorias;
+    }
+    
+    private function find_grande_areas() {
+        $session = $_SESSION['userdata'];
+        
+        $grandes_area_model = new GrandeAreaModel();
+        $result = $grandes_area_model->find_by_curso(1/*$session->idCurso*/);
+        
+        $grandes_areas = array();
+        if ($result->num_rows > 0) {
+            $i = 0;
+            while ($row = $result->fetch_assoc()) {
+                $grandes_areas[$i] = array('seqGA' => $row['seqGA'], 'nomeGA' => $row['nomeGA']);
+                $i++;
+            }
+        }
+        
+        return $grandes_areas;
     }
     
 }
