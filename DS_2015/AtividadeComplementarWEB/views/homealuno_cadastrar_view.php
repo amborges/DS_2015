@@ -21,11 +21,12 @@
             <label for="grandearea" class="col-xs-offset-1 col-xs-2 col-lg-offset-1 col-lg-2 col-md-offset-1 col-md-2 col-sm-offset-1 col-sm-2 control-label"><span class="red_bold">*</span> Grande Área:</label>
             <div class="col-xs-5 col-lg-5 col-md-5 col-sm-5">
                 <select id="grandearea" name="grandearea" required="true" class="form-control"/>
-                    <!-- DESEVOLVER UM ALGORITMO PARA MOSTRAR AS GRANDEAREAS DO CURSO -->
                     <option value=""></option>
-                    <option value="Ensino">Ensino</option>
-                    <option value="Extensao">Extensao</option>
-                    <option value="Pesquisa">Pesquisa</option>
+                    <?php
+                        foreach($grandes_areas as $grande_area) {
+                            echo '<option value="'. $grande_area['seqGA'] . '">' . $grande_area['nomeGA'] . '</option>';
+                        }
+                    ?>
                 </select>
             </div>                         
         </div>

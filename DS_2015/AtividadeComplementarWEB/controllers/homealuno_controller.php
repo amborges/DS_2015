@@ -23,7 +23,7 @@ class HomeAlunoController {
     $_POST[1] = array('Pesquisa', 75, 100);
     $_POST[2] = array('Extensao', 125, 100);
     
-    
+    $nome_aluno = $_SESSION['userdata']['nomeAluno'];
     $menus = AtividadesFunctions::init_menus(null, 0);
     $main_page = ABSPATH . '/views/homealuno_view.php';
     
@@ -32,7 +32,9 @@ class HomeAlunoController {
     
   public function cadastrar(){
   	require_once ABSPATH . '/functions/atividades_functions.php';
-  	$menus = AtividadesFunctions::init_menus(null, 2);
+  	
+    $menus = AtividadesFunctions::init_menus(null, 2);
+    $grandes_areas = $this->find_grande_areas();
   	$main_page = ABSPATH . '/views/homealuno_cadastrar_view.php';
       
   	require ABSPATH . '/views/includes/template.php';
@@ -53,4 +55,24 @@ class HomeAlunoController {
       
   	require ABSPATH . '/views/includes/template.php';
   }
+  
+  private function find_grande_areas() {
+        require_once ABSPATH . '/models/grande_area_model.php';
+        $id_curso = $_SESSION['userdata']['idCurso'];
+        
+        $grandes_area_model = new GrandeAreaModel();
+        $result = $grandes_area_model->find_by_curso($id_curso);
+        
+        $grandes_areas = array();
+        if ($result->num_rows > 0) {
+            $i = 0;
+            while ($row = $result->fetch_assoc()) {
+                $grandes_areas[$i] = array('seqGA' => $row['seqGA'], 'nomeGA' => $row['nomeGA']);
+                $i++;
+            }
+        }
+        
+        return $grandes_areas;
+    }
+  
 }

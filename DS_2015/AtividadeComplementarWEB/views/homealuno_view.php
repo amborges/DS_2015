@@ -1,8 +1,6 @@
 <?php if ( ! defined('ABSPATH')) exit; ?>
 
 <div class="col-lg-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-offset-1">
-    <h1>Bem-vindo ALUNO</h1>
-
     <?php
         /*
             A tela inicial vai mostrar apenas o gráfico
@@ -11,9 +9,11 @@
         */
 
         $userName = "FULANO DE TAL";
-
+        
+        echo '<h1>Bem-vindo ' . $nome_aluno . '</h1>';
+        
         require_once ABSPATH . "/functions/plot_functions.php";
-        $plot = new PlotFunctions($userName, $_POST);
+        $plot = new PlotFunctions($nome_aluno, $_POST);
 
         echo "<img src=\"". $plot->getImage() . "\" />";
     ?>

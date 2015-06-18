@@ -37,7 +37,7 @@ class LoginController {
 		// Atualiza o ID da sessão
         session_regenerate_id();
 		$_SESSION['userdata']['user_session_id'] = session_id();
-				
+        
         if($matricula == "aluno")
         	redirect('homealuno');
         else if($matricula == "professor")

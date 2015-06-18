@@ -16,6 +16,8 @@ abstract class BaseModel {
 		if ($this->conn->connect_error) {
 			throw new RuntimeException("Connection failed: " . $this->conn->connect_error);
         }
+        
+        $this->conn->set_charset("utf8");
     }
     
     protected function close_connection() {

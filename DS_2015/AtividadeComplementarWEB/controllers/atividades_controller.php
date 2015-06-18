@@ -114,7 +114,7 @@ class AtividadesController {
 								'descricao' => $at->descricao, 
 								'grande_area' => $at->nomeGrandeArea,
 								'categoria' => $at->nomeCategoria,
-                                'categorias' => $this->find_categorias(utf8_decode($at->nomeGrandeArea)),
+                                'categorias' => $this->find_categorias($at->nomeGrandeArea),
 								'horas' => $horasInf,
 								'horascontabilizadas' => $horasCont,
 								'data_inicial' => $at->dataInicial,
@@ -161,10 +161,10 @@ class AtividadesController {
     }
     
     private function find_categorias($nome_GA) {
-        $session = $_SESSION['userdata'];
+        $id_curso = $_SESSION['userdata']['idCurso'];
         
         $grandes_area_model = new GrandeAreaModel();
-        $result = $grandes_area_model->find_by_curso_and_nomeGA(1, $nome_GA);
+        $result = $grandes_area_model->find_by_curso_and_nomeGA($id_curso, $nome_GA);
         
         if (!$result) {
             throw new Exception("Database Error");
@@ -173,13 +173,13 @@ class AtividadesController {
         $result = $result->fetch_assoc();
             
         $categoria_model = new CategoriaModel();
-        $result = $categoria_model->find_by_curso_and_grande_area("1", $result['seqGA']);
+        $result = $categoria_model->find_by_curso_and_grande_area($id_curso, $result['seqGA']);
         
         $categorias = array();
         if ($result->num_rows > 0) {
             $i = 0;
             while ($row = $result->fetch_assoc()) {
-                $categorias[$i] = array('seqCategoria' => $row['seqCategoria'], 'nomeCategoria' => utf8_decode($row['nomeCategoria']));
+                $categorias[$i] = array('seqCategoria' => $row['seqCategoria'], 'nomeCategoria' => $row['nomeCategoria']);
                 $i++;
             }
         }
@@ -188,10 +188,10 @@ class AtividadesController {
     }
     
     private function find_grande_areas() {
-        $session = $_SESSION['userdata'];
+        $id_curso = $_SESSION['userdata']['idCurso'];
         
         $grandes_area_model = new GrandeAreaModel();
-        $result = $grandes_area_model->find_by_curso(1/*$session->idCurso*/);
+        $result = $grandes_area_model->find_by_curso($id_curso);
         
         $grandes_areas = array();
         if ($result->num_rows > 0) {
