@@ -38,6 +38,8 @@ CREATE TABLE IF NOT EXISTS `ALUNO` (
 
 -- --------------------------------------------------------
 
+ALTER TABLE `ALUNO` ADD COLUMN `idCurso` bigint(20) NOT NULL;
+
 --
 -- Estrutura para tabela `ATIVIDADE`
 --
