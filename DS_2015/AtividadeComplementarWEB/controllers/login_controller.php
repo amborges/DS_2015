@@ -40,8 +40,28 @@ class LoginController {
             $_SESSION['userdata']['user_session_id'] = session_id();
 
             redirect('homealuno');
-        } else {	
-            $this->credenciais_invalidas();
+        } else {
+        		$result = $login_model->verifica_login_coordenador($matricula, $senha);
+        
+				    if ($result != NULL) {
+				        $user = array('siape' => $result['matricula'],
+				                      'nome' => $result['nomeAluno'],
+				                      'ehCoordenador' => $result['ehCoordenador']);
+
+				        // Envia os dados de usuário para a sessão
+				        $_SESSION['userdata'] = $user;
+
+				        // Atualiza o ID da sessão
+				        session_regenerate_id();
+				        $_SESSION['userdata']['user_session_id'] = session_id();
+				        
+				        if($_SESSION['userdata']['ehCoordenador'] === '1')
+				        	redirect('homecoordenador');
+				        else
+				        	redirect('homeprofessor');
+				    } else {
+				        $this->credenciais_invalidas();
+				    }
         }
         
         

@@ -31,4 +31,21 @@ class LoginModel extends BaseModel {
         	return NULL;
     }
     
+    public function verifica_login_coordenador($siape, $senha) {
+        $projection = "siape, nome, ehCoordenador";
+        $where = "siape = '" . $siape . "' AND senha = '" . sha1($senha) . "' AND usuarioAtivo = 1"; //md5($senha) //ALEX: eu uso sha1... Mudamos?!
+        
+        $sql = "SELECT " . $projection .
+                " FROM " . $this->coordenador_table_name . 
+                " WHERE " . $where;
+        
+        $this->create_connection();
+        $result = $this->conn->query($sql);
+        $this->close_connection();
+        
+        if($result != NULL && ! empty($result) && $result->num_rows > 0)
+        	return $result->fetch_array();
+        else
+        	return NULL;
+    }
 }
