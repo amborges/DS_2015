@@ -12,7 +12,9 @@ class CadastroController {
     }
     
     public function aluno($alert = NULL) {
-    		    
+    		//if($alert)
+    		//	$error = $alert;
+    
     		require_once ABSPATH . '/models/curso_model.php';
     		
         $cursos = (new CursoModel())->get_curso(); // buscar da base de dados

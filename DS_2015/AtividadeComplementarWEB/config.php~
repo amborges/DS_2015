@@ -24,12 +24,12 @@
     define('HOSTNAME', 'localhost');
     
     // Nome do DB
-    define('DB_NAME', 'DS_20151');
+    define('DB_NAME', 'ds_20151');
     
     // Usuário do DB
     define('DB_USER', 'root');
     
     // Senha do DB
-    define('DB_PASSWORD', 'fantazi');
+    define('DB_PASSWORD', '');
     
 ?>

@@ -27,11 +27,10 @@ class LoginController {
         
         $result = $login_model->verifica_login_aluno($matricula, $senha);
         
-        if ($result != NULL && ! empty($result) && $result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $user = array('matricula' => $row['matricula'],
-                          'nomeAluno' => $row['nomeAluno'],
-                          'idCurso' => $row['idCurso']);
+        if ($result != NULL) {
+            $user = array('matricula' => $result['matricula'],
+                          'nomeAluno' => $result['nomeAluno'],
+                          'idCurso' => $result['idCurso']);
 
             // Envia os dados de usuário para a sessão
             $_SESSION['userdata'] = $user;
@@ -51,10 +50,6 @@ class LoginController {
 //        $user = array('matricula' => $matricula,
 //                        'nomeAluno' => 'Aluno 007',
 //                        'idCurso' => '1');
-        
-        
-				
-		
         /*
         if($matricula == "aluno")
         	redirect('homealuno');
@@ -80,7 +75,7 @@ class LoginController {
     }
     
     private function credenciais_invalidas() {
-        $error = array('type' => 'danger',
+        $alert = array('type' => 'danger',
                        'message' => 'Credenciais inválidas!');
         	
         $main_page = ABSPATH . '/views/login_page.php';
