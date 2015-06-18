@@ -14,7 +14,7 @@ class HomeCoordenadorController {
     require ABSPATH . '/views/includes/template.php';
   }
     
-  public function novoprofessor(){
+  public function novoprofessor($alert = NULL){
   	require_once ABSPATH . '/functions/atividades_functions.php';
   	$menus = AtividadesFunctions::init_menus("coordenador", 1);
   	$main_page = ABSPATH . '/views/homecoordenador_novoprofessor_view.php';

@@ -25,8 +25,6 @@ class CadastroController {
     public function cadastrar_aluno() {
     		if(!$_POST) redirect('cadastro/aluno');
     		
-    	//Array ( [matricula] => 122 [nome] => qwwe [email] => qw@la.com [curso] => 1 [senha] => ka [repetir_senha] => ka ) 
-    	
     		//verificando se os dados são válidos
 	  		if(!is_numeric($_POST['matricula']))
 	  			$this->dados_invalidos("Insira um valor numérico no campo 'Matrícula'!");
@@ -47,8 +45,6 @@ class CadastroController {
                        'message' => "Novo Aluno cadastrado com sucesso");
 	  				$this->aluno($sucess);
         	}
-	  			
-        //redirect('home');
       }
     }
     
@@ -58,4 +54,37 @@ class CadastroController {
         $this->aluno($error);
     }
     
+    public function cadastrar_professor() {
+    		if(!$_POST) redirect('homecoordenador/novoprofessor');
+    	
+    		//verificando se os dados são válidos
+	  		if(!is_numeric($_POST['siape']))
+	  			$this->dados_invalidos_prof("Insira um valor numérico no campo 'Siape'!");
+	  		else if(sizeof(explode(" ", $_POST['nome'])) < 2) //nome _espaço_ sobrenome
+	  			$this->dados_invalidos_prof("Insira um nome válido no campo 'Nome'!");
+	  		else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+	  			$this->dados_invalidos_prof("Insira um e-mail válido no campo 'E-Mail'!");
+	  		else if(!($_POST['senha'] === $_POST['senha2']))
+	  			$this->dados_invalidos_prof("Senhas não conferem!");
+	  		else{
+	  			require_once ABSPATH . '/models/coordenador_model.php';
+	  			$coordmodel = new CoordenadorModel();
+	  			$coordmodel->cadastrar_novo_professor($_POST);
+	  			if($coordmodel->erro_BD())
+	  				$this->dados_invalidos_prof($coordmodel->msg_erro());
+	  			else{
+	  				$sucess = array('type' => 'success',
+                       'message' => "Novo Professor cadastrado com sucesso");
+	  				require_once ABSPATH . '/controllers/homecoordenador_controller.php';
+        		(new HomeCoordenadorController)->novoprofessor($sucess);
+        	}
+      }
+    }
+    
+    private function dados_invalidos_prof($msg) {
+        $alert = array('type' => 'danger',
+                       'message' => $msg);
+        require_once ABSPATH . '/controllers/homecoordenador_controller.php';
+        (new HomeCoordenadorController)->novoprofessor($alert);
+    }
 }

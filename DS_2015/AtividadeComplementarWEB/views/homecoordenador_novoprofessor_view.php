@@ -14,7 +14,7 @@
     <div class="form-group">
         <label for="siape" class="col-xs-offset-1 col-xs-2 col-lg-offset-1 col-lg-2 col-md-offset-1 col-md-2 col-sm-offset-1 col-sm-2 control-label">SIAPE:</label>
         <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4">
-            <input id="siape" name="descricao" type="number" required="true" class="form-control" title="Número SIAPE do Professor" />
+            <input id="siape" name="siape" type="number" required="true" class="form-control" title="Número SIAPE do Professor" />
         </div>                         
     </div>
 
@@ -34,18 +34,6 @@
         </div>                         
     </div>
 
-    <!-- Curso -->
-    <div class="form-group">
-        <label for="curso" class="col-xs-offset-1 col-xs-2 col-lg-offset-1 col-lg-2 col-md-offset-1 col-md-2 col-sm-offset-1 col-sm-2 control-label">Categoria:</label>
-        <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4">
-            <select id="curso" name="curso" required="true" class="form-control"/>
-            	<!-- DESEVOLVER UM ALGORITMO DINAMICO PARA MOSTRAR OS CURSOS -->
-            	<option value="ccomp">Ciência da Computação</option>
-            	<option value="ecomp">Engenharia da Computação</option>
-            </select>
-        </div>                         
-    </div>
-    
     <!-- Senha -->
     <div class="form-group">
         <label for="senha" class="col-xs-offset-1 col-xs-2 col-lg-offset-1 col-lg-2 col-md-offset-1 col-md-2 col-sm-offset-1 col-sm-2 control-label">Senha:</label>

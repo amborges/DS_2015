@@ -63,24 +63,6 @@ class LoginController {
 				        $this->credenciais_invalidas();
 				    }
         }
-        
-        
-        
-        // TODO - buscar o usuario do banco
-//        $user = array('matricula' => $matricula,
-//                        'nomeAluno' => 'Aluno 007',
-//                        'idCurso' => '1');
-        /*
-        if($matricula == "aluno")
-        	redirect('homealuno');
-        else if($matricula == "professor")
-        	redirect('homeprofessor');
-        else if($matricula == "coordenador")
-        	redirect('homecoordenador');
-        else{	
-        	redirect('login');
-        }
-        */
     }
     
     public function sair() {

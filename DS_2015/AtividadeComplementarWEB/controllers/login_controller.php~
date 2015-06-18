@@ -55,7 +55,7 @@ class LoginController {
 				        session_regenerate_id();
 				        $_SESSION['userdata']['user_session_id'] = session_id();
 				        
-				        if($_SESSION['userdata']['ehCoordenador'] === 1)
+				        if($_SESSION['userdata']['ehCoordenador'] === '1')
 				        	redirect('homecoordenador');
 				        else
 				        	redirect('homeprofessor');
