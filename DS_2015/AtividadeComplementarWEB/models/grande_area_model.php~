@@ -30,8 +30,6 @@ class GrandeAreaModel extends BaseModel {
     }
     
     public function nanana(){
-    	//método nada a ver, só pra guardar o codigo abaixo
-    	//ver como isso funciona pra usar no metodo abaixo
     	echo "*Select Category 
     		<select name='category' id='category' 
     			onChange=\"ajax('fill.php', '', 'populate', 'post', '1')\">
