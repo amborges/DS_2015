@@ -17,13 +17,28 @@
         <link href="<?php echo BASE_URL; ?>css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <!-- Atividades complementares custom -->
         <link href="<?php echo BASE_URL; ?>css/atividades.css" rel="stylesheet">
-
+        <!-- jQuery UI -->
+        <link href="<?php echo BASE_URL; ?>js/jquery-ui-1.11.4.datapicker/jquery-ui.min.css" rel="stylesheet">
+        
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="<?php echo BASE_URL; ?>js/bootstrap/bootstrap.min.js"></script>
+        <!-- jQuery UI DataPicker -->
+        <script src="<?php echo BASE_URL; ?>js/jquery-ui-1.11.4.datapicker/external/jquery/jquery.js"></script>
+        <script src="<?php echo BASE_URL; ?>js/jquery-ui-1.11.4.datapicker/jquery-ui.min.js"></script>
+        <script src="<?php echo BASE_URL; ?>js/jquery-ui-1.11.4.datapicker/i18n/datepicker-pt-BR.js"></script>
+        <!-- Masked Input -->
+        <script src="<?php echo BASE_URL; ?>js/masked_input/jquery.maskedinput.min.js"></script>
+        <!-- Numeric -->
+        <script src="<?php echo BASE_URL; ?>js/numeric/jquery.numeric.min.js"></script>
     </head>
     <body>
         <div class="row">
@@ -49,10 +64,6 @@
                 </div> <!-- .main-page (header.php) -->
             </div>
         </div>
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="<?php echo BASE_URL; ?>js/bootstrap/bootstrap.min.js"></script>
     </body>
     
     <footer>

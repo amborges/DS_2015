@@ -39,6 +39,8 @@ CREATE TABLE IF NOT EXISTS `ALUNO` (
 -- --------------------------------------------------------
 
 ALTER TABLE `ALUNO` ADD COLUMN `idCurso` bigint(20) NOT NULL;
+ALTER TABLE `ALUNO` ADD COLUMN `email` varchar(255) COLLATE utf8_bin DEFAULT NULL;
+ALTER TABLE `ALUNO` ADD UNIQUE(`email`);
 
 --
 -- Estrutura para tabela `ATIVIDADE`

@@ -29,7 +29,7 @@
                             
                             // Descrição
                             echo '<div class="form-group">';
-                            echo '<label for="descricao[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span> Descrição:</label>';
+                            echo '<label for="descricao[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Descrição:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
                             echo '<input id="descricao[]" name="descricao[]" type="text"  value="' . $atividade['descricao'] . '" required="true" class="form-control" maxlength="255"/>';
                             echo '</div>';                       
@@ -37,13 +37,13 @@
                             
                             // Grande área
                             echo '<div class="form-group">';
-                            echo '<label for="grande_area[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span> Grande área:</label>';
+                            echo '<label for="grande_area[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Grande área:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
                             echo '<select id="grande_area[]" name="grande_area[]" class="form-control">';
                             echo '<option value="0"></option>';
                             
                             foreach($grandes_areas as $grande_area) {
-                                $selected = (utf8_decode($atividade['grande_area']) === utf8_decode($grande_area['nomeGA'])) ? 'selected' : '';
+                                $selected = (strtoupper(utf8_decode($atividade['grande_area'])) === strtoupper(utf8_decode($grande_area['nomeGA']))) ? 'selected' : '';
                                 echo '<option value="'. $grande_area['seqGA'] . '" '. $selected . ' >' . $grande_area['nomeGA'] . '</option>';
                             }
                                 
@@ -53,13 +53,13 @@
                             
                             // Categoria
                             echo '<div class="form-group">';
-                            echo '<label for="categoria[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span> Categoria:</label>';
+                            echo '<label for="categoria[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Categoria:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
                             echo '<select id="categoria[]" name="categoria[]" class="form-control">';
                             echo '<option value="0"></option>';
                             
                             foreach($atividade['categorias'] as $categoria) {
-                                $selected = (utf8_decode($atividade['categoria']) === utf8_decode($categoria['nomeCategoria'])) ? 'selected' : '';
+                                $selected = (strtoupper(utf8_decode($atividade['categoria'])) === strtoupper(utf8_decode($categoria['nomeCategoria']))) ? 'selected' : '';
                                 echo '<option value="'. $categoria['seqCategoria'] . '" '. $selected . ' >' . $categoria['nomeCategoria'] . '</option>';
                             }
                                 
@@ -69,7 +69,7 @@
                             
                             // Horas
                             echo '<div class="form-group">';
-                            echo '<label for="horas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span> Horas:</label>';
+                            echo '<label for="horas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Horas:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
                             echo '<input id="horas[]" name="horas[]" type="text"  value="' . $atividade['horas'] . '" required="true" class="form-control" maxlength="10"/>';
                             echo '</div>';                       
@@ -85,7 +85,7 @@
                                 
                             // Data inicial
                             echo '<div class="form-group">';
-                            echo '<label for="data_inicial' . $atividade['id'] . '" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span> Data inicial:</label>';
+                            echo '<label for="data_inicial' . $atividade['id'] . '" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Data inicial:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
                             echo '<input id="data_inicial' . $atividade['id'] . '" name="data_inicial[]" type="text"  value="' . $atividade['data_inicial'] . '" required="true" class="form-control date_picker" maxlength="10"/>';
                             echo '</div>';
@@ -136,12 +136,6 @@
         </div>
     </div>
 </form>
-
-<link href="<?php echo BASE_URL; ?>js/jquery-ui-1.11.4.datapicker/jquery-ui.min.css" rel="stylesheet">
-<script src="<?php echo BASE_URL; ?>js/jquery-ui-1.11.4.datapicker/external/jquery/jquery.js"></script>
-<script src="<?php echo BASE_URL; ?>js/jquery-ui-1.11.4.datapicker/jquery-ui.min.js"></script>
-<script src="<?php echo BASE_URL; ?>js/jquery-ui-1.11.4.datapicker/i18n/datepicker-pt-BR.js"></script>
-<script src="<?php echo BASE_URL; ?>js/masked_input/jquery.maskedinput.min.js"></script>
 
 <script>
     $(".date_picker").datepicker({

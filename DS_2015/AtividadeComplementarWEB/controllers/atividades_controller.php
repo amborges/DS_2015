@@ -109,12 +109,13 @@ class AtividadesController {
 			$horasCont 	= ($at->horasContabilizadas > 0)? $at->horasContabilizadas : 0;
 			$dataInicio	= adjustData($at->dataInicial);
 			$dataFim = (strlen($at->dataFinal) > 1)? adjustData($at->dataFinal) : 'NULL';
+            $id_curso = $_SESSION['userdata']['idCurso'];
             
         	$atividades[] = array('id' => $seq,
 								'descricao' => $at->descricao, 
 								'grande_area' => $at->nomeGrandeArea,
 								'categoria' => $at->nomeCategoria,
-                                'categorias' => $this->find_categorias($at->nomeGrandeArea),
+                                'categorias' => $this->find_categorias($at->nomeGrandeArea, $id_curso),
 								'horas' => $horasInf,
 								'horascontabilizadas' => $horasCont,
 								'data_inicial' => $at->dataInicial,
@@ -122,34 +123,8 @@ class AtividadesController {
             $seq = $seq + 1;
 		}
         
-        $grandes_areas = $this->find_grande_areas();
-        
-        
-        /*
-        $categorias;
-        
-        
-        
-        
-        $seqga = 1;
-        foreach($xml->curso->grandesareas->grandearea as $ga){
-        	//$grandes_areas[] = array(	'seqGA' => $seqga,
-            //                    		'nomeGA' => $ga->nome);
-          	
-          $seqcat = 1;
-          
-          // TODO: buscar as categorias do banco de dados
-		      //aqui está pegando do xml
-		      //NOTA: a categoria deve estar vinculada a uma grande área, 
-		      //se a GA muda, as categorias tb devem mudar.
-          foreach($ga->categorias->categoria as $cat){
-          	$categorias[] = array('seqCategoria' => $seqcat,
-                                	'nomeCategoria' => $cat->nomecategoria);
-            $seqcat = $seqcat + 1;
-          }
-          $seqga = $seqga + 1;
-		}
-        */
+        $grandes_area_model = new GrandeAreaModel();
+        $grandes_areas = $grandes_area_model->find_by_curso($id_curso);
         
         $main_page = ABSPATH . '/views/importar_atividade_edicao_page.php';
         
@@ -160,49 +135,12 @@ class AtividadesController {
         redirect('home');
     }
     
-    private function find_categorias($nome_GA) {
-        $id_curso = $_SESSION['userdata']['idCurso'];
-        
+    private function find_categorias($nome_GA, $id_curso) {
         $grandes_area_model = new GrandeAreaModel();
         $result = $grandes_area_model->find_by_curso_and_nomeGA($id_curso, $nome_GA);
         
-        if (!$result) {
-            throw new Exception("Database Error");
-        }
-        
-        $result = $result->fetch_assoc();
-            
         $categoria_model = new CategoriaModel();
-        $result = $categoria_model->find_by_curso_and_grande_area($id_curso, $result['seqGA']);
-        
-        $categorias = array();
-        if ($result->num_rows > 0) {
-            $i = 0;
-            while ($row = $result->fetch_assoc()) {
-                $categorias[$i] = array('seqCategoria' => $row['seqCategoria'], 'nomeCategoria' => $row['nomeCategoria']);
-                $i++;
-            }
-        }
-        
-        return $categorias;
-    }
-    
-    private function find_grande_areas() {
-        $id_curso = $_SESSION['userdata']['idCurso'];
-        
-        $grandes_area_model = new GrandeAreaModel();
-        $result = $grandes_area_model->find_by_curso($id_curso);
-        
-        $grandes_areas = array();
-        if ($result->num_rows > 0) {
-            $i = 0;
-            while ($row = $result->fetch_assoc()) {
-                $grandes_areas[$i] = array('seqGA' => $row['seqGA'], 'nomeGA' => $row['nomeGA']);
-                $i++;
-            }
-        }
-        
-        return $grandes_areas;
+        return $categoria_model->find_by_curso_and_grande_area($id_curso, $result['seqGA']);
     }
     
 }

@@ -16,16 +16,32 @@ class LoginController {
     }
     
     public function logar() {
+        if ( ! isset($_POST['matricula'])) {
+            redirect('login');
+        }
+        
         /* Obter matricula */
         $matricula = filter_input(INPUT_POST, 'matricula');
         
         /* Obter senha */
         $senha = filter_input(INPUT_POST, 'senha');
         
-        require_once ABSPATH . '/models/login_model.php';
-        $login_model = new LoginModel();
+        $this->realizar_login($matricula, $senha);
+    }
+    
+    public function logar_cadastro($matricula = NULL, $senha = NULL) {
+        if ( ! isset($_POST['matricula'])) {
+            redirect('login');
+        }
         
-        $result = $login_model->verifica_login_aluno($matricula, $senha);
+        $this->realizar_login($matricula, $senha);
+    }
+        
+    private function realizar_login($matricula, $senha) {
+        require_once ABSPATH . '/models/aluno_model.php';
+        $aluno_model = new AlunoModel();
+        
+        $result = $aluno_model->verifica_login($matricula, $senha);
         
         if ($result != NULL && ! empty($result) && $result->num_rows > 0) {
             $row = $result->fetch_assoc();

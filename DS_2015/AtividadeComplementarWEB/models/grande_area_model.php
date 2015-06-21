@@ -21,7 +21,15 @@ class GrandeAreaModel extends BaseModel {
         $result = $this->conn->query($sql);
         $this->close_connection();
         
-        return $result;
+        $infos = array();
+        if ($result->num_rows > 0) {
+            $i = 0;
+            while ($row = $result->fetch_assoc()) {
+                $infos[$i] = array('seqGA' => $row['seqGA'], 'nomeGA' => $row['nomeGA']);
+                $i++;
+            }
+        }
+        return $infos;
     }
     
     public function find_by_curso_and_nomeGA($id_curso, $nome_GA) {
@@ -36,7 +44,11 @@ class GrandeAreaModel extends BaseModel {
         $result = $this->conn->query($sql);
         $this->close_connection();
         
-        return $result;
+        if (!$result) {
+            throw new Exception("Database Error");
+        }
+        
+        return $result->fetch_assoc();
     }
-
+    
 }
