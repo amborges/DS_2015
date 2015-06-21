@@ -28,7 +28,13 @@ class CursoModel extends BaseModel {
         while($aux = $result->fetch_array())
         	$res[] = $aux;
         
-        return $res;
+        
+        
+        print_r($res);
+        
+        
+        
+        return $result->fetch_assoc();
     }
     
 }

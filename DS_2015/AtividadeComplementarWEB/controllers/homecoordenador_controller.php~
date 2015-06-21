@@ -14,10 +14,28 @@ class HomeCoordenadorController {
     require ABSPATH . '/views/includes/template.php';
   }
     
-  public function cadastrar(){
+  public function novoprofessor($alert = NULL){
+  	print_r($_COOKIE);
+  	if(isset($_COOKIE['alert'])){ 
+  		$alert = unserialize($_COOKIE['alert']);
+  	}
   	require_once ABSPATH . '/functions/atividades_functions.php';
   	$menus = AtividadesFunctions::init_menus("coordenador", 1);
-  	$main_page = ABSPATH . '/views/homealuno_cadastrar_view.php';
+  	$main_page = ABSPATH . '/views/homecoordenador_novoprofessor_view.php';
+  	require ABSPATH . '/views/includes/template.php';
+  }
+  
+  public function editarprofessor(){
+  	require_once ABSPATH . '/functions/atividades_functions.php';
+  	$menus = AtividadesFunctions::init_menus("coordenador", 2);
+  	$main_page = ABSPATH . '/views/homecoordenador_editarprofessor_view.php';
+  	require ABSPATH . '/views/includes/template.php';
+  }
+  
+  public function memorando(){
+  	require_once ABSPATH . '/functions/atividades_functions.php';
+  	$menus = AtividadesFunctions::init_menus("coordenador", 3);
+  	$main_page = ABSPATH . '/views/homecoordenador_memorando_view.php';
   	require ABSPATH . '/views/includes/template.php';
   }
 }

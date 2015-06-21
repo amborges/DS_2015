@@ -60,6 +60,15 @@
             
             <div class="col-xs-10 col-lg-10 col-md-10 col-sm-10">
                 <div class="main-page">
+                		<?php
+												if (isset($alert) && !empty($alert)) { ?>
+														<div class="row">
+															<div class=" <?php echo 'alert alert-' . $alert['type']; ?> alert-dismissible col-xs-9 col-lg-9 col-md-9 col-sm-9" role="alert">
+																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+																<strong> <?php echo $alert['message']; ?> </strong>
+															</div>
+														</div>
+										<?php } ?>
                     <?php require $main_page; ?>
                 </div> <!-- .main-page (header.php) -->
             </div>

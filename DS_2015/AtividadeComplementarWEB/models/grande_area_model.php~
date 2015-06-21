@@ -21,15 +21,23 @@ class GrandeAreaModel extends BaseModel {
         $result = $this->conn->query($sql);
         $this->close_connection();
         
-        $infos = array();
-        if ($result->num_rows > 0) {
-            $i = 0;
-            while ($row = $result->fetch_assoc()) {
-                $infos[$i] = array('seqGA' => $row['seqGA'], 'nomeGA' => $row['nomeGA']);
-                $i++;
-            }
-        }
-        return $infos;
+        $lista_grandes_areas;
+        
+        while($aux = $result->fetch_array())
+        	$lista_grandes_areas[] = $aux;
+        
+        return $lista_grandes_areas;
+    }
+    
+    public function nanana(){
+    	echo "*Select Category 
+    		<select name='category' id='category' 
+    			onChange=\"ajax('fill.php', '', 'populate', 'post', '1')\">
+    			
+    			<option value=''>--Please Select--</option>
+    			<option value='1' >1</option>
+    			<option value='2'>2</option>
+    		</select>";
     }
     
     public function find_by_curso_and_nomeGA($id_curso, $nome_GA) {
@@ -44,11 +52,7 @@ class GrandeAreaModel extends BaseModel {
         $result = $this->conn->query($sql);
         $this->close_connection();
         
-        if (!$result) {
-            throw new Exception("Database Error");
-        }
-        
-        return $result->fetch_assoc();
+        return $result;
     }
-    
+
 }

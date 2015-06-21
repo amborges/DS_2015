@@ -1,3 +1,39 @@
+commit 16d5aeb0350c49c210f1d5c3cdce6fce5d001e63
+Author: Paulo Fernandes <>
+Date:   Thu Jun 18 02:47:36 2015 -0300
+
+    Serviço de login e adição da coluna idCurso na tabela do aluno
+
+commit d560e2058dfa1bfb0960a74b83a5c63238974f8c
+Author: Paulo Fernandes <>
+Date:   Thu Jun 18 01:15:13 2015 -0300
+
+    Alguns ajustes
+
+commit 4d3b9a03b2e2cfdb667b1bd33737f4a61f5dc147
+Author: Paulo Fernandes <>
+Date:   Mon Jun 15 02:07:03 2015 -0300
+
+    backend de busca de grande áreas e categorias
+
+commit 86a9378946181db7e61197741b03231ffdba7ab0
+Author: Paulo <Paulo@Ash>
+Date:   Thu Jun 11 15:55:11 2015 -0300
+
+    Adição de date picker, date mask e alguns ajustes nas telas
+
+commit 0854977b5de6e376dfead2abb2ffc60ed42535a1
+Author: Paulo <Paulo@Ash>
+Date:   Wed Jun 10 21:49:00 2015 -0300
+
+    Correções nos wireframes
+
+commit 7f44cec89a9b4afefd76a23ecc0451c8ed547f7b
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Wed Jun 10 14:28:22 2015 -0300
+
+    Algumas alteracoes no footer e no import xml
+
 commit dd092538f74cce93b9628afc329f5a23e2e41cae
 Author: Alex Borges <amborges@inf.ufpel.edu.br>
 Date:   Mon Jun 8 13:17:24 2015 -0300

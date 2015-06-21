@@ -43,11 +43,10 @@ class LoginController {
         
         $result = $aluno_model->verifica_login($matricula, $senha);
         
-        if ($result != NULL && ! empty($result) && $result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $user = array('matricula' => $row['matricula'],
-                          'nomeAluno' => $row['nomeAluno'],
-                          'idCurso' => $row['idCurso']);
+        if ($result != NULL) {
+            $user = array('matricula' => $result['matricula'],
+                          'nomeAluno' => $result['nomeAluno'],
+                          'idCurso' => $result['idCurso']);
 
             // Envia os dados de usuário para a sessão
             $_SESSION['userdata'] = $user;
@@ -57,31 +56,29 @@ class LoginController {
             $_SESSION['userdata']['user_session_id'] = session_id();
 
             redirect('homealuno');
-        } else {	
-            $this->credenciais_invalidas();
+        } else {
+        		$result = $login_model->verifica_login_coordenador($matricula, $senha);
+        
+				    if ($result != NULL) {
+				        $user = array('siape' => $result['matricula'],
+				                      'nome' => $result['nomeAluno'],
+				                      'ehCoordenador' => $result['ehCoordenador']);
+
+				        // Envia os dados de usuário para a sessão
+				        $_SESSION['userdata'] = $user;
+
+				        // Atualiza o ID da sessão
+				        session_regenerate_id();
+				        $_SESSION['userdata']['user_session_id'] = session_id();
+				        
+				        if($_SESSION['userdata']['ehCoordenador'] === '1')
+				        	redirect('homecoordenador');
+				        else
+				        	redirect('homeprofessor');
+				    } else {
+				        $this->credenciais_invalidas();
+				    }
         }
-        
-        
-        
-        // TODO - buscar o usuario do banco
-//        $user = array('matricula' => $matricula,
-//                        'nomeAluno' => 'Aluno 007',
-//                        'idCurso' => '1');
-        
-        
-				
-		
-        /*
-        if($matricula == "aluno")
-        	redirect('homealuno');
-        else if($matricula == "professor")
-        	redirect('homeprofessor');
-        else if($matricula == "coordenador")
-        	redirect('homecoordenador');
-        else{	
-        	redirect('login');
-        }
-        */
     }
     
     public function sair() {
@@ -96,7 +93,7 @@ class LoginController {
     }
     
     private function credenciais_invalidas() {
-        $error = array('type' => 'danger',
+        $alert = array('type' => 'danger',
                        'message' => 'Credenciais inválidas!');
         	
         $main_page = ABSPATH . '/views/login_page.php';

@@ -76,7 +76,7 @@ class CadastroController {
 	  				$sucess = array('type' => 'success',
                        'message' => "Novo Professor cadastrado com sucesso");
 	  				require_once ABSPATH . '/controllers/homecoordenador_controller.php';
-        		(new HomeCoordenadorController)->novoprofessor($sucess);
+        		(new HomeCoordenadorController)->novoprofessor($alert);
         	}
       }
     }
