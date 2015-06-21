@@ -44,9 +44,10 @@ class LoginController {
         $result = $aluno_model->verifica_login($matricula, $senha);
         
         if ($result != NULL) {
-            $user = array('matricula' => $result['matricula'],
-                          'nomeAluno' => $result['nomeAluno'],
-                          'idCurso' => $result['idCurso']);
+            $row = $result->fetch_assoc();
+            $user = array('matricula' => $row['matricula'],
+                          'nomeAluno' => $row['nomeAluno'],
+                          'idCurso' => $row['idCurso']);
 
             // Envia os dados de usuário para a sessão
             $_SESSION['userdata'] = $user;
