@@ -19,7 +19,7 @@ class CoordenadorModel extends BaseModel {
     
     public function cadastrar_novo_professor($p){
     	$ehCoordenador = ($p['tipo'] === "coordenador") ? "1": "0";
-    	$sql = "INSERT INTO `". $this->table_name ."`(`siape`, `nome`, `senha`, `usuarioAtivo`, `ehCoordenador`) VALUES ('".$p['siape']."','".$p['nome']."','".sha1($p['senha'])."','1','".$p['curso']."')";
+    	$sql = "INSERT INTO `". $this->table_name ."`(`siape`, `nome`, `senha`, `usuarioAtivo`, `ehCoordenador`) VALUES ('".$p['siape']."','".$p['nome']."','".sha1($p['senha'])."','1','".$ehCoordenador."')";
     	
     	$this->create_connection();
       $result = $this->conn->query($sql);
@@ -55,6 +55,26 @@ class CoordenadorModel extends BaseModel {
         	$res[] = $aux;
         
         return $res;
+    }
+    
+    public function verifica_login($matricula, $senha) {
+        $projection = "siape, nome, ehCoordenador";
+        $where = "siape = " . $matricula . " AND senha = '" . sha1($senha) . "' AND usuarioAtivo = 1";
+        
+        $sql = "SELECT " . $projection .
+                " FROM " . $this->table_name . 
+                " WHERE " . $where;
+        
+        print_r($sql);
+                
+        $this->create_connection();
+        $result = $this->conn->query($sql);
+        $this->close_connection();
+        
+        if($result->num_rows == 0)
+        	return NULL;
+        else
+        	return $result->fetch_assoc();
     }
     
 }

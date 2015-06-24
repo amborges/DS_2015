@@ -17,6 +17,26 @@ class AlunoModel extends BaseModel {
     	$msg_BD = "";
     }
     
+    public function verifica_login($matricula, $senha) {
+        $projection = "matricula, nomeAluno, idCurso";
+        $where = "matricula = " . $matricula . " AND senhaAluno = '" . sha1($senha) . "' AND alunoAtivo = 1";
+        
+        $sql = "SELECT " . $projection .
+                " FROM " . $this->table_name . 
+                " WHERE " . $where;
+        
+        print_r($sql);
+                
+        $this->create_connection();
+        $result = $this->conn->query($sql);
+        $this->close_connection();
+        
+        if($result->num_rows == 0)
+        	return NULL;
+        else
+        	return $result->fetch_assoc();
+    }
+    
     public function cadastrar_novo_aluno($p){
     	$sql = "INSERT INTO `". $this->table_name ."`(`matricula`, `nomeAluno`, `senhaAluno`, `alunoAtivo`, `utilizouXML`, `idCurso`) VALUES ('".$p['matricula']."','".$p['nome']."','".sha1($p['senha'])."','1','0','".$p['curso']."')";
     	

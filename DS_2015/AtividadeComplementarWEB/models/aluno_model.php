@@ -24,12 +24,15 @@ class AlunoModel extends BaseModel {
         $sql = "SELECT " . $projection .
                 " FROM " . $this->table_name . 
                 " WHERE " . $where;
-        
+                
         $this->create_connection();
         $result = $this->conn->query($sql);
         $this->close_connection();
         
-        return $result;
+        if($result->num_rows == 0)
+        	return NULL;
+        else
+        	return $result->fetch_assoc();
     }
     
     public function cadastrar_novo_aluno($p){

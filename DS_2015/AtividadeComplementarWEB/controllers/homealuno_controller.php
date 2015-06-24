@@ -77,19 +77,12 @@ class HomeAlunoController {
         }
         require_once ABSPATH . '/models/grande_area_model.php';
         $id_curso = $_SESSION['userdata']['idCurso'];
+        
+        print_r($_SESSION['userdata']);
 
         $grandes_area_model = new GrandeAreaModel();
-        $result = $grandes_area_model->find_by_curso($id_curso);
-
-        $grandes_areas = array();
-        if ($result->num_rows > 0) {
-            $i = 0;
-            while ($row = $result->fetch_assoc()) {
-                $grandes_areas[$i] = array('seqGA' => $row['seqGA'], 'nomeGA' => $row['nomeGA']);
-                $i++;
-            }
-        }
-
+        $grandes_areas = $grandes_area_model->find_by_curso($id_curso);
+        
         return $grandes_areas;
     }
   

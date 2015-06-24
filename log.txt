@@ -1,3 +1,55 @@
+commit 7f6f5e12c42b94c17d462da4f7696c9137ed0c42
+Author: Paulo Fernandes <>
+Date:   Sun Jun 21 02:19:59 2015 -0300
+
+    Correções pós merge
+
+commit 728a95f739c17933f4a956a89f1caff3783a67b8
+Merge: 8ac4aa1 8a33c96
+Author: Paulo <Paulo@Ash>
+Date:   Sun Jun 21 02:00:46 2015 -0300
+
+    Merge origin/master
+    
+    Conflicts:
+    	DS_2015/AtividadeComplementarWEB/controllers/cadastro_controller.php
+    	DS_2015/AtividadeComplementarWEB/controllers/homealuno_controller.php
+    	DS_2015/AtividadeComplementarWEB/models/aluno_model.php
+    	DS_2015/AtividadeComplementarWEB/models/curso_model.php
+    	DS_2015/AtividadeComplementarWEB/models/grande_area_model.php
+    	DS_2015/AtividadeComplementarWEB/models/login_model.php
+    	DS_2015/AtividadeComplementarWEB/views/login_page.php
+
+commit 8ac4aa1866d5ea22d624a7af9c1d699d94f59d3f
+Author: Paulo Fernandes <>
+Date:   Sun Jun 21 01:29:40 2015 -0300
+
+    Cadastro de alunos, melhorias no login e adição da function .numeric() em jQuery
+
+commit 8a33c96ffa9ede5c6126a68f9de7c94b2efbc5c4
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 18 23:35:42 2015 -0300
+
+    Incluir novas atividades, soh mostra o combobox da grande area, estou pesquisando como faz pra mostrar dinamicamente as categorias
+
+commit 3fcdc4f4614cdf613646317b4d067991af1d3f4a
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 18 19:31:08 2015 -0300
+
+    Cadastro de Novo professor OK
+
+commit dadf2cd1de375bbf097550fe3d9a98873b7a5524
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 18 18:36:36 2015 -0300
+
+    Login de professor e coordenador OK
+
+commit d33fa7d7bb8cc40102455c5092598aa890b64813
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 18 13:18:37 2015 -0300
+
+    Cadastro de aluno OK. Login de aluno OK. Estou usando sha1 nas senhas
+
 commit 16d5aeb0350c49c210f1d5c3cdce6fce5d001e63
 Author: Paulo Fernandes <>
 Date:   Thu Jun 18 02:47:36 2015 -0300

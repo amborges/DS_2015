@@ -17,6 +17,8 @@ class GrandeAreaModel extends BaseModel {
                 " WHERE " . $where . 
                 " ORDER BY " . $order_by;
         
+        //print_r($sql);
+        
         $this->create_connection();
         $result = $this->conn->query($sql);
         $this->close_connection();

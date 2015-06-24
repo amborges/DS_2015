@@ -57,4 +57,22 @@ class CoordenadorModel extends BaseModel {
         return $res;
     }
     
+    public function verifica_login($matricula, $senha) {
+        $projection = "siape, nome, ehCoordenador";
+        $where = "siape = " . $matricula . " AND senha = '" . sha1($senha) . "' AND usuarioAtivo = 1";
+        
+        $sql = "SELECT " . $projection .
+                " FROM " . $this->table_name . 
+                " WHERE " . $where;
+                
+        $this->create_connection();
+        $result = $this->conn->query($sql);
+        $this->close_connection();
+        
+        if($result->num_rows == 0)
+        	return NULL;
+        else
+        	return $result->fetch_assoc();
+    }
+    
 }

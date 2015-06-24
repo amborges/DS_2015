@@ -44,25 +44,27 @@ class LoginController {
         $result = $aluno_model->verifica_login($matricula, $senha);
         
         if ($result != NULL) {
-            $row = $result->fetch_assoc();
-            $user = array('matricula' => $row['matricula'],
-                          'nomeAluno' => $row['nomeAluno'],
-                          'idCurso' => $row['idCurso']);
-
+            $user = array('matricula' => $result['matricula'],
+                          'nomeAluno' => $result['nomeAluno'],
+                          'idCurso' => $result['idCurso']);
+                          
             // Envia os dados de usuário para a sessão
             $_SESSION['userdata'] = $user;
 
             // Atualiza o ID da sessão
             session_regenerate_id();
             $_SESSION['userdata']['user_session_id'] = session_id();
-
+            
             redirect('homealuno');
         } else {
-        		$result = $login_model->verifica_login_coordenador($matricula, $senha);
+        		require_once ABSPATH . '/models/coordenador_model.php';
+        		$login_model = new CoordenadorModel(); //vale tanto pra coordenador 
+        																						//como para professor
+        		$result = $login_model->verifica_login($matricula, $senha);
         
 				    if ($result != NULL) {
-				        $user = array('siape' => $result['matricula'],
-				                      'nome' => $result['nomeAluno'],
+				        $user = array('siape' => $result['siape'],
+				                      'nome' => $result['nome'],
 				                      'ehCoordenador' => $result['ehCoordenador']);
 
 				        // Envia os dados de usuário para a sessão
