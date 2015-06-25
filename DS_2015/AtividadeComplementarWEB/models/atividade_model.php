@@ -24,19 +24,16 @@ class AtividadeModel extends BaseModel {
     	
     	$fileAddress = explode("/", $fileAddress); //retorna só o nome do arquivo
     	$fileAddress = array_pop($fileAddress);
+    	$datainicial = $this->adjustdata($p['datainicial']);
     	$datafinal = ($p['datafinal'] !== '') ? ($this->adjustdata($p['datafinal'])) : 'NULL';
     	
-    	$sql = "INSERT INTO `". $this->table_name ."`(`matricula`, `seqAtividade`, `descricaoAtividade`, `horaInformada`, `horaPermitida`, `dataInicio`, `dataFim`, `arquivo`, `validado`, `idCurso`, `seqGA`, `seqCategoria) 
-    	VALUES 
-    	(`$matricula`, `$seqAtividade`, `". $p['descricao'] ."`, `". $p['horas'] ."`, `". $p['horas'] ."`, `". $this->adjustdata($p['datainicial']) ."`, `". $datafinal ."`, `$fileAddress`, `0`, `$idcurso`, `". $p['grandearea'] ."`, `". $p['categoria'] ."`)";
-    	
-    	echo $sql;
+    	$sql2 = "INSERT INTO `DS_20151`.`ATIVIDADE` (`matricula`, `seqAtividade`, `descricaoAtividade`, `horaInformada`, `horaPermitida`, `dataInicio`, `dataFim`, `arquivo`, `validado`, `idCurso`, `seqGA`, `seqCategoria`) VALUES ('$matricula', '$seqAtividade', '".$p['descricao']."', '".$p['horas']."', '".$p['horas']."', '$datainicial', '$datafinal', '$fileAddress', '0', '$idcurso', '".$p['grandearea']."', '".$p['categoria']."');";
     	
     	$this->create_connection();
-      $result = $this->conn->query($sql);
+      $result = $this->conn->query($sql2);
     	if(!$result){ //deu erro na requisição
     		$this->bool_erro_BD = TRUE;
-    		$this->msg_BD = $this->conn->error;
+				$this->msg_BD = "FALHA: " . $this->conn->error;
     	}
     	$this->close_connection();
     }
