@@ -39,6 +39,8 @@ class HomeAlunoController {
         }
 
         require_once ABSPATH . '/functions/atividades_functions.php';
+        
+        $idCurso = $_SESSION['userdata']['idCurso'];
 
         $menus = AtividadesFunctions::init_menus(null, 2);
         $grandes_areas = $this->find_grande_areas();
@@ -78,10 +80,29 @@ class HomeAlunoController {
         require_once ABSPATH . '/models/grande_area_model.php';
         $id_curso = $_SESSION['userdata']['idCurso'];
         
-        print_r($_SESSION);
-
         $grandes_area_model = new GrandeAreaModel();
         $grandes_areas = $grandes_area_model->find_by_curso($id_curso);
+        
+        return $grandes_areas;
+    }
+    
+    public function find_categorias($id_curso, $id_grandearea) {
+        //if ( ! isset($_SESSION['userdata'])) {
+        //  redirect('login');
+        //}
+        //$id_curso = $_SESSION['userdata']['idCurso'];
+        		//tive q comentar essa linha, pois o código que a chama não faz parte 
+        		//da estrutura organizada do site. É o script dynamicComboBox.
+        
+        if ( ! defined('ABSPATH'))
+        	require_once '../config.php';
+                	
+        require_once ABSPATH . '/models/categoria_model.php';;
+        
+        $categoria_model = new CategoriaModel();
+        $categorias = $categoria_model->find_by_curso_and_grande_area($id_curso, $id_grandearea);
+        
+        if($categorias === NULL) return array('seqCategoria' => '0', 'nomeCategoria' => 'FAIL');
         
         return $grandes_areas;
     }

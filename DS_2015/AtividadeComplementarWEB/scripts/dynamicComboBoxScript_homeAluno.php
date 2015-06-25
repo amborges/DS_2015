@@ -1,0 +1,32 @@
+<?php
+ini_set('display_errors', 1);
+/*
+*	Esse script ajuda o $URL/homealuno/cadastrar a carregar 
+* dinamicamente o combobox das categorias
+*/
+
+if($_REQUEST){
+
+	//require_once ABSPATH . '../functions/atividades_functions.php';
+
+	$idcurso 		= $_REQUEST['idcurso'];
+	$grandearea = $_REQUEST['grandearea'];
+	
+	require_once '../controllers/homealuno_controller.php';
+	
+	$homealuno = new HomeAlunoController();
+	
+	$listCategorias = $homealuno->find_categorias($idcurso, $grandearea);
+	
+	?>
+	
+	<select id="categoria" name="categoria" required="true" class="form-control">
+		<option value="" selected="selected"></option>
+			<?php
+				foreach($listCategorias as $rows)
+				{?>
+					<option value="<?php echo $rows['seqCategoria'];?>"><?php echo $rows['nomeCategoria'];?></option>
+			<?php } ?>
+	</select>
+	
+<?php	} ?>

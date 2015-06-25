@@ -26,6 +26,8 @@ class CategoriaModel extends BaseModel {
         $result = $this->conn->query($sql);
         $this->close_connection();
         
+        print_r($sql);
+        
         $categorias = array();
         if ($result->num_rows > 0) {
             $i = 0;

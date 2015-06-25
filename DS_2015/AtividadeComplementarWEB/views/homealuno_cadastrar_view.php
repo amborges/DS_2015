@@ -1,5 +1,46 @@
 <?php if ( ! defined('ABSPATH')) exit; ?>
 
+<!--script type="text/javascript" src="<?php echo ABSPATH; ?>/js/dynamicCombobox/jquery-1.3.2.js"></script-->
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+
+		$('#loader').hide();
+		$('#show_heading').hide();
+	
+		$('#grandearea').change(function(){
+			$('#show_sub_categories').fadeOut();
+			$('#loader').show();
+			$.post("http://localhost/AtividadeComplementarWEB/scripts/dynamicComboBoxScript_homeAluno.php", {
+				grandearea: $('#grandearea').val(),
+				idcurso: $('#idcurso').val(),
+			}, function(response){
+			
+				setTimeout("finishAjax('show_sub_categories', '"+escape(response)+"')", 400);
+			});
+			return false;
+		});
+	});
+
+	function finishAjax(id, response){
+		$('#loader').hide();
+		$('#show_heading').show();
+		$('#'+id).html(unescape(response));
+		$('#'+id).fadeIn();
+	} 
+
+	function alert_id()
+	{
+		if($('#sub_category_id').val() == '')
+		alert('Please select a sub category.');
+		else
+		alert($('#sub_category_id').val());
+		return false;
+	}
+
+</script>
+
 <div class="row">
     <div class="col-xs-offset-4 col-lg-offset-4 col-md-offset-4 col-sm-offset-4">
         <h4>Cadastrar nova atividade</h4>
@@ -33,15 +74,10 @@
 
         <!-- Categoria -->
         <div class="form-group">
-            <label for="grandearea" class="col-xs-offset-1 col-xs-2 col-lg-offset-1 col-lg-2 col-md-offset-1 col-md-2 col-sm-offset-1 col-sm-2 control-label"><span class="red_bold">*</span> Categoria:</label>
-            <div class="col-xs-5 col-lg-5 col-md-5 col-sm-5">
-                <select id="grandearea" name="grandearea" required="true" class="form-control" maxlength="128"/>
-                    <!-- DESEVOLVER UM ALGORITMO DINAMICO PARA MOSTRAR AS CATEGORIAS -->
-                    <option value=""></option>
-                    <option value="Ensino">AAA</option>
-                    <option value="Extensao">BBB</option>
-                    <option value="Pesquisa">CCC</option>
-                </select>
+            <label for="categoria" class="col-xs-offset-1 col-xs-2 col-lg-offset-1 col-lg-2 col-md-offset-1 col-md-2 col-sm-offset-1 col-sm-2 control-label"><span class="red_bold">*</span> Categoria:</label>
+            <input type="hidden" id="idcurso" name="idcurso" value="<?php echo $idCurso; ?>" />
+            <div id="show_sub_categories" class="col-xs-5 col-lg-5 col-md-5 col-sm-5">
+                	<img src="<?php echo ABSPATH; ?>/fonts/loader.gif" style="margin-top:8px; float:left" id="loader" alt="" />
             </div>                         
         </div>
 
