@@ -48,7 +48,7 @@
 </div>
 
 <div class="row">
-    <form class="form-horizontal" action="<?php echo BASE_URL; ?>cadastro/cadastrar_atividade" method="post">
+    <form class="form-horizontal" action="<?php echo BASE_URL; ?>cadastro/cadastrar_atividade" method="post" enctype="multipart/form-data">
         <!-- Descrição -->
         <div class="form-group">
             <label for="descricao" class="col-xs-offset-1 col-xs-2 col-lg-offset-1 col-lg-2 col-md-offset-1 col-md-2 col-sm-offset-1 col-sm-2 control-label"><span class="red_bold">*</span> Descrição:</label>

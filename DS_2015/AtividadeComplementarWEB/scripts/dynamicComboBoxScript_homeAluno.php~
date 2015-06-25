@@ -21,7 +21,7 @@ if($_REQUEST){
 	?>
 	
 	<select id="categoria" name="categoria" required="true" class="form-control">
-		<option value="" selected="selected">ops</option>
+		<option value="" selected="selected"></option>
 			<?php
 				foreach($listCategorias as $rows)
 				{?>

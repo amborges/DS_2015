@@ -33,7 +33,7 @@ class HomeAlunoController {
         require ABSPATH . '/views/includes/template.php';
     }
     
-    public function cadastrar(){
+    public function cadastrar($alert = NULL){
         if ( ! isset($_SESSION['userdata'])) {
             redirect('login');
         }
@@ -41,6 +41,8 @@ class HomeAlunoController {
         require_once ABSPATH . '/functions/atividades_functions.php';
         
         $idCurso = $_SESSION['userdata']['idCurso'];
+        
+        
 
         $menus = AtividadesFunctions::init_menus(null, 2);
         $grandes_areas = $this->find_grande_areas();

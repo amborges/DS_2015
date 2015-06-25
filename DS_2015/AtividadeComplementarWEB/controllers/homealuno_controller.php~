@@ -104,7 +104,7 @@ class HomeAlunoController {
         
         if($categorias === NULL) return array('seqCategoria' => '0', 'nomeCategoria' => 'FAIL');
         
-        return $grandes_areas;
+        return $categorias;
     }
   
 }

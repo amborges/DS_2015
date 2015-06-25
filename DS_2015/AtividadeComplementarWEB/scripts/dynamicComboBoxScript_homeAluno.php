@@ -1,5 +1,5 @@
 <?php
-ini_set('display_errors', 1);
+//ini_set('display_errors', 1);
 /*
 *	Esse script ajuda o $URL/homealuno/cadastrar a carregar 
 * dinamicamente o combobox das categorias

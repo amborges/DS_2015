@@ -75,7 +75,7 @@
         <!-- Categoria -->
         <div class="form-group">
             <label for="categoria" class="col-xs-offset-1 col-xs-2 col-lg-offset-1 col-lg-2 col-md-offset-1 col-md-2 col-sm-offset-1 col-sm-2 control-label"><span class="red_bold">*</span> Categoria:</label>
-            <input type="hidden" id="idcurso" name="idcurso" value="<?php echo $_SESSION['idCurso']; ?>" />
+            <input type="hidden" id="idcurso" name="idcurso" value="<?php echo $idCurso; ?>" />
             <div id="show_sub_categories" class="col-xs-5 col-lg-5 col-md-5 col-sm-5">
                 	<img src="<?php echo ABSPATH; ?>/fonts/loader.gif" style="margin-top:8px; float:left" id="loader" alt="" />
             </div>                         
