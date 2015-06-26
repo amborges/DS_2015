@@ -68,5 +68,21 @@ class AtividadeModel extends BaseModel {
 		$d = $d[2] ."-". $d[1] ."-". $d[0];
 		return $d;
 	}
+	
+	public function getHorasAtividades($matricula){
+		$sql = "SELECT `seqAtividade` FROM `ATIVIDADE` 
+					WHERE `matricula` = '" . $matricula . "' ORDER BY `seqAtividade` DESC;";
+			
+		$this->create_connection();
+    $result = $this->conn->query($sql);
+  	$this->close_connection();
+  	
+  	if($result->num_rows > 0){
+			$seq = $result->fetch_assoc();
+			return $seq['seqAtividade'] + 1;
+		}
+		
+		return 0;
+	}
     
 }

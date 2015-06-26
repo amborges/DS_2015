@@ -29,8 +29,6 @@ class AtividadeModel extends BaseModel {
     	
     	$sql2 = "INSERT INTO `DS_20151`.`ATIVIDADE` (`matricula`, `seqAtividade`, `descricaoAtividade`, `horaInformada`, `horaPermitida`, `dataInicio`, `dataFim`, `arquivo`, `validado`, `idCurso`, `seqGA`, `seqCategoria`) VALUES ('$matricula', '$seqAtividade', '".$p['descricao']."', '".$p['horas']."', '".$p['horas']."', '$datainicial', '$datafinal', '$fileAddress', '0', '$idcurso', '".$p['grandearea']."', '".$p['categoria']."');";
     	
-    	//echo $sql;
-    	
     	$this->create_connection();
       $result = $this->conn->query($sql2);
     	if(!$result){ //deu erro na requisição
@@ -69,6 +67,22 @@ class AtividadeModel extends BaseModel {
 		$d = explode("/", $d);
 		$d = $d[2] ."-". $d[1] ."-". $d[0];
 		return $d;
+	}
+	
+	public function getHorasAtividades($matricula){
+		$sql = "SELECT `seqAtividade` FROM `ATIVIDADE` 
+					WHERE `matricula` = '" . $matricula . "' ORDER BY `seqAtividade` DESC;";
+			
+		$this->create_connection();
+    $result = $this->conn->query($sql);
+  	$this->close_connection();
+  	
+  	if($result->num_rows > 0){
+			$seq = $result->fetch_assoc();
+			return $seq['seqAtividade'] + 1;
+		}
+		
+		return 0;
 	}
     
 }

@@ -1,3 +1,27 @@
+commit 0902681d388b27cd212c775d16cb3397d6bad363
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 25 14:18:36 2015 -0300
+
+    Cadastro de atividade do aluno, versao web, funcional. Eh preciso fazer o calculo de horas, por enquanto ele esta setando o mesmo valor de entrada
+
+commit 31a83a7f6888c0292176cd09376122c7e632cc1c
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 25 11:25:45 2015 -0300
+
+    Back end de cadastro de atividades QUASE pronto, falta ajustar o parametro sql de insert, tem algum erro que ainda nao descobri
+
+commit 8ec1f30f9a3d0ab75cefac39883c9162c607f730
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 25 09:52:52 2015 -0300
+
+    front end do cadastro de atividades pronta
+
+commit 0a4577917fb440acee763fdf9d2709956517d973
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Wed Jun 24 10:03:35 2015 -0300
+
+    Correcoes no login, dados nao estavam sendo armazenados no session
+
 commit 7f6f5e12c42b94c17d462da4f7696c9137ed0c42
 Author: Paulo Fernandes <>
 Date:   Sun Jun 21 02:19:59 2015 -0300

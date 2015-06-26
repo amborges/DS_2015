@@ -13,6 +13,7 @@ class HomeAlunoController {
         }
 
         require_once ABSPATH . '/functions/atividades_functions.php';
+        require_once ABSPATH . '/models/atividade_model.php';
 
         /*
             Este post serve apenas para enviar os dados a serem mostrados no grafico
@@ -20,6 +21,10 @@ class HomeAlunoController {
             forem necessárias, deve-se enviar o valor acumulado pelo aluno e o mínimo
             por cada GrandeArea. Aqui apenas coloquei 3 pra mostrar como vai ficar
         */
+        
+        $atividademodel = new AtividadeModel();
+        
+        //$_POST = $atividademodel->getHorasAtividades($_SESSION['userdata']['matricula']);
 
             //$_POST[$i] = array($nomeGrandeArea, $acumulado, $minimo);
         $_POST[0] = array('Ensino', 25, 100);
