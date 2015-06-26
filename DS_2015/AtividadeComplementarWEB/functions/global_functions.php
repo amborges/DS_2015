@@ -74,3 +74,9 @@
 			$d = $d[2] ."-". $d[1] ."-". $d[0];
 			return $d;
 		}
+		
+		function invertAdjustData($d){
+			$d = explode("-", $d);
+			$d = $d[2] ."/". $d[1] ."/". $d[0];
+			return $d;
+		}

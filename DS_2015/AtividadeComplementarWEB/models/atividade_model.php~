@@ -82,7 +82,7 @@ class AtividadeModel extends BaseModel {
 		$listaRetorna = NULL;
 		
 		foreach($listaGA as $ga){
-			$sql = "SELECT sum(`horaInformada`) FROM `".$this->table_name."` WHERE `matricula` = '$matricula' and `seqGA` = '". $ga['seqGA'] ."';";
+			$sql = "SELECT sum(`horaInformada`) FROM `".$this->table_name."` WHERE `matricula` = '$matricula' and `seqGA` = '". $ga['seqGA'] ."' ORDER BY `nameGA` ASC;";
 			
 			$this->create_connection();
 		  $result = $this->conn->query($sql);
@@ -94,10 +94,26 @@ class AtividadeModel extends BaseModel {
 			
   	}
 		
-		if($listaRetorna !== NULL)
+		if($listaRetorna === NULL)
 			$listaRetorna[] = array('NADA_A_APRESENTAR', 0, 0);
 				
 		return $listaRetorna;
 	}
+	
+	public function getAtividades(){
+    	$matricula = $matricula = $_SESSION['userdata']['matricula'];
+    	$sql = "SELECT * FROM " . $this->table_name . " WHERE `matricula` = '$matricula' ORDER BY `descricaoAtividade` ASC;";
+    	
+    	$this->create_connection();
+		  $result = $this->conn->query($sql);
+			$this->close_connection();
+			
+			$rows;
+			while($row = $result->fetch_assoc())
+				$rows[] = $row;
+			
+			return $rows;
+    	
+    }
     
 }

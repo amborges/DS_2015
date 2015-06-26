@@ -55,8 +55,41 @@ class HomeAlunoController {
         if ( ! isset($_SESSION['userdata'])) {
             redirect('login');
         }
-
+        
         require_once ABSPATH . '/functions/atividades_functions.php';
+        require_once ABSPATH . '/models/atividade_model.php';
+        require_once ABSPATH . '/models/grande_area_model.php';
+        require_once ABSPATH . '/models/categoria_model.php';
+        
+        //primeiro é preciso buscas as atividades cadastradas
+        $atividademodel = new AtividadeModel();
+        
+        $listatividades = $atividademodel->getAtividades();
+        $atividades = NULL;
+        $seq = 1;
+        
+        foreach($listatividades as $at){
+        	$horasInf 	= ($at['horaInformada'] > 0)? $at['horaInformada'] : 0;
+					$horasCont 	= ($at['horaPermitida'] > 0)? $at['horaPermitida'] : 0;
+					$dataInicio	= invertAdjustData($at['dataInicio']);
+					$dataFim = (strlen($at['dataFim']) > 1)? invertAdjustData($at['dataFim']) : 'NULL';
+          $id_curso = $_SESSION['userdata']['idCurso'];
+            
+        	$atividades[] = array('id' => $seq,
+								'descricao' => $at['descricaoAtividade'], 
+								'grande_area' => $at['seqGA'],
+								'categoria' => $at['seqCategoria'],
+                'categorias' => $this->find_categorias($at['seqGA'], $id_curso),
+								'horas' => $horasInf,
+								'horascontabilizadas' => $horasCont,
+								'data_inicial' => $dataInicio,
+								'data_final' => $dataFim);
+            $seq = $seq + 1;
+		}
+        
+        $grandes_area_model = new GrandeAreaModel();
+        $grandes_areas = $grandes_area_model->find_by_curso($id_curso);
+        
         $menus = AtividadesFunctions::init_menus(null, 3);
         $main_page = ABSPATH . '/views/homealuno_visualizar_view.php';
 

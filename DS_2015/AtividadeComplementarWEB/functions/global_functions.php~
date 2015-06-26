@@ -64,6 +64,7 @@
     /**
      * Recebe uma data no formato string de mm/dd/yy
      * e retorna no formato yy-mm-dd
+     * formato de entrada de data no banco de dados mysql
      * 
      * @param string 
      * @return string
@@ -71,5 +72,11 @@
     function adjustData($d){
 			$d = explode("/", $d);
 			$d = $d[2] ."-". $d[1] ."-". $d[0];
+			return $d;
+		}
+		
+		function invertAdjustData($d){
+			$d = explode("-", $d);
+			$d = $d[2] ."/". $d[1] ."/". $d[0];
 			return $d;
 		}

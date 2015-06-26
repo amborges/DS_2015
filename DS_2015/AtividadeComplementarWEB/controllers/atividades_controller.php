@@ -106,10 +106,10 @@ class AtividadesController {
         
         foreach($xml->atividades->atividade as $at){
         	$horasInf 	= ($at->horasInformadas > 0)? $at->horasInformadas : 0;
-			$horasCont 	= ($at->horasContabilizadas > 0)? $at->horasContabilizadas : 0;
-			$dataInicio	= adjustData($at->dataInicial);
-			$dataFim = (strlen($at->dataFinal) > 1)? adjustData($at->dataFinal) : 'NULL';
-            $id_curso = $_SESSION['userdata']['idCurso'];
+					$horasCont 	= ($at->horasContabilizadas > 0)? $at->horasContabilizadas : 0;
+					$dataInicio	= adjustData($at->dataInicial);
+					$dataFim = (strlen($at->dataFinal) > 1)? adjustData($at->dataFinal) : 'NULL';
+          $id_curso = $_SESSION['userdata']['idCurso'];
             
         	$atividades[] = array('id' => $seq,
 								'descricao' => $at->descricao, 
@@ -142,5 +142,4 @@ class AtividadesController {
         $categoria_model = new CategoriaModel();
         return $categoria_model->find_by_curso_and_grande_area($id_curso, $result['seqGA']);
     }
-    
 }

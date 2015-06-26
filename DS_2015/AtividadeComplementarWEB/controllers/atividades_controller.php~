@@ -101,55 +101,30 @@ class AtividadesController {
         // TODO: buscar as atividades do xml convertido
         $atividades;
         
+        require_once ABSPATH . '/models/categoria_model.php';
+        require_once ABSPATH . '/models/grande_area_model.php';
+        
         foreach($xml->atividades->atividade as $at){
         	$horasInf 	= ($at->horasInformadas > 0)? $at->horasInformadas : 0;
 					$horasCont 	= ($at->horasContabilizadas > 0)? $at->horasContabilizadas : 0;
-					$dataInicio	=	adjustData($at->dataInicial);
-					$dataFim 		= (strlen($at->dataFinal) > 1)? adjustData($at->dataFinal) : 'NULL';
-				
+					$dataInicio	= adjustData($at->dataInicial);
+					$dataFim = (strlen($at->dataFinal) > 1)? adjustData($at->dataFinal) : 'NULL';
+          $id_curso = $_SESSION['userdata']['idCurso'];
+            
         	$atividades[] = array('id' => $seq,
-																'descricao' => $at->descricao, 
-																'grande_area' => $at->nomeGrandeArea,
-																'categoria' => $at->nomeCategoria,
-																'horas' => $horasInf,
-																'horascontabilizadas' => $horasCont,
-																'data_inicial' => $at->dataInicial,
-																'data_final' => $at->dataFinal);
-          $seq = $seq + 1;
-				}
+								'descricao' => $at->descricao, 
+								'grande_area' => $at->nomeGrandeArea,
+								'categoria' => $at->nomeCategoria,
+                                'categorias' => $this->find_categorias($at->nomeGrandeArea, $id_curso),
+								'horas' => $horasInf,
+								'horascontabilizadas' => $horasCont,
+								'data_inicial' => $at->dataInicial,
+								'data_final' => $at->dataFinal);
+            $seq = $seq + 1;
+		}
         
-        
-        // TODO: buscar as grandes áreas do banco de dados
-        //Aqui está pegando do xml
-        $grandes_areas;
-        $categorias;
-        
-        $seqga = 1;
-        foreach($xml->curso->grandesareas->grandearea as $ga){
-        	$grandes_areas[] = array(	'seqGA' => $seqga,
-                                		'nomeGA' => $ga->nome);
-          
-          $st1 = utf8_encode($ga->nome);
-          $st2 = utf8_encode($xml->atividades->atividade[1]->nomeGrandeArea);
-          if($st1 === $st2)
-          	echo " FOI ";
-          else
-          	echo " NAO " . $st1 . " :: " . $st2;
-          	
-          $seqcat = 1;
-          
-          // TODO: buscar as categorias do banco de dados
-		      //aqui está pegando do xml
-		      //NOTA: a categoria deve estar vinculada a uma grande área, 
-		      //se a GA muda, as categorias tb devem mudar.
-          foreach($ga->categorias->categoria as $cat){
-          	$categorias[] = array('seqCategoria' => $seqcat,
-                                	'nomeCategoria' => $cat->nomecategoria);
-            $seqcat = $seqcat + 1;
-          }
-          $seqga = $seqga + 1;
-				}
-        
+        $grandes_area_model = new GrandeAreaModel();
+        $grandes_areas = $grandes_area_model->find_by_curso($id_curso);
         
         $main_page = ABSPATH . '/views/importar_atividade_edicao_page.php';
         
@@ -158,6 +133,18 @@ class AtividadesController {
     
     public function salvar() {
         redirect('home');
+    }
+    
+    private function find_categorias($nome_GA, $id_curso) {
+        $grandes_area_model = new GrandeAreaModel();
+        $result = $grandes_area_model->find_by_curso_and_nomeGA($id_curso, $nome_GA);
+        
+        $categoria_model = new CategoriaModel();
+        return $categoria_model->find_by_curso_and_grande_area($id_curso, $result['seqGA']);
+    }
+    
+    public function getAtividades(){
+    	
     }
     
 }

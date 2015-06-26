@@ -99,5 +99,21 @@ class AtividadeModel extends BaseModel {
 				
 		return $listaRetorna;
 	}
+	
+	public function getAtividades(){
+    	$matricula = $matricula = $_SESSION['userdata']['matricula'];
+    	$sql = "SELECT * FROM " . $this->table_name . " WHERE `matricula` = '$matricula' ORDER BY `descricaoAtividade` ASC;";
+    	
+    	$this->create_connection();
+		  $result = $this->conn->query($sql);
+			$this->close_connection();
+			
+			$rows;
+			while($row = $result->fetch_assoc())
+				$rows[] = $row;
+			
+			return $rows;
+    	
+    }
     
 }
