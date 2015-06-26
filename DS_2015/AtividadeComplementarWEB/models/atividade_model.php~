@@ -27,7 +27,7 @@ class AtividadeModel extends BaseModel {
     	$datainicial = $this->adjustdata($p['datainicial']);
     	$datafinal = ($p['datafinal'] !== '') ? ($this->adjustdata($p['datafinal'])) : 'NULL';
     	
-    	$sql2 = "INSERT INTO `DS_20151`.`ATIVIDADE` (`matricula`, `seqAtividade`, `descricaoAtividade`, `horaInformada`, `horaPermitida`, `dataInicio`, `dataFim`, `arquivo`, `validado`, `idCurso`, `seqGA`, `seqCategoria`) VALUES ('$matricula', '$seqAtividade', '".$p['descricao']."', '".$p['horas']."', '".$p['horas']."', '$datainicial', '$datafinal', '$fileAddress', '0', '$idcurso', '".$p['grandearea']."', '".$p['categoria']."');";
+    	$sql2 = "INSERT INTO `DS_20151`.`".$this->table_name."` (`matricula`, `seqAtividade`, `descricaoAtividade`, `horaInformada`, `horaPermitida`, `dataInicio`, `dataFim`, `arquivo`, `validado`, `idCurso`, `seqGA`, `seqCategoria`) VALUES ('$matricula', '$seqAtividade', '".$p['descricao']."', '".$p['horas']."', '".$p['horas']."', '$datainicial', '$datafinal', '$fileAddress', '0', '$idcurso', '".$p['grandearea']."', '".$p['categoria']."');";
     	
     	$this->create_connection();
       $result = $this->conn->query($sql2);
@@ -48,7 +48,7 @@ class AtividadeModel extends BaseModel {
     
     private function getNextNumberToInsert($matricula){
     
-    	$sql = "SELECT `seqAtividade` FROM `ATIVIDADE` 
+    	$sql = "SELECT `seqAtividade` FROM `".$this->table_name."` 
 					WHERE `matricula` = '" . $matricula . "' ORDER BY `seqAtividade` DESC;";
 			
 			$this->create_connection();
@@ -69,20 +69,35 @@ class AtividadeModel extends BaseModel {
 		return $d;
 	}
 	
-	public function getHorasAtividades($matricula){
-		$sql = "SELECT `seqAtividade` FROM `ATIVIDADE` 
-					WHERE `matricula` = '" . $matricula . "' ORDER BY `seqAtividade` DESC;";
-			
-		$this->create_connection();
-    $result = $this->conn->query($sql);
-  	$this->close_connection();
-  	
-  	if($result->num_rows > 0){
-			$seq = $result->fetch_assoc();
-			return $seq['seqAtividade'] + 1;
-		}
+	public function getHorasAtividades(){
+	
+		$matricula = $_SESSION['userdata']['matricula'];
+  	$idcurso = $_SESSION['userdata']['idCurso'];
+	
+		require_once ABSPATH . '/models/grande_area_model.php';
 		
-		return 0;
+		$grandeareamodel = new GrandeAreaModel();
+		$listaGA = $grandeareamodel->find_by_curso($idcurso);
+		
+		$listaRetorna = NULL;
+		
+		foreach($listaGA as $ga){
+			$sql = "SELECT sum(`horaInformada`) FROM `".$this->table_name."` WHERE `matricula` = '$matricula' and `seqGA` = '". $ga['seqGA'] ."';";
+			
+			$this->create_connection();
+		  $result = $this->conn->query($sql);
+			$this->close_connection();
+			$row = $result->fetch_assoc();
+			
+				//array($nomeGrandeArea, $acumulado, $minimo);
+			$listaRetorna[] = array($ga['nomeGA'], $row['sum(`horaInformada`)'], $ga['horaMinima']);
+			
+  	}
+		
+		if($listaRetorna !== NULL)
+			$listaRetorna[] = array('NADA_A_APRESENTAR', 0, 0);
+				
+		return $listaRetorna;
 	}
     
 }

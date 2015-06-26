@@ -8,7 +8,7 @@ class GrandeAreaModel extends BaseModel {
     public function __construct() {}
     
     public function find_by_curso($id_curso) {
-        $projection = "`seqGA` , `nomeGA`";
+        $projection = "`seqGA` , `nomeGA`, `horaMinima`";
         $where = "`idCurso` = '".$id_curso."'";
         $order_by = "`nomeGA` ASC";
         
@@ -26,7 +26,8 @@ class GrandeAreaModel extends BaseModel {
         if ($result->num_rows > 0) {
             $i = 0;
             while ($row = $result->fetch_assoc()) {
-                $infos[$i] = array('seqGA' => $row['seqGA'], 'nomeGA' => $row['nomeGA']);
+                $infos[$i] = array('seqGA' => $row['seqGA'], 'nomeGA' => $row['nomeGA'], 
+                										'horaMinima' => $row['horaMinima']);
                 $i++;
             }
         }

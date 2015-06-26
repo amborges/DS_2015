@@ -24,12 +24,7 @@ class HomeAlunoController {
         
         $atividademodel = new AtividadeModel();
         
-        //$_POST = $atividademodel->getHorasAtividades($_SESSION['userdata']['matricula']);
-
-            //$_POST[$i] = array($nomeGrandeArea, $acumulado, $minimo);
-        $_POST[0] = array('Ensino', 25, 100);
-        $_POST[1] = array('Pesquisa', 75, 100);
-        $_POST[2] = array('Extensao', 125, 100);
+        $_POST = $atividademodel->getHorasAtividades();
 
         $nome_aluno = $_SESSION['userdata']['nomeAluno'];
         $menus = AtividadesFunctions::init_menus(null, 0);
