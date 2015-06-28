@@ -1,3 +1,21 @@
+commit 0b4404037c780794170144520809507cb4f28bfe
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Fri Jun 26 14:26:40 2015 -0300
+
+    Alteracao de atividades, parte front-end em desenvolvimento, ja mostra as atividades cadastradas, mas falta colocar direito os campos grande areas e categorias. Farei isso domingo
+
+commit 94c767218d45139f42cbf1edc0dfb215e729b0d9
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Fri Jun 26 13:30:52 2015 -0300
+
+    Grafico de horas do aluno funciona, aquele grafico que aparece na pagina inicial, recupera dados do banco de dados e mostra.
+
+commit 94569af8dcb5aa0dd3c30b0aec17095f0d07b2d2
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Fri Jun 26 13:07:25 2015 -0300
+
+    Ajuste de requires na classe homealuno_controller
+
 commit 0902681d388b27cd212c775d16cb3397d6bad363
 Author: Alex Borges <amborges@inf.ufpel.edu.br>
 Date:   Thu Jun 25 14:18:36 2015 -0300

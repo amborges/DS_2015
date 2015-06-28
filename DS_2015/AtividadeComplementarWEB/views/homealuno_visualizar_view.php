@@ -43,7 +43,7 @@
                             echo '<option value="0"></option>';
                             
                             foreach($grandes_areas as $grande_area) {
-                                $selected = (strtoupper(utf8_decode($atividade['grande_area'])) === strtoupper(utf8_decode($grande_area['nomeGA']))) ? 'selected' : '';
+                                $selected = ($atividade['grande_area'] === $grande_area['seqGA']) ? 'selected' : '';
                                 echo '<option value="'. $grande_area['seqGA'] . '" '. $selected . ' >' . $grande_area['nomeGA'] . '</option>';
                             }
                                 
@@ -59,7 +59,7 @@
                             echo '<option value="0"></option>';
                             
                             foreach($atividade['categorias'] as $categoria) {
-                                $selected = (strtoupper(utf8_decode($atividade['categoria'])) === strtoupper(utf8_decode($categoria['nomeCategoria']))) ? 'selected' : '';
+                                $selected = ($atividade['categoria'] === $categoria['seqCategoria']) ? 'selected' : '';
                                 echo '<option value="'. $categoria['seqCategoria'] . '" '. $selected . ' >' . $categoria['nomeCategoria'] . '</option>';
                             }
                                 

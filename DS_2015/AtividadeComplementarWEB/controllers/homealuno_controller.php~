@@ -79,7 +79,7 @@ class HomeAlunoController {
 								'descricao' => $at['descricaoAtividade'], 
 								'grande_area' => $at['seqGA'],
 								'categoria' => $at['seqCategoria'],
-                'categorias' => $this->find_categorias($at['seqGA'], $id_curso),
+                'categorias' => $this->find_categorias($id_curso, $at['seqGA']),
 								'horas' => $horasInf,
 								'horascontabilizadas' => $horasCont,
 								'data_inicial' => $dataInicio,
@@ -125,11 +125,10 @@ class HomeAlunoController {
         //if ( ! isset($_SESSION['userdata'])) {
         //  redirect('login');
         //}
-        //$id_curso = $_SESSION['userdata']['idCurso'];
-        		//tive q comentar essa linha, pois o código que a chama não faz parte 
+        		//tive q comentar essa linha, pois tem código que a chama q não faz parte 
         		//da estrutura organizada do site. É o script dynamicComboBox.
         
-        if ( ! defined('ABSPATH'))
+        if ( ! defined('ABSPATH')) //caso quem chama for o dynamicComboBox
         	require_once '../config.php';
                 	
         require_once ABSPATH . '/models/categoria_model.php';;
