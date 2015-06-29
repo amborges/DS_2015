@@ -84,8 +84,10 @@ class HomeAlunoController {
 								'horas' => $horasInf,
 								'horascontabilizadas' => $horasCont,
 								'data_inicial' => $dataInicio,
-								'data_final' => $dataFim);
-            $seq = $seq + 1;
+								'data_final' => $dataFim,
+								'validado' => $at['validado']
+					);
+          $seq = $seq + 1;
 		}
         
         $grandes_area_model = new GrandeAreaModel();

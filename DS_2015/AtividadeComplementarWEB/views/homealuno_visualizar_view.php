@@ -14,9 +14,11 @@
                         $classOne = '';
                         $classTwo = 'panel-collapse collapse in';
                         foreach ($atividades as $atividade) {
+                        		$readonly = ($atividade['validado'] === '1') ? 'readonly' : '';
+                        		$paneltype = ($atividade['validado'] === '1') ? 'panel-info' : 'panel-default';
                             $id = 'heading' . $atividade['id'];
                             $collapse = 'collapse' . $atividade['id'];
-                            echo '<div class="panel panel-default">';
+                            echo '<div class="panel '.$paneltype.'">';
                             echo '<div class="panel-heading" role="tab" id="' . $id . '">';
                             echo '<h4 class="panel-title">';
                             echo '<a ' . $classOne . ' data-toggle="collapse" data-parent="#accordion" href="#' . $collapse . '" aria-expanded="' . $expanded . '" aria-controls="' . $collapse . '">';
@@ -31,7 +33,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="descricao[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Descrição:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="descricao[]" name="descricao[]" type="text"  value="' . $atividade['descricao'] . '" required="true" class="form-control" maxlength="255"/>';
+                            echo '<input id="descricao[]" name="descricao[]" type="text"  value="' . $atividade['descricao'] . '" required="true" class="form-control" maxlength="255" '.$readonly.'/>';
                             echo '<input id="seqAtividade[]" name="seqAtividade[]" type="hidden"  value="' . $atividade['seqAtividade'] . '" />';
                             echo '</div>';                       
                             echo '</div>';
@@ -40,7 +42,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="grande_area[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Grande área:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<select id="grande_area[]" name="grande_area[]" class="form-control">';
+                            echo '<select id="grande_area[]" name="grande_area[]" class="form-control" '.$readonly.'>';
                             echo '<option value="0"></option>';
                             
                             foreach($grandes_areas as $grande_area) {
@@ -56,7 +58,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="categoria[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Categoria:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<select id="categoria[]" name="categoria[]" class="form-control">';
+                            echo '<select id="categoria[]" name="categoria[]" class="form-control" '.$readonly.'>';
                             echo '<option value="0"></option>';
                             
                             foreach($atividade['categorias'] as $categoria) {
@@ -72,7 +74,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="horas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Horas:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="horas[]" name="horas[]" type="text"  value="' . $atividade['horas'] . '" required="true" class="form-control" maxlength="10"/>';
+                            echo '<input id="horas[]" name="horas[]" type="text"  value="' . $atividade['horas'] . '" required="true" class="form-control" maxlength="10" '.$readonly.'/>';
                             echo '</div>';                       
                             echo '</div>';
                             
@@ -80,7 +82,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="horascalculadas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Horas Calculadas:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="horascalculadas[]" name="horascalculadas[]" type="text"  value="' . $atividade['horascontabilizadas'] . '" required="true" class="form-control" maxlength="10"/>';
+                            echo '<input id="horascalculadas[]" name="horascalculadas[]" type="text"  value="' . $atividade['horascontabilizadas'] . '" required="true" class="form-control" maxlength="10" '.$readonly.'/>';
                             echo '</div>';                       
                             echo '</div>';
                                 
@@ -88,7 +90,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="data_inicial' . $atividade['id'] . '" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Data inicial:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="data_inicial' . $atividade['id'] . '" name="data_inicial[]" type="text"  value="' . $atividade['data_inicial'] . '" required="true" class="form-control date_picker" maxlength="10"/>';
+                            echo '<input id="data_inicial' . $atividade['id'] . '" name="data_inicial[]" type="text"  value="' . $atividade['data_inicial'] . '" required="true" class="form-control date_picker" maxlength="10" '.$readonly.'/>';
                             echo '</div>';
                             echo '</div>';
                             
@@ -96,7 +98,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="data_final' . $atividade['id'] . '" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Data final:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="data_final' . $atividade['id'] . '" name="data_final[]" type="text"  value="' . $atividade['data_final'] . '" class="form-control date_picker" maxlength="10"/>';
+                            echo '<input id="data_final' . $atividade['id'] . '" name="data_final[]" type="text"  value="' . $atividade['data_final'] . '" class="form-control date_picker" maxlength="10" '.$readonly.'/>';
                             echo '</div>';                       
                             echo '</div>';
                             
@@ -104,7 +106,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="certificado[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Certificado:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="certificado[]" name="certificado[]" type="file" class="form-control" maxlength="128"/>';
+                            echo '<input id="certificado[]" name="certificado[]" type="file" class="form-control" maxlength="128" '.$readonly.'/>';
                             echo '</div>';                       
                             echo '</div>';
                             
