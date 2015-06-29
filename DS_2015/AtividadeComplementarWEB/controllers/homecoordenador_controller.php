@@ -23,6 +23,12 @@ class HomeCoordenadorController {
   
   public function editarprofessor(){
   	require_once ABSPATH . '/functions/atividades_functions.php';
+  	require_once ABSPATH . '/models/coordenador_model.php';
+  	
+  	$coordenadormodel = new CoordenadorModel();
+  	$usuarios = $coordenadormodel->getListOfUsers();
+  	
+  	
   	$menus = AtividadesFunctions::init_menus("coordenador", 2);
   	$main_page = ABSPATH . '/views/homecoordenador_editarprofessor_view.php';
   	require ABSPATH . '/views/includes/template.php';

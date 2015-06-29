@@ -75,4 +75,18 @@ class CoordenadorModel extends BaseModel {
         	return $result->fetch_assoc();
     }
     
+    public function getListOfUsers(){
+    	$sql = "SELECT * FROM " . $this->table_name . " WHERE 1=1 ORDER BY `nome` ASC;";
+    	
+    	$this->create_connection();
+		  $result = $this->conn->query($sql);
+			$this->close_connection();
+			
+			$rows;
+			while($row = $result->fetch_assoc())
+				$rows[] = $row;
+			
+			return $rows;
+    }
+    
 }
