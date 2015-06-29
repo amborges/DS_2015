@@ -21,7 +21,7 @@ class HomeCoordenadorController {
   	require ABSPATH . '/views/includes/template.php';
   }
   
-  public function editarprofessor(){
+  public function editarprofessor($alert = NULL){
   	require_once ABSPATH . '/functions/atividades_functions.php';
   	require_once ABSPATH . '/models/coordenador_model.php';
   	
@@ -34,7 +34,7 @@ class HomeCoordenadorController {
   	require ABSPATH . '/views/includes/template.php';
   }
   
-  public function memorando(){
+  public function memorando($alert = NULL){
   	require_once ABSPATH . '/functions/atividades_functions.php';
   	$menus = AtividadesFunctions::init_menus("coordenador", 3);
   	$main_page = ABSPATH . '/views/homecoordenador_memorando_view.php';

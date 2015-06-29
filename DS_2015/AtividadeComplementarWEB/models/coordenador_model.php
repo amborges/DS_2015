@@ -30,6 +30,30 @@ class CoordenadorModel extends BaseModel {
     	$this->close_connection();
     }
     
+    public function update_user($p){
+    	$ehCoordenador = ($p['tipo'] === "coordenador") ? "1": "0";
+    	
+    	$sql = "UPDATE `".$this->table_name."` SET
+    			`siape` = '". $p['siape'] ."',
+    			`nome` = '". $p['nome'] ."',
+    			`ehCoordenador` = '". $ehCoordenador ."'";
+    			
+    			
+			if($p['senha'] !== NULL & $p['senha'] !== ""){
+				$sql .= ", `senha` = sha1('". $la['senha'] ."')";
+			}
+			
+			$sql .= " WHERE `".$this->table_name."`.`siape` = '". $p['siape_original'] ."'; ";
+    	
+    	$this->create_connection();
+      $result = $this->conn->query($sql);
+    	if(!$result){ //deu erro na requisição
+    		$this->bool_erro_BD = TRUE;
+    		$this->msg_BD = $this->conn->error;
+    	}
+    	$this->close_connection();
+    }
+    
     public function erro_BD(){
     	return $this->bool_erro_BD;
     }
