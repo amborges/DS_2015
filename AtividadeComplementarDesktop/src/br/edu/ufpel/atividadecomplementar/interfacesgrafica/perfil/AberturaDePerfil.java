@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextAlignment;
@@ -21,10 +22,10 @@ import javax.xml.bind.JAXBException;
  *
  * @author Paulo
  */
-class AberturaDePerfil extends InterfaceGrafica {
+public class AberturaDePerfil extends InterfaceGrafica {
     
     private Button btnCarregar;
-    private Button btnCancelar;
+    private Button btnPerfilNovo;
     private ListView<AlunoInfoBasicas> listaDePerfis;
     
     public AberturaDePerfil() {
@@ -36,11 +37,18 @@ class AberturaDePerfil extends InterfaceGrafica {
     protected void inicializarElementos(GridPane grid, Stage stage) {
         inicializarListViewPerfis();
         inicializarButtonCarregar(stage);
-        inicializarButtonCancelar(stage);
+        inicializarButtonNovo(stage);
         
-        grid.add(listaDePerfis, 0, 0, 4, 4);
-        grid.add(btnCarregar, 0, 4);
-        grid.add(btnCancelar, 1, 4);
+        GridPane gridVersoes = new GridPane();
+        gridVersoes.add(new Label("a"), 0, 0);
+        gridVersoes.add(new Label("b"), 0, 1);
+        gridVersoes.add(new Label("c"), 0, 2);
+        gridVersoes.add(new Label("d"), 0, 3);
+        
+        grid.add(gridVersoes, 0, 0, 1, 2);
+        grid.add(listaDePerfis, 2, 0, 2, 4);
+        grid.add(btnCarregar, 2, 4);
+        grid.add(btnPerfilNovo, 3, 4);
     }
     
     private void inicializarListViewPerfis() {
@@ -83,14 +91,14 @@ class AberturaDePerfil extends InterfaceGrafica {
         });
     }
     
-    private void inicializarButtonCancelar(Stage stage) {
-        btnCancelar = new Button();
-        btnCancelar.setText(PropertiesBundle.getProperty("BOTAO_CANCELAR"));
-        btnCancelar.setTextAlignment(TextAlignment.CENTER);
-        btnCancelar.setMinWidth(larguraMinimaBotao);
-        btnCancelar.setOnAction((ActionEvent event) -> {
-            InterfaceGrafica selecionaPerfil = new SelecaoDePerfil();
-            selecionaPerfil.montarTela(stage);
+    private void inicializarButtonNovo(Stage stage) {
+        btnPerfilNovo = new Button();
+        btnPerfilNovo.setText(PropertiesBundle.getProperty("BOTAO_NOVO_PERFIL"));
+        btnPerfilNovo.setTextAlignment(TextAlignment.CENTER);
+        btnPerfilNovo.setMinWidth(larguraMinimaBotao);
+        btnPerfilNovo.setOnAction((ActionEvent event) -> {
+            InterfaceGrafica cadastraPerfil = new CadastroDePerfil();
+            cadastraPerfil.montarTela(stage);
         });
     }
 

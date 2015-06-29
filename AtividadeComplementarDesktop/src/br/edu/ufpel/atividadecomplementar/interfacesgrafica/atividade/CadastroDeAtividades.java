@@ -164,7 +164,9 @@ public class CadastroDeAtividades extends InterfaceGrafica {
                 
                 if (categoriaNova != null) {
                     Categoria categoria = (Categoria) categoriaNova;
-                    txtHoras.setText(categoria.getHorasMaxima().toString());
+                    if (txtHoras.getText() == null || txtHoras.getText().isEmpty()) {
+                        txtHoras.setText(categoria.getHorasMaxima().toString());
+                    }
                     disabled = false;
                 } else {
                     disabled = true;
