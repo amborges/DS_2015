@@ -74,6 +74,18 @@ class HomeAlunoController {
 					$dataInicio	= invertAdjustData($at['dataInicio']);
 					$dataFim = (strlen($at['dataFim']) > 1)? invertAdjustData($at['dataFim']) : 'NULL';
           $id_curso = $_SESSION['userdata']['idCurso'];
+          
+          $file;
+          $fileerror;
+          if(file_exists(ABSPATH.'/uploads/'.$at['arquivo'])){
+          	$file = $at['arquivo'];
+          	$fileerror = false;
+          }
+          else{
+          	$file = "filedoesntfind.pdf";
+          	$fileerror = true;
+          }
+          
             
         	$atividades[] = array('id' => $seq,
         				'seqAtividade' => $at['seqAtividade'],
@@ -85,7 +97,9 @@ class HomeAlunoController {
 								'horascontabilizadas' => $horasCont,
 								'data_inicial' => $dataInicio,
 								'data_final' => $dataFim,
-								'validado' => $at['validado']
+								'validado' => $at['validado'],
+								'certificado' => $file,
+								'certificadocomerro' => $fileerror
 					);
           $seq = $seq + 1;
 		}

@@ -1,3 +1,21 @@
+commit e15402d888cf183581730e7a2c581b79ce0d3395
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon Jun 29 00:15:52 2015 -0300
+
+    deixando front end das atualizacoes de atividades mais bonitinha, bloqueei as atividades ja avaliadas pelo professor
+
+commit 626535793c84084af8528eee1602c5ce1259b956
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Sun Jun 28 23:34:42 2015 -0300
+
+    back end de atualização de atividades pela metade, falta ver como vai funcionar os , tanto back como front
+
+commit 764648f71fe165fe715ca13736005977e65dc435
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Sun Jun 28 17:58:57 2015 -0300
+
+    Front-end de visualizar atividades OK
+
 commit 0b4404037c780794170144520809507cb4f28bfe
 Author: Alex Borges <amborges@inf.ufpel.edu.br>
 Date:   Fri Jun 26 14:26:40 2015 -0300

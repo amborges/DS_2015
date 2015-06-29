@@ -15,7 +15,16 @@
                         $classTwo = 'panel-collapse collapse in';
                         foreach ($atividades as $atividade) {
                         		$readonly = ($atividade['validado'] === '1') ? 'readonly' : '';
-                        		$paneltype = ($atividade['validado'] === '1') ? 'panel-info' : 'panel-default';
+                        		$paneltype;
+                        			//cores nos panels
+                        		if($atividade['validado'] === '1')
+                        			$paneltype = 'panel-info';
+                        		else if($atividade['certificadocomerro'])
+                        			$paneltype = 'panel-danger';
+                        		else
+                        			$paneltype = 'panel-default';
+                        			
+                        			
                             $id = 'heading' . $atividade['id'];
                             $collapse = 'collapse' . $atividade['id'];
                             echo '<div class="panel '.$paneltype.'">';
@@ -100,6 +109,14 @@
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
                             echo '<input id="data_final' . $atividade['id'] . '" name="data_final[]" type="text"  value="' . $atividade['data_final'] . '" class="form-control date_picker" maxlength="10" '.$readonly.'/>';
                             echo '</div>';                       
+                            echo '</div>';
+                            
+                            //<!-- Arquivo PDF -->
+                            echo '<div class="form-group">';
+                            echo '<div class="col-xs-4 col-lg-4 col-md-4 col-sm-4">';
+                            echo '<object data="'. BASE_URL . '/uploads/' . $atividade['certificado'] . '" type="application/pdf" width="640" height="480">';
+                            echo '</object>';
+                            echo '</div>';
                             echo '</div>';
                             
                             // Certificado
