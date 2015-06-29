@@ -75,7 +75,7 @@ class HomeAlunoController {
 					$dataFim = (strlen($at['dataFim']) > 1)? invertAdjustData($at['dataFim']) : 'NULL';
           $id_curso = $_SESSION['userdata']['idCurso'];
             
-        	$atividades[] = array('id' => $seq,
+        	$atividades[] = array('seqAtividade' => $at['seqAtividade'],
 								'descricao' => $at['descricaoAtividade'], 
 								'grande_area' => $at['seqGA'],
 								'categoria' => $at['seqCategoria'],
@@ -129,7 +129,7 @@ class HomeAlunoController {
         		//da estrutura organizada do site. É o script dynamicComboBox.
         
         if ( ! defined('ABSPATH')) //caso quem chama for o dynamicComboBox
-        	require_once '../config.php';
+        	require_once '../config.php'; //carregar informações de configuração
                 	
         require_once ABSPATH . '/models/categoria_model.php';;
         

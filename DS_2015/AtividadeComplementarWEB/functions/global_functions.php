@@ -69,13 +69,13 @@
      * @param string 
      * @return string
      */
-    function adjustData($d){
+    function adjustData($d){ //do formulário para banco de dados
 			$d = explode("/", $d);
 			$d = $d[2] ."-". $d[1] ."-". $d[0];
 			return $d;
 		}
 		
-		function invertAdjustData($d){
+		function invertAdjustData($d){ //do banco de dados para formulário
 			$d = explode("-", $d);
 			$d = $d[2] ."/". $d[1] ."/". $d[0];
 			return $d;

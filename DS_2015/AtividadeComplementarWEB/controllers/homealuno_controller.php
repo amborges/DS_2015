@@ -76,6 +76,7 @@ class HomeAlunoController {
           $id_curso = $_SESSION['userdata']['idCurso'];
             
         	$atividades[] = array('id' => $seq,
+        				'seqAtividade' => $at['seqAtividade'],
 								'descricao' => $at['descricaoAtividade'], 
 								'grande_area' => $at['seqGA'],
 								'categoria' => $at['seqCategoria'],

@@ -116,4 +116,27 @@ class AtividadeModel extends BaseModel {
     	
     }
     
+    public function update($listaDeAtividades){
+    	//Eu queria unificar os updates, mas infelizmente, vai ter q ser um a um
+    	foreach($listaDeAtividades as $la){
+    		$sql = "UPDATE `".$this->table_name."` SET
+    			`descricaoAtividade` = '". $la['descricao'] ."',
+    			`horaInformada` = '". $la['horas'] ."',
+    			`horaPermitida` = '". $la['horasCalculadas'] ."',
+    			`dataInicio` = '". $la['dataInicio'] ."',
+    			`dataFim` = '". $la['dataFim'] ."',
+    			`seqGA` = '". $la['grandearea'] ."',
+    			`seqCategoria` = '". $la['categoria'] ."'
+    			WHERE `".$this->table_name."`.`matricula` = '". $_SESSION['userdata']['matricula'] ."' 
+    			AND `".$this->table_name."`.`seqAtividade` = '". $la['seqAtividade'] ."'; ";
+    			
+    		$this->create_connection();
+		  	$result = $this->conn->query($sql);
+				$this->close_connection();
+    	}
+    	
+			//COMO DESCOBRIR SE DEU PAU?!
+			//tive um bloqueio momentâneo, vou deixar para ser implementado depois
+    }
+    
 }

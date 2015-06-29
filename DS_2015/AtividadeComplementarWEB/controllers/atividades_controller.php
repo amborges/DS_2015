@@ -142,4 +142,126 @@ class AtividadesController {
         $categoria_model = new CategoriaModel();
         return $categoria_model->find_by_curso_and_grande_area($id_curso, $result['seqGA']);
     }
+    
+    public function alterar_atividade() {
+        require_once ABSPATH . '/functions/atividades_functions.php';
+        require_once ABSPATH . '/models/atividade_model.php';
+        
+        $listatividades = NULL;
+        
+        for($ii = 0; $ii < sizeof($_POST['descricao']); $ii++){
+        	
+		      //Carregando as informações, e incluindo em $atividades
+		      /*$stringXML;
+		      try{
+		      
+		      	//verificando se o upload foi tudo certo
+		      	if(!isset($_FILES['fileToUpload']['error']) 
+		      		|| is_array($_FILES['fileToUpload']['error'])){
+							throw new RuntimeException('Invalid parameters.');
+						}
+						// Check $_FILES['fileToUpload']['error'] value.
+						switch ($_FILES['fileToUpload']['error']) {
+							case UPLOAD_ERR_OK: break;
+							case UPLOAD_ERR_NO_FILE: 
+								throw new RuntimeException('No file sent.');
+							case UPLOAD_ERR_INI_SIZE:
+							case UPLOAD_ERR_FORM_SIZE: 
+								throw new RuntimeException('Exceeded filesize limit.');
+							default: throw new RuntimeException('Unknown errors.');
+						}
+					
+						// You should also check filesize here.
+						if ($_FILES['fileToUpload']['size'] > 1000000) {
+							throw new RuntimeException('Exceeded filesize limit.');
+						}
+					
+						// DO NOT TRUST $_FILES['fileToUpload']['mime'] VALUE !!
+						// Check MIME Type by yourself.
+						/*$finfo = new finfo(FILEINFO_MIME_TYPE);
+						if (false === $ext = array_search(
+
+							$finfo->file($_FILES['fileToUpload']['tmp_name']),
+
+							array(
+								'xml' => 'text/xml',
+							),
+							true
+
+						)){
+							print_r($finfo);
+							throw new RuntimeException('Invalid file format.');
+						}*/
+						/*
+						$ext = "xml";
+		  
+						// You should name it uniquely.
+						// DO NOT USE $_FILES['fileToUpload']['name'] WITHOUT ANY VALIDATION !!
+						// On this example, obtain safe unique name from its binary data.
+						$newName = sprintf( ABSPATH . '/uploads/%s.%s', 
+							sha1_file($_FILES['fileToUpload']['tmp_name']), $ext );
+			
+						if (!move_uploaded_file(
+							$_FILES['fileToUpload']['tmp_name'],
+							$newName
+						)) {
+							throw new RuntimeException('Failed to move uploaded file.');
+						}
+					
+					
+		      } catch (RuntimeException $e) {
+						echo $e->getMessage();
+					}
+		      
+		      //EFIM, xml carregado
+		      $stringXML = file_get_contents($newName);
+					$xml = simplexml_load_string($stringXML);
+		      */
+		      
+		      $datainicio = adjustData($_POST['data_inicial'][$ii]);
+    			$datafim = 'NULL';
+    			if($_POST['data_final'][$ii] !== '' && $_POST['data_final'][$ii] !== '00/00/0000')
+    				$datafim = adjustData($_POST['data_final'][$ii]);
+					
+					$listatividades[] = array(
+						'seqAtividade' => $_POST['seqAtividade'][$ii],
+						'descricao' => $_POST['descricao'][$ii],
+						'grandearea' => $_POST['grande_area'][$ii],
+						'categoria' => $_POST['categoria'][$ii],
+						'horas' => $_POST['horas'][$ii],
+						'horasCalculadas' => $_POST['horascalculadas'][$ii],
+						'dataInicio' => $datainicio,
+						'dataFim' => $datafim
+					);
+					
+		    }
+		    
+		    
+		    
+		    $alert;
+		    $atividademodel = new AtividadeModel();
+		    
+		    if($listatividades !== NULL){	
+		    	$atividademodel->update($listatividades);
+		    	if($atividademodel->erro_BD())
+		    		$alert = array('type' => 'danger',
+                       'message' => "Falha ao atualizar as atividades: ". $atividademodel->msg_erro());
+          else
+          	$alert = array('type' => 'success',
+                       'message' => "Atualização de atividades realizada com sucesso!");	
+		    }
+		    else
+        	$alert = array('type' => 'danger',
+                       'message' => "Não há atividades a serem atualizadas");
+        
+        
+        $_POST = $atividademodel->getHorasAtividades();
+
+        $nome_aluno = $_SESSION['userdata']['nomeAluno'];
+        $menus = AtividadesFunctions::init_menus(null, 0);
+        	
+        $main_page = ABSPATH . '/views/homealuno_view.php';
+        
+        require ABSPATH . '/views/includes/template.php';
+    }
 }

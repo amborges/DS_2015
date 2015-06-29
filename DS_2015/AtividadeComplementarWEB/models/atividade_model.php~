@@ -82,7 +82,7 @@ class AtividadeModel extends BaseModel {
 		$listaRetorna = NULL;
 		
 		foreach($listaGA as $ga){
-			$sql = "SELECT sum(`horaInformada`) FROM `".$this->table_name."` WHERE `matricula` = '$matricula' and `seqGA` = '". $ga['seqGA'] ."' ORDER BY `nameGA` ASC;";
+			$sql = "SELECT sum(`horaInformada`) FROM `".$this->table_name."` WHERE `matricula` = '$matricula' and `seqGA` = '". $ga['seqGA'] ."';";
 			
 			$this->create_connection();
 		  $result = $this->conn->query($sql);
@@ -114,6 +114,33 @@ class AtividadeModel extends BaseModel {
 			
 			return $rows;
     	
+    }
+    
+    public function update($listaDeAtividades){
+    	//Eu queria unificar os updates, mas infelizmente, vai ter q ser um a um
+    	foreach($listaDeAtividades as $la){
+    		$sql = "UPDATE `".$this->table_name."` SET
+    			`descricaoAtividade` = '". $la['descricao'] ."',
+    			`horaInformada` = '". $la['horas'] ."',
+    			`horaPermitida` = '". $la['horasCalculadas'] ."',
+    			`dataInicio` = '". $la['dataInicio'] ."',
+    			`dataFim` = '". $la['dataFim'] ."',
+    			`seqGA` = '". $la['grandearea'] ."',
+    			`seqCategoria` = '". $la['categoria'] ."'
+    			WHERE `".$this->table_name."`.`matricula` = '". $_SESSION['userdata']['matricula'] ."' 
+    			AND `".$this->table_name."`.`seqAtividade` = '". $la['seqAtividade'] ."'; ";
+    			
+    		$this->create_connection();
+		  	$result = $this->conn->query($sql);
+				$this->close_connection();
+    	}
+    	
+    	
+			
+			echo $sql;
+			
+			//COMO DESCOBRIR SE DEU PAU?!
+			//tive um bloqueio momentâneo, vou deixar para ser implementado depois
     }
     
 }
