@@ -149,79 +149,90 @@ class AtividadesController {
         
         $listatividades = NULL;
         
+        $_FILES = $_FILES['certificado']; //removendo um nível da matriz, facilita o uso
+        
         for($ii = 0; $ii < sizeof($_POST['descricao']); $ii++){
         	
-		      //Carregando as informações, e incluindo em $atividades
-		      /*$stringXML;
-		      try{
-		      
-		      	//verificando se o upload foi tudo certo
-		      	if(!isset($_FILES['fileToUpload']['error']) 
-		      		|| is_array($_FILES['fileToUpload']['error'])){
-							throw new RuntimeException('Invalid parameters.');
-						}
-						// Check $_FILES['fileToUpload']['error'] value.
-						switch ($_FILES['fileToUpload']['error']) {
-							case UPLOAD_ERR_OK: break;
-							case UPLOAD_ERR_NO_FILE: 
-								throw new RuntimeException('No file sent.');
-							case UPLOAD_ERR_INI_SIZE:
-							case UPLOAD_ERR_FORM_SIZE: 
+        	$novocertificado = NULL;
+        	
+        	if($_FILES['size'][$ii] !== 0){
+        		$fileToUpload = array(
+        			'name' => $_FILES['name'][$ii],
+        			'type' => $_FILES['type'][$ii],
+        			'tmp_name' => $_FILES['tmp_name'][$ii],
+        			'error' => $_FILES['error'][$ii],
+        			'size' => $_FILES['size'][$ii]
+        		); //removendo um nível da matriz, facilita o uso
+        			//e tb pq já tava o código pronto...
+        		
+		      	//Carregando as informações, e incluindo em $atividades
+				    try{
+				    
+				    	//verificando se o upload foi tudo certo
+				    	if(!isset($fileToUpload['error']) 
+				    		|| is_array($fileToUpload['error'])){
+								throw new RuntimeException('Invalid parameters.');
+							}
+							// Check $_FILES['fileToUpload']['error'] value.
+							switch ($fileToUpload['error']) {
+								case UPLOAD_ERR_OK: break;
+								case UPLOAD_ERR_NO_FILE: 
+									throw new RuntimeException('No file sent.');
+								case UPLOAD_ERR_INI_SIZE:
+								case UPLOAD_ERR_FORM_SIZE: 
+									throw new RuntimeException('Exceeded filesize limit.');
+								default: throw new RuntimeException('Unknown errors.');
+							}
+					
+							// You should also check filesize here.
+							if ($fileToUpload['size'] > 1000000) {
 								throw new RuntimeException('Exceeded filesize limit.');
-							default: throw new RuntimeException('Unknown errors.');
-						}
+							}
 					
-						// You should also check filesize here.
-						if ($_FILES['fileToUpload']['size'] > 1000000) {
-							throw new RuntimeException('Exceeded filesize limit.');
-						}
-					
-						// DO NOT TRUST $_FILES['fileToUpload']['mime'] VALUE !!
-						// Check MIME Type by yourself.
-						/*$finfo = new finfo(FILEINFO_MIME_TYPE);
-						if (false === $ext = array_search(
+							// DO NOT TRUST $_FILES['fileToUpload']['mime'] VALUE !!
+							// Check MIME Type by yourself.
+							/*$finfo = new finfo(FILEINFO_MIME_TYPE);
+							if (false === $ext = array_search(
 
-							$finfo->file($_FILES['fileToUpload']['tmp_name']),
+								$finfo->file($fileToUpload['tmp_name']),
 
-							array(
-								'xml' => 'text/xml',
-							),
-							true
+								array(
+									'xml' => 'text/xml',
+								),
+								true
 
-						)){
-							print_r($finfo);
-							throw new RuntimeException('Invalid file format.');
-						}*/
-						/*
-						$ext = "xml";
-		  
-						// You should name it uniquely.
-						// DO NOT USE $_FILES['fileToUpload']['name'] WITHOUT ANY VALIDATION !!
-						// On this example, obtain safe unique name from its binary data.
-						$newName = sprintf( ABSPATH . '/uploads/%s.%s', 
-							sha1_file($_FILES['fileToUpload']['tmp_name']), $ext );
+							)){
+								print_r($finfo);
+								throw new RuntimeException('Invalid file format.');
+							}*/
+							
+							$ext = "pdf";
+				
+							// You should name it uniquely.
+							// DO NOT USE $_FILES['fileToUpload']['name'] WITHOUT ANY VALIDATION !!
+							// On this example, obtain safe unique name from its binary data.
+							$newName = sprintf( ABSPATH . '/uploads/%s.%s', 
+								sha1_file($fileToUpload['tmp_name']), $ext );
 			
-						if (!move_uploaded_file(
-							$_FILES['fileToUpload']['tmp_name'],
-							$newName
-						)) {
-							throw new RuntimeException('Failed to move uploaded file.');
+							if (!move_uploaded_file(
+								$fileToUpload['tmp_name'],
+								$newName
+							)) {
+								throw new RuntimeException('Failed to move uploaded file.');
+							}
+					
+							$novocertificado = $newName;
+							
+				    } catch (RuntimeException $e) {
+							echo $e->getMessage();
 						}
-					
-					
-		      } catch (RuntimeException $e) {
-						echo $e->getMessage();
-					}
-		      
-		      //EFIM, xml carregado
-		      $stringXML = file_get_contents($newName);
-					$xml = simplexml_load_string($stringXML);
-		      */
+		      }
 		      
 		      $datainicio = adjustData($_POST['data_inicial'][$ii]);
     			$datafim = 'NULL';
     			if($_POST['data_final'][$ii] !== '' && $_POST['data_final'][$ii] !== '00/00/0000')
     				$datafim = adjustData($_POST['data_final'][$ii]);
+					
 					
 					$listatividades[] = array(
 						'seqAtividade' => $_POST['seqAtividade'][$ii],
@@ -231,8 +242,10 @@ class AtividadesController {
 						'horas' => $_POST['horas'][$ii],
 						'horasCalculadas' => $_POST['horascalculadas'][$ii],
 						'dataInicio' => $datainicio,
-						'dataFim' => $datafim
+						'dataFim' => $datafim,
+						'certificado' => $novocertificado
 					);
+					
 					
 		    }
 		    

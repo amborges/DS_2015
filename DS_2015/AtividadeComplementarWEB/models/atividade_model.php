@@ -126,10 +126,16 @@ class AtividadeModel extends BaseModel {
     			`dataInicio` = '". $la['dataInicio'] ."',
     			`dataFim` = '". $la['dataFim'] ."',
     			`seqGA` = '". $la['grandearea'] ."',
-    			`seqCategoria` = '". $la['categoria'] ."'
-    			WHERE `".$this->table_name."`.`matricula` = '". $_SESSION['userdata']['matricula'] ."' 
-    			AND `".$this->table_name."`.`seqAtividade` = '". $la['seqAtividade'] ."'; ";
+    			`seqCategoria` = '". $la['categoria'] ."'";
     			
+    			if($la['certificado'] !== NULL){
+    				$fileAddress = explode("/", $la['certificado']); //retorna só o nome do arquivo
+    				$fileAddress = array_pop($fileAddress);
+    				$sql .= ", `arquivo` = '". $fileAddress ."' ";
+    			}
+    			
+    			$sql .= "WHERE `".$this->table_name."`.`matricula` = '". $_SESSION['userdata']['matricula'] ."' AND `".$this->table_name."`.`seqAtividade` = '". $la['seqAtividade'] ."'; ";
+    		
     		$this->create_connection();
 		  	$result = $this->conn->query($sql);
 				$this->close_connection();

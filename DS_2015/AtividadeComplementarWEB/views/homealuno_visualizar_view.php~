@@ -114,8 +114,19 @@
                             //<!-- Arquivo PDF -->
                             echo '<div class="form-group">';
                             echo '<div class="col-xs-4 col-lg-4 col-md-4 col-sm-4">';
-                            echo '<object data="'. BASE_URL . '/uploads/' . $atividade['certificado'] . '" type="application/pdf" width="600" height="400">';
+                            echo '<object data="'. BASE_URL . '/uploads/' . $atividade['certificado'] . '" type="application/pdf" width="640" height="480">';
                             echo '</object>';
+                            echo '</div>';
+                            echo '</div>';
+                            
+                            // Eh pra mudar o certificado?
+                            echo '<div class="form-group">';
+                            echo '<label for="mudar_certificado' . $atividade['id'] . '" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Deseja alterar o certificado:</label>';
+                            echo '<div class="col-xs-4 col-lg-4 col-md-4 col-sm-4">';
+                            echo '<input id="mudar_certificado' . $atividade['id'] . '" name="mudar_certificado[]" type="checkbox" class="form-control" value="SIM" '.$readonly.' />';
+                            echo '</div>';
+                            echo '<div class="col-xs-4 col-lg-4 col-md-4 col-sm-4">';
+                            echo '<label for="mudar_certificado' . $atividade['id'] . '">SIM</label>';
                             echo '</div>';
                             echo '</div>';
                             
