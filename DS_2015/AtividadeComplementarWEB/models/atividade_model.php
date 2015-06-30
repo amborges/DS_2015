@@ -82,15 +82,37 @@ class AtividadeModel extends BaseModel {
 		$listaRetorna = NULL;
 		
 		foreach($listaGA as $ga){
-			$sql = "SELECT sum(`horaInformada`) FROM `".$this->table_name."` WHERE `matricula` = '$matricula' and `seqGA` = '". $ga['seqGA'] ."';";
+			//$sql = "SELECT sum(`horaPermitida`) FROM `".$this->table_name."` WHERE `matricula` = '$matricula' and `seqGA` = '". $ga['seqGA'] ."';";
+			
+			$sql2 = "
+				SELECT `CATEGORIA`.`seqCategoria`, `CATEGORIA`.`horaMaxima`, SUM(`ATIVIDADE`.`horaPermitida`)
+				FROM `ATIVIDADE` 
+				INNER JOIN `CATEGORIA`
+					ON `CATEGORIA`.`idCurso`=`ATIVIDADE`.`idCurso`
+					AND `CATEGORIA`.`seqGA`=`ATIVIDADE`.`seqGA`
+					AND `CATEGORIA`.`seqCategoria`=`ATIVIDADE`.`seqCategoria`
+				WHERE `ATIVIDADE`.`seqGA` = '".$ga['seqGA']."'
+				GROUP BY `CATEGORIA`.`seqCategoria`
+			;";
+			
+			//SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate 
+			//FROM Orders INNER JOIN Customers
+			// ON Orders.CustomerID=Customers.CustomerID;
 			
 			$this->create_connection();
-		  $result = $this->conn->query($sql);
+		  $result = $this->conn->query($sql2);
 			$this->close_connection();
-			$row = $result->fetch_assoc();
+			
+			$calc = 0;
+			while($row = $result->fetch_assoc()){
+				if($row['horaMaxima'] <= $row['SUM(`ATIVIDADE`.`horaPermitida`)'])
+					$calc += $row['horaMaxima'];
+				else
+					$calc += $row['SUM(`ATIVIDADE`.`horaPermitida`)'];
+			}
 			
 				//array($nomeGrandeArea, $acumulado, $minimo);
-			$listaRetorna[] = array($ga['nomeGA'], $row['sum(`horaInformada`)'], $ga['horaMinima']);
+			$listaRetorna[] = array($ga['nomeGA'], $calc, $ga['horaMinima']);
 			
   	}
 		
