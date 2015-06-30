@@ -199,7 +199,7 @@ class CadastroController {
 	  		//else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
 	  		//	$this->dados_invalidos_prof("Insira um e-mail válido no campo 'E-Mail'!");
 	  		else if(!($_POST['senha'][$i] === $_POST['senha2'][$i])){
-	  			$alert['message'] .= "Senhas informadas em ".$_POST['nome'][$i]." não conferem!";
+	  			$alert['message'] .= "<br>Senhas informadas em ".$_POST['nome'][$i]." não conferem!";
 	  			$alert['type'] = "warning";
 	  		}
 	  		else{

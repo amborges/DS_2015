@@ -136,8 +136,6 @@ class AtividadeModel extends BaseModel {
     			
     			$sql .= "WHERE `".$this->table_name."`.`matricula` = '". $_SESSION['userdata']['matricula'] ."' AND `".$this->table_name."`.`seqAtividade` = '". $la['seqAtividade'] ."'; ";
     		
-    		//echo $sql . "<br><br>";
-    		
     		$this->create_connection();
 		  	$result = $this->conn->query($sql);
 				$this->close_connection();

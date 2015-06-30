@@ -1,3 +1,39 @@
+commit 5d842f81f673b8dad64e3a97955bfb3d98f11f94
+Author: Paulo Fernandes <>
+Date:   Mon Jun 29 22:56:42 2015 -0300
+
+    Adição da versão dos dados
+
+commit f2a5e7ac8c5a85aa803931f7f685ba187043d8ae
+Author: Paulo Fernandes <>
+Date:   Mon Jun 29 20:21:36 2015 -0300
+
+    Adição da versão dos dados
+
+commit 6ee4fd7300aa15c297d8368be3cce5aaecebda5a
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon Jun 29 16:24:14 2015 -0300
+
+    atualizacao de professores e coordenadores OK
+
+commit 57bf43a227db896d578641740e3c7d299a82f0ce
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon Jun 29 15:34:46 2015 -0300
+
+    front end de editar professores e coordenadores OK
+
+commit fca06b1ea1bb34ce8f6cdf62ff21c787c7642850
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon Jun 29 14:18:18 2015 -0300
+
+    backend das atualizacoes de atividades por parte do aluno OK, um unica ressalva, os erros nao sao processados, ele mostra que deu tudo certo, mas as alteracoes nao sao enviadas ao banco de dados. Descobrir como arrumar isso!
+
+commit 2a258d9ae61a25cf751f2c2c5eeece24463d98fb
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon Jun 29 13:12:21 2015 -0300
+
+    frontend de atualizar atividades, os arquivos pdf sao mostrados ao aluno, e caso houver falha em carregar, o pannel fica vermelho e mostra uma mensagem padrao no lugar do pdf. Vendo agora como fazer pra atualizar apenas os certificados que sofreram mudancas
+
 commit e15402d888cf183581730e7a2c581b79ce0d3395
 Author: Alex Borges <amborges@inf.ufpel.edu.br>
 Date:   Mon Jun 29 00:15:52 2015 -0300

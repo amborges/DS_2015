@@ -38,4 +38,19 @@ class CategoriaModel extends BaseModel {
         return $categorias;
     }
     
+    public function getHoraMaxima($idCurso, $idGrandeArea, $idCategoria){
+    	$sql = "SELECT `horaMaximaPorAtividade` FROM " . $this->table_name . " WHERE 
+    					`idCurso` = '$idCurso' and 
+    					`seqGA` = '$idGrandeArea' and 
+    					`seqCategoria` = '$idCategoria';";
+        
+        $this->create_connection();
+        $result = $this->conn->query($sql);
+        $this->close_connection();
+        
+        $horamax = $result->fetch_assoc();
+        
+        return $horamax['horaMaximaPorAtividade'];
+    }
+    
 }

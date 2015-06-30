@@ -115,7 +115,7 @@ class AtividadesController {
 								'descricao' => $at->descricao, 
 								'grande_area' => $at->nomeGrandeArea,
 								'categoria' => $at->nomeCategoria,
-                                'categorias' => $this->find_categorias($at->nomeGrandeArea, $id_curso),
+                'categorias' => $this->find_categorias($at->nomeGrandeArea, $id_curso),
 								'horas' => $horasInf,
 								'horascontabilizadas' => $horasCont,
 								'data_inicial' => $at->dataInicial,
@@ -233,6 +233,12 @@ class AtividadesController {
     			if($_POST['data_final'][$ii] !== '' && $_POST['data_final'][$ii] !== '00/00/0000')
     				$datafim = adjustData($_POST['data_final'][$ii]);
 					
+					$horacal = $this->calculaHora(
+						$_POST['horas'][$ii],
+						$_SESSION['userdata']['idCurso'],
+						$_POST['grandearea'][$ii],
+						$_POST['categoria'][$ii]
+					);
 					
 					$listatividades[] = array(
 						'seqAtividade' => $_POST['seqAtividade'][$ii],
@@ -240,7 +246,7 @@ class AtividadesController {
 						'grandearea' => $_POST['grande_area'][$ii],
 						'categoria' => $_POST['categoria'][$ii],
 						'horas' => $_POST['horas'][$ii],
-						'horasCalculadas' => $_POST['horascalculadas'][$ii],
+						'horasCalculadas' => $horacal,
 						'dataInicio' => $datainicio,
 						'dataFim' => $datafim,
 						'certificado' => $novocertificado
@@ -248,8 +254,6 @@ class AtividadesController {
 					
 					
 		    }
-		    
-		    
 		    
 		    $alert;
 		    $atividademodel = new AtividadeModel();
@@ -276,5 +280,114 @@ class AtividadesController {
         $main_page = ABSPATH . '/views/homealuno_view.php';
         
         require ABSPATH . '/views/includes/template.php';
+    }
+    
+    public function cadastrar_atividade() {
+    		if(!$_POST) redirect('homealuno/cadastrar');
+    		
+	  		if(!is_numeric($_POST['grandearea']) && $_POST['grandearea'] === 0)
+	  			$this->dados_invalidos_ativ("Selecione uma opção válida em 'Grande Area'!");
+	  		if(!is_numeric($_POST['categoria']) && $_POST['categoria'] === 0)
+	  			$this->dados_invalidos_ativ("Selecione uma opção válida em 'Categoria'!");
+	  		if(!is_numeric($_POST['horas']) && $_POST['horas'] <= 0)
+		  		$this->dados_invalidos_ativ("Informe um valor válido em 'Horas'!");
+	  		else{
+	  			try{
+		      	//verificando se o upload foi tudo certo
+		      	if(!isset($_FILES['certificado']['error']) 
+		      		|| is_array($_FILES['certificado']['error'])){
+							throw new RuntimeException('Parametros de Arquivo Inválidos!');
+						}
+						// Check $_FILES['fileToUpload']['error'] value.
+						switch ($_FILES['certificado']['error']) {
+							case UPLOAD_ERR_OK: break;
+							case UPLOAD_ERR_NO_FILE: 
+								throw new RuntimeException('Nenhum Arquivo foi enviado!');
+							case UPLOAD_ERR_INI_SIZE:
+							case UPLOAD_ERR_FORM_SIZE: 
+								throw new RuntimeException('Tamanho de Arquivo Excedido!');
+							default: throw new RuntimeException('Erro Desconhecido');
+						}
+					
+						// You should also check filesize here.
+						if ($_FILES['certificado']['size'] > 1000000) {
+							throw new RuntimeException('Tamanho de Arquivo Excedido!');
+						}
+					
+						// DO NOT TRUST $_FILES['fileToUpload']['mime'] VALUE !!
+						// Check MIME Type by yourself.
+						/*$finfo = new finfo(FILEINFO_MIME_TYPE);
+						if (false === $ext = array_search(
+							$finfo->file($_FILES['fileToUpload']['tmp_name']),
+							array(
+								'xml' => 'text/xml',
+							),
+							true
+						)){
+							print_r($finfo);
+							throw new RuntimeException('Invalid file format.');
+						}*/
+					
+						$ext = "pdf";
+		  
+						// You should name it uniquely.
+						// DO NOT USE $_FILES['fileToUpload']['name'] WITHOUT ANY VALIDATION !!
+						// On this example, obtain safe unique name from its binary data.
+						$newName = sprintf( ABSPATH . '/uploads/%s.%s', 
+							sha1_file($_FILES['certificado']['tmp_name']), $ext );
+			
+						if (!move_uploaded_file(
+							$_FILES['certificado']['tmp_name'],
+							$newName
+						)) {
+							throw new RuntimeException('Falha ao armazenar arquivo no Servidor!');
+						}
+					
+					
+		      } catch (RuntimeException $e) {
+						$this->dados_invalidos_ativ($e->getMessage());
+					} //end of try
+					
+					
+					//calculando a hora válida
+					$_POST['horascaluladas'] = $this->calculaHora(
+						$_POST['horas'],
+						$_SESSION['userdata']['idCurso'],
+						$_POST['grandearea'],
+						$_POST['categoria']
+					);
+					
+					//Agora sim podemos enviar para o BD
+					
+					require_once ABSPATH . '/models/atividade_model.php';
+	  			$atividademodel = new AtividadeModel();
+	  			$atividademodel->cadastrar_nova_atividade($_POST, $newName);
+	  			if($atividademodel->erro_BD())
+	  				$this->dados_invalidos_ativ($atividademodel->msg_erro());
+	  			else{
+	  				$sucess = array('type' => 'success',
+                       'message' => "Nova atividade cadastrada com sucesso");
+        		require_once ABSPATH . '/controllers/homealuno_controller.php';
+        		(new HomeAlunoController)->cadastrar($sucess);
+        	}
+	  		
+	  		}//end of else
+    }
+    
+    private function dados_invalidos_ativ($msg) {
+        $alert = array('type' => 'danger',
+                       'message' => $msg);
+        require_once ABSPATH . '/controllers/homealuno_controller.php';
+        (new HomeAlunoController)->cadastrar($alert);
+    }
+    
+    public function calculaHora($hora, $idcurso, $idga, $idcat){
+    	//dado a categoria, retornar o menor, a hora informada ou a hora máxima da categoria
+    	require ABSPATH . '/models/categoria_model.php';
+    	$categoriamodel = new CategoriaModel();
+    	$horamax = $categoriamodel->getHoraMaxima($idcurso, $idga, $idcat);
+    	if($hora <= $horamax)
+    		return $hora;
+    	return $horamax;
     }
 }
