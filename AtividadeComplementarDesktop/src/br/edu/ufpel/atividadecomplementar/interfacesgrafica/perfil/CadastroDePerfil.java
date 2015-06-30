@@ -110,8 +110,8 @@ public class CadastroDePerfil extends InterfaceGrafica {
         btnCancelar.setTextAlignment(TextAlignment.CENTER);
         btnCancelar.setMinWidth(larguraMinimaBotao);
         btnCancelar.setOnAction((ActionEvent event) -> {
-            InterfaceGrafica selecionaPerfil = new SelecaoDePerfil();
-            selecionaPerfil.montarTela(stage);
+            InterfaceGrafica interfaceGrafica = new AberturaDePerfil();
+            interfaceGrafica.montarTela(stage);
         });
     }
     

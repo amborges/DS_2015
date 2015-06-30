@@ -5,6 +5,7 @@ import br.edu.ufpel.atividadecomplementar.interfacesgrafica.template.InterfaceGr
 import br.edu.ufpel.atividadecomplementar.modelos.Aluno;
 import br.edu.ufpel.atividadecomplementar.modelos.AlunoInfoBasicas;
 import br.edu.ufpel.atividadecomplementar.modelos.AlunosXML;
+import br.edu.ufpel.atividadecomplementar.modelos.Versoes;
 import br.edu.ufpel.atividadecomplementar.properties.PropertiesBundle;
 import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
 import javafx.collections.FXCollections;
@@ -13,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -39,16 +41,10 @@ public class AberturaDePerfil extends InterfaceGrafica {
         inicializarButtonCarregar(stage);
         inicializarButtonNovo(stage);
         
-        GridPane gridVersoes = new GridPane();
-        gridVersoes.add(new Label("a"), 0, 0);
-        gridVersoes.add(new Label("b"), 0, 1);
-        gridVersoes.add(new Label("c"), 0, 2);
-        gridVersoes.add(new Label("d"), 0, 3);
-        
-        grid.add(gridVersoes, 0, 0, 1, 2);
         grid.add(listaDePerfis, 2, 0, 2, 4);
         grid.add(btnCarregar, 2, 4);
         grid.add(btnPerfilNovo, 3, 4);
+        grid.getChildren().add(inicializarVersoesDosDados());
     }
     
     private void inicializarListViewPerfis() {
@@ -102,6 +98,29 @@ public class AberturaDePerfil extends InterfaceGrafica {
         });
     }
 
+    private GridPane inicializarVersoesDosDados() {
+        Versoes versoes = new Versoes();
+        
+        try {
+            ManipulaXML<Versoes> manipulador = new ManipulaXML("versoes.xml");
+            versoes = manipulador.buscar(Versoes.class);
+        } catch (JAXBException ex) {
+            // Não faz nada
+        }
+        
+        GridPane grid = new GridPane();
+        grid.setStyle("-fx-font-size: 10px; -fx-border-style: solid; -fx-padding: 3px;");
+        grid.add(new Label(PropertiesBundle.getProperty("LABEL_VERSAO_DADOS")), 0, 0, 1, 1);
+        grid.add(new Label(PropertiesBundle.getProperty("LABEL_CATEGORIA")), 0, 1);
+        grid.add(new Label(versoes.getCategoria().toString()), 1, 1);
+        grid.add(new Label(PropertiesBundle.getProperty("LABEL_CURSO")), 0, 2);
+        grid.add(new Label(versoes.getCurso().toString()), 1, 2);
+        grid.add(new Label(PropertiesBundle.getProperty("LABEL_GRANDE_AREA")), 0, 3);
+        grid.add(new Label(versoes.getGrandeArea().toString()), 1, 3);
+        
+        return grid;
+    }
+    
     private Aluno carregarPerfil(AlunoInfoBasicas alunoSelecionado) {
         ManipulaXML<Aluno> manipulador = new ManipulaXML(alunoSelecionado.getMatricula().concat(".xml"), "perfil/");
         Aluno aluno;

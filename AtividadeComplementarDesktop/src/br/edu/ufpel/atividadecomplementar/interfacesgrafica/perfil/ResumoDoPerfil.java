@@ -179,8 +179,8 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         btnSair.setTextAlignment(TextAlignment.CENTER);
         btnSair.setMinWidth(larguraMinimaBotao);
         btnSair.setOnAction((ActionEvent event) -> {
-            InterfaceGrafica selecionaPerfil = new SelecaoDePerfil();
-            selecionaPerfil.montarTela(stage);
+            InterfaceGrafica interfaceGrafica = new AberturaDePerfil();
+            interfaceGrafica.montarTela(stage);
         });
     }
 

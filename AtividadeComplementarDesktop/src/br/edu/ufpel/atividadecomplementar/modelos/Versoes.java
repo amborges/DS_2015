@@ -9,34 +9,40 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Versoes {
     @XmlElement(name = "categoria")
-    private Double versaoCategoria;
+    private Double categoria;
     @XmlElement(name = "curso")
-    private Double versaoCurso;
+    private Double curso;
     @XmlElement(name = "grande_area")
-    private Double versaoGrandeArea;
+    private Double grandeArea;
 
-    public Double getVersaoCategoria() {
-        return versaoCategoria;
+    public Versoes() {
+        categoria = 0.0;
+        curso = 0.0;
+        grandeArea = 0.0;
+    }
+    
+    public Double getCategoria() {
+        return categoria;
     }
 
-    public void setVersaoCategoria(Double versaoCategoria) {
-        this.versaoCategoria = versaoCategoria;
+    public void setCategoria(Double categoria) {
+        this.categoria = categoria;
     }
 
-    public Double getVersaoCurso() {
-        return versaoCurso;
+    public Double getCurso() {
+        return curso;
     }
 
-    public void setVersaoCurso(Double versaoCurso) {
-        this.versaoCurso = versaoCurso;
+    public void setCurso(Double curso) {
+        this.curso = curso;
     }
 
-    public Double getVersaoGrandeArea() {
-        return versaoGrandeArea;
+    public Double getGrandeArea() {
+        return grandeArea;
     }
 
-    public void setVersaoGrandeArea(Double versaoGrandeArea) {
-        this.versaoGrandeArea = versaoGrandeArea;
+    public void setGrandeArea(Double grandeArea) {
+        this.grandeArea = grandeArea;
     }
 
 }
