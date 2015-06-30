@@ -40,7 +40,7 @@ class CoordenadorModel extends BaseModel {
     			
     			
 			if($p['senha'] !== NULL & $p['senha'] !== ""){
-				$sql .= ", `senha` = sha1('". $la['senha'] ."')";
+				$sql .= ", `senha` = sha1('". $p['senha'] ."')";
 			}
 			
 			$sql .= " WHERE `".$this->table_name."`.`siape` = '". $p['siape_original'] ."'; ";

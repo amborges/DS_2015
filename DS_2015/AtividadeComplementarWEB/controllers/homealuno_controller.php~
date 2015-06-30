@@ -68,41 +68,43 @@ class HomeAlunoController {
         $atividades = NULL;
         $seq = 1;
         
-        foreach($listatividades as $at){
-        	$horasInf 	= ($at['horaInformada'] > 0)? $at['horaInformada'] : 0;
-					$horasCont 	= ($at['horaPermitida'] > 0)? $at['horaPermitida'] : 0;
-					$dataInicio	= invertAdjustData($at['dataInicio']);
-					$dataFim = (strlen($at['dataFim']) > 1)? invertAdjustData($at['dataFim']) : 'NULL';
-          $id_curso = $_SESSION['userdata']['idCurso'];
-          
-          $file;
-          $fileerror;
-          if(file_exists(ABSPATH.'/uploads/'.$at['arquivo'])){
-          	$file = $at['arquivo'];
-          	$fileerror = false;
-          }
-          else{
-          	$file = "filedoesntfind.pdf";
-          	$fileerror = true;
-          }
-          
-            
-        	$atividades[] = array('id' => $seq,
-        				'seqAtividade' => $at['seqAtividade'],
-								'descricao' => $at['descricaoAtividade'], 
-								'grande_area' => $at['seqGA'],
-								'categoria' => $at['seqCategoria'],
-                'categorias' => $this->find_categorias($id_curso, $at['seqGA']),
-								'horas' => $horasInf,
-								'horascontabilizadas' => $horasCont,
-								'data_inicial' => $dataInicio,
-								'data_final' => $dataFim,
-								'validado' => $at['validado'],
-								'certificado' => $file,
-								'certificadocomerro' => $fileerror
-					);
-          $seq = $seq + 1;
-		}
+        if($listatividades !== NULL){
+		      foreach($listatividades as $at){
+		      	$horasInf 	= ($at['horaInformada'] > 0)? $at['horaInformada'] : 0;
+						$horasCont 	= ($at['horaPermitida'] > 0)? $at['horaPermitida'] : 0;
+						$dataInicio	= invertAdjustData($at['dataInicio']);
+						$dataFim = (strlen($at['dataFim']) > 1)? invertAdjustData($at['dataFim']) : 'NULL';
+		        $id_curso = $_SESSION['userdata']['idCurso'];
+		        
+		        $file;
+		        $fileerror;
+		        if(file_exists(ABSPATH.'/uploads/'.$at['arquivo'])){
+		        	$file = $at['arquivo'];
+		        	$fileerror = false;
+		        }
+		        else{
+		        	$file = "filedoesntfind.pdf";
+		        	$fileerror = true;
+		        }
+		        
+		          
+		      	$atividades[] = array('id' => $seq,
+		      				'seqAtividade' => $at['seqAtividade'],
+									'descricao' => $at['descricaoAtividade'], 
+									'grande_area' => $at['seqGA'],
+									'categoria' => $at['seqCategoria'],
+		              'categorias' => $this->find_categorias($id_curso, $at['seqGA']),
+									'horas' => $horasInf,
+									'horascontabilizadas' => $horasCont,
+									'data_inicial' => $dataInicio,
+									'data_final' => $dataFim,
+									'validado' => $at['validado'],
+									'certificado' => $file,
+									'certificadocomerro' => $fileerror
+						);
+		        $seq = $seq + 1;
+					}
+				}
         
         $grandes_area_model = new GrandeAreaModel();
         $grandes_areas = $grandes_area_model->find_by_curso($id_curso);

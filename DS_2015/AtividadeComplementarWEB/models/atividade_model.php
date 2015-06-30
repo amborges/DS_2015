@@ -27,7 +27,7 @@ class AtividadeModel extends BaseModel {
     	$datainicial = $this->adjustdata($p['datainicial']);
     	$datafinal = ($p['datafinal'] !== '') ? ($this->adjustdata($p['datafinal'])) : 'NULL';
     	
-    	$sql2 = "INSERT INTO `DS_20151`.`".$this->table_name."` (`matricula`, `seqAtividade`, `descricaoAtividade`, `horaInformada`, `horaPermitida`, `dataInicio`, `dataFim`, `arquivo`, `validado`, `idCurso`, `seqGA`, `seqCategoria`) VALUES ('$matricula', '$seqAtividade', '".$p['descricao']."', '".$p['horas']."', '".$p['horascaluladas']."', '$datainicial', '$datafinal', '$fileAddress', '0', '$idcurso', '".$p['grandearea']."', '".$p['categoria']."');";
+    	$sql2 = "INSERT INTO `".$this->table_name."` (`matricula`, `seqAtividade`, `descricaoAtividade`, `horaInformada`, `horaPermitida`, `dataInicio`, `dataFim`, `arquivo`, `validado`, `idCurso`, `seqGA`, `seqCategoria`) VALUES ('$matricula', '$seqAtividade', '".$p['descricao']."', '".$p['horas']."', '".$p['horascaluladas']."', '$datainicial', '$datafinal', '$fileAddress', '0', '$idcurso', '".$p['grandearea']."', '".$p['categoria']."');";
     	
     	$this->create_connection();
       $result = $this->conn->query($sql2);
@@ -92,6 +92,7 @@ class AtividadeModel extends BaseModel {
 					AND `CATEGORIA`.`seqGA`=`ATIVIDADE`.`seqGA`
 					AND `CATEGORIA`.`seqCategoria`=`ATIVIDADE`.`seqCategoria`
 				WHERE `ATIVIDADE`.`seqGA` = '".$ga['seqGA']."'
+					AND `ATIVIDADE`.`matricula` = '$matricula'
 				GROUP BY `CATEGORIA`.`seqCategoria`
 			;";
 			
@@ -130,9 +131,11 @@ class AtividadeModel extends BaseModel {
 		  $result = $this->conn->query($sql);
 			$this->close_connection();
 			
-			$rows;
-			while($row = $result->fetch_assoc())
-				$rows[] = $row;
+			$rows = NULL;
+			if($result->num_rows > 0){
+				while($row = $result->fetch_assoc())
+					$rows[] = $row;
+			}
 			
 			return $rows;
     	

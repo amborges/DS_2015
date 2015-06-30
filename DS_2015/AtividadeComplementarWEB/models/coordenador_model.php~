@@ -45,8 +45,6 @@ class CoordenadorModel extends BaseModel {
 			
 			$sql .= " WHERE `".$this->table_name."`.`siape` = '". $p['siape_original'] ."'; ";
     	
-    	echo $sql;
-    	
     	$this->create_connection();
       $result = $this->conn->query($sql);
     	if(!$result){ //deu erro na requisição

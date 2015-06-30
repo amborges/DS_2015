@@ -110,6 +110,7 @@ class AtividadesController {
 					$dataInicio	= adjustData($at->dataInicial);
 					$dataFim = (strlen($at->dataFinal) > 1)? adjustData($at->dataFinal) : 'NULL';
           $id_curso = $_SESSION['userdata']['idCurso'];
+          
             
         	$atividades[] = array('id' => $seq,
 								'descricao' => $at->descricao, 
