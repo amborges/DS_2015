@@ -38,6 +38,25 @@ class AtividadeModel extends BaseModel {
     	$this->close_connection();
     }
     
+    public function validar_atividade($listaParaValidar){
+    	foreach($listaParaValidar as $p){
+    		
+	  		$sql2 = "UPDATE `".$this->table_name."`
+	  							SET `validado` = '1'
+	  							WHERE `matricula` = '".$p['matricula']."'
+	  								AND `seqAtividade` = '".$p['seqAtividade']."';";
+
+					$this->create_connection();
+					$result = $this->conn->query($sql2);
+					if(!$result){ //deu erro na requisição
+						$this->bool_erro_BD = TRUE;
+						$this->msg_BD = "FALHA: " . $this->conn->error;
+					}
+					$this->close_connection();
+				}
+				
+		}
+    
     public function erro_BD(){
     	return $this->bool_erro_BD;
     }
@@ -123,8 +142,10 @@ class AtividadeModel extends BaseModel {
 		return $listaRetorna;
 	}
 	
-	public function getAtividades(){
-    	$matricula = $matricula = $_SESSION['userdata']['matricula'];
+	public function getAtividades($matricula = NULL){
+			if($matricula === NULL)
+    		$matricula = $_SESSION['userdata']['matricula'];
+    		
     	$sql = "SELECT * FROM " . $this->table_name . " WHERE `matricula` = '$matricula' ORDER BY `descricaoAtividade` ASC;";
     	
     	$this->create_connection();

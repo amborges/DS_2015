@@ -68,10 +68,33 @@ class AlunoModel extends BaseModel {
         $result = $this->conn->query($sql);
         $this->close_connection();
         
+        $res = NULL;
+        
         while($aux = $result->fetch_array())
         	$res[] = $aux;
         
         return $res;
+    }
+    
+    public function alunosToValidar(){
+    	//retornar um array de array($id_do_aluno, $nome_do_aluno, $atividades_conclusas, $total_de_atividades)
+    	
+    	$sql = "SELECT `ALUNO`.`matricula`, `ALUNO`.`nomeAluno` , SUM( `ATIVIDADE`.`validado` ) , COUNT( `ATIVIDADE`.`validado` )
+							FROM `ALUNO`
+							INNER JOIN `ATIVIDADE` ON `ATIVIDADE`.`matricula` = `ALUNO`.`matricula`
+							GROUP BY `ALUNO`.`matricula`
+							ORDER BY `ALUNO`.`nomeAluno` ;";
+              
+      $this->create_connection();
+      $result = $this->conn->query($sql);
+      $this->close_connection();
+      
+      $res = NULL; 
+        
+      while($aux = $result->fetch_array())
+      	$res[] = $aux;
+       
+      return $res;
     }
     
 }

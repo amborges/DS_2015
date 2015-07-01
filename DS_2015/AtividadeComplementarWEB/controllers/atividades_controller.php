@@ -523,6 +523,42 @@ class AtividadesController {
 	  		}//end of else
     }
     
+    public function validar(){
+    	if(!$_POST) redirect('homeprofessor/validar');
+    	require_once ABSPATH . '/controllers/homeprofessor_controller.php';
+    	
+    	$listatividades = NULL;
+    	
+    	
+    	if(isset($_POST['validacao'])){
+    		
+		  	//for($ii = 0; $ii < sizeof($_POST['validacao']); $ii++){
+		  	foreach($_POST['validacao'] as $pos){
+		  		
+		  		$listatividades[] = array(
+							'seqAtividade' => $_POST['seqAtividade'][$pos],
+							'matricula' => $_POST['matricula'][$pos],
+						);
+		  	}
+	  	}
+    	
+    	if($listatividades !== NULL){
+		  	require_once ABSPATH . '/models/atividade_model.php';
+				$atividademodel = new AtividadeModel();
+				$atividademodel->validar_atividade($listatividades);
+				if($atividademodel->erro_BD())
+					$this->dados_invalidos_ativ($atividademodel->msg_erro());
+				else{
+					$sucess = array('type' => 'success',
+		                 'message' => "Atividade validada com sucesso");
+		  		
+		  		(new HomeProfessorController)->validar($sucess);
+		  	}
+		  }
+		  else
+    		(new HomeProfessorController)->validar();
+    }
+    
     private function dados_invalidos_ativ($msg) {
         $alert = array('type' => 'danger',
                        'message' => $msg);
