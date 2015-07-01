@@ -91,7 +91,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="horascalculadas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Horas Calculadas:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="horascalculadas[]" name="horascalculadas[]" type="text"  value="' . $atividade['horascontabilizadas'] . '" required="true" class="form-control" maxlength="10" '.$readonly.'/>';
+                            echo '<input id="horascalculadas[]" name="horascalculadas[]" type="text"  value="' . $atividade['horascontabilizadas'] . '" required="true" class="form-control" maxlength="10" readonly/>';
                             echo '</div>';                       
                             echo '</div>';
                                 

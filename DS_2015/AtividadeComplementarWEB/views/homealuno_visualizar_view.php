@@ -14,7 +14,8 @@
                         $classOne = '';
                         $classTwo = 'panel-collapse collapse in';
                         foreach ($atividades as $atividade) {
-                        		$readonly = ($atividade['validado'] === '1') ? 'readonly' : '';
+                        		//$readonly = ($atividade['validado']==='1')?'readonly':'';
+                        		$readonly = ($jaenviou) ? 'readonly' : '';
                         		$paneltype;
                         			//cores nos panels
                         		if($atividade['validado'] === '1')

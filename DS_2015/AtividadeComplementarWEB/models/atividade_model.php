@@ -41,7 +41,7 @@ class AtividadeModel extends BaseModel {
     public function validar_atividade($listaParaValidar){
     	foreach($listaParaValidar as $p){
     		
-	  		$sql2 = "UPDATE `".$this->table_name."`
+	  		$sql2 = "	UPDATE `".$this->table_name."`
 	  							SET `validado` = '1'
 	  							WHERE `matricula` = '".$p['matricula']."'
 	  								AND `seqAtividade` = '".$p['seqAtividade']."';";
@@ -115,9 +115,6 @@ class AtividadeModel extends BaseModel {
 				GROUP BY `CATEGORIA`.`seqCategoria`
 			;";
 			
-			//SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate 
-			//FROM Orders INNER JOIN Customers
-			// ON Orders.CustomerID=Customers.CustomerID;
 			
 			$this->create_connection();
 		  $result = $this->conn->query($sql2);

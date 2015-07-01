@@ -7,23 +7,15 @@
  */
 class HomeAlunoController {
   
-    public function index() {
+    public function index($alert = NULL) {
         if ( ! isset($_SESSION['userdata'])) {
             redirect('login');
         }
 
         require_once ABSPATH . '/functions/atividades_functions.php';
         require_once ABSPATH . '/models/atividade_model.php';
-
-        /*
-            Este post serve apenas para enviar os dados a serem mostrados no grafico
-            Gerar um $_POST dinâmico, permitindo que se carregue quantos GrandeAreas
-            forem necessárias, deve-se enviar o valor acumulado pelo aluno e o mínimo
-            por cada GrandeArea. Aqui apenas coloquei 3 pra mostrar como vai ficar
-        */
         
         $atividademodel = new AtividadeModel();
-        
         $_POST = $atividademodel->getHorasAtividades();
 
         $nome_aluno = $_SESSION['userdata']['nomeAluno'];
@@ -42,8 +34,6 @@ class HomeAlunoController {
         
         $idCurso = $_SESSION['userdata']['idCurso'];
         
-        
-
         $menus = AtividadesFunctions::init_menus(null, 2);
         $grandes_areas = $this->find_grande_areas();
         $main_page = ABSPATH . '/views/homealuno_cadastrar_view.php';
@@ -51,7 +41,7 @@ class HomeAlunoController {
         require ABSPATH . '/views/includes/template.php';
     }
   
-    public function visualizar(){
+    public function visualizar($alert = NULL){
         if ( ! isset($_SESSION['userdata'])) {
             redirect('login');
         }
@@ -60,6 +50,10 @@ class HomeAlunoController {
         require_once ABSPATH . '/models/atividade_model.php';
         require_once ABSPATH . '/models/grande_area_model.php';
         require_once ABSPATH . '/models/categoria_model.php';
+        require_once ABSPATH . '/models/aluno_model.php';
+        
+        $alunomodel = new AlunoModel();
+        $jaenviou = $alunomodel->jaConcluiuAtividades();
         
         //primeiro é preciso buscas as atividades cadastradas
         $atividademodel = new AtividadeModel();
@@ -86,7 +80,6 @@ class HomeAlunoController {
 		        	$file = "filedoesntfind.pdf";
 		        	$fileerror = true;
 		        }
-		        
 		          
 		      	$atividades[] = array('id' => $seq,
 		      				'seqAtividade' => $at['seqAtividade'],
@@ -115,12 +108,30 @@ class HomeAlunoController {
         require ABSPATH . '/views/includes/template.php';
     }   
   
-    public function enviar(){
+    public function enviar($alert = NULL){
         if ( ! isset($_SESSION['userdata'])) {
             redirect('login');
         }
-
+        
         require_once ABSPATH . '/functions/atividades_functions.php';
+        require_once ABSPATH . '/models/atividade_model.php';
+        require_once ABSPATH . '/models/aluno_model.php';
+        
+        $alunomodel = new AlunoModel();
+        $jaenviou = $alunomodel->jaConcluiuAtividades();
+        
+        $completouAsHoras = true; //predispoe que todas as GA estejam completos
+        
+        if(!$jaenviou){
+        	$atividademodel = new AtividadeModel();
+        	$ativ = $atividademodel->getHorasAtividades();
+        
+		      foreach($ativ as $a){
+		      	if($a[1] < $a[2]) //horasAcumuladas < horaMinima
+		      		$completouAsHoras = false;
+		      }
+	    	}
+        
         $menus = AtividadesFunctions::init_menus(null, 4);
         $main_page = ABSPATH . '/views/homealuno_enviar_view.php';
 
@@ -150,7 +161,7 @@ class HomeAlunoController {
         if ( ! defined('ABSPATH')) //caso quem chama for o dynamicComboBox
         	require_once '../config.php'; //carregar informações de configuração
                 	
-        require_once ABSPATH . '/models/categoria_model.php';;
+        require_once ABSPATH . '/models/categoria_model.php';
         
         $categoria_model = new CategoriaModel();
         $categorias = $categoria_model->find_by_curso_and_grande_area($id_curso, $id_grandearea);
@@ -158,6 +169,21 @@ class HomeAlunoController {
         if($categorias === NULL) return array('seqCategoria' => '0', 'nomeCategoria' => 'FAIL');
         
         return $categorias;
+    }
+    
+    public function concluir_atividades($alert = NULL){
+    	if ( ! isset($_SESSION['userdata'])) {
+          redirect('login');
+        }
+        
+        require_once ABSPATH . '/models/aluno_model.php';
+        $alunomodel = new AlunoModel();
+        $alunomodel->fecharAtividades();
+        
+        $alert = array('type' => 'success',
+                       'message' => "Atividades Encerradas! Aguarde avaliação!");
+        
+        $this->index($alert);
     }
   
 }

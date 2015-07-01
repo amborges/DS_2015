@@ -40,21 +40,21 @@ class AtividadeModel extends BaseModel {
     
     public function validar_atividade($listaParaValidar){
     	foreach($listaParaValidar as $p){
-    		if($p['validacao'] === '1'){
-		  		$sql2 = "UPDATE `".$this->table_name."`
-		  							SET `validado` = '1'
-		  							WHERE `matricula` = '".$p['matricula']."'
-		  								AND `seqAtividade` = '".$p['seqAtividade']."';";
+    		
+	  		$sql2 = "UPDATE `".$this->table_name."`
+	  							SET `validado` = '1'
+	  							WHERE `matricula` = '".$p['matricula']."'
+	  								AND `seqAtividade` = '".$p['seqAtividade']."';";
 
-						$this->create_connection();
-						$result = $this->conn->query($sql2);
-						if(!$result){ //deu erro na requisição
-							$this->bool_erro_BD = TRUE;
-							$this->msg_BD = "FALHA: " . $this->conn->error;
-						}
-						$this->close_connection();
+					$this->create_connection();
+					$result = $this->conn->query($sql2);
+					if(!$result){ //deu erro na requisição
+						$this->bool_erro_BD = TRUE;
+						$this->msg_BD = "FALHA: " . $this->conn->error;
 					}
+					$this->close_connection();
 				}
+				
 		}
     
     public function erro_BD(){
@@ -115,9 +115,6 @@ class AtividadeModel extends BaseModel {
 				GROUP BY `CATEGORIA`.`seqCategoria`
 			;";
 			
-			//SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate 
-			//FROM Orders INNER JOIN Customers
-			// ON Orders.CustomerID=Customers.CustomerID;
 			
 			$this->create_connection();
 		  $result = $this->conn->query($sql2);

@@ -534,7 +534,7 @@ class AtividadesController {
     		
 		  	//for($ii = 0; $ii < sizeof($_POST['validacao']); $ii++){
 		  	foreach($_POST['validacao'] as $pos){
-		  		echo $pos;
+		  		
 		  		$listatividades[] = array(
 							'seqAtividade' => $_POST['seqAtividade'][$pos],
 							'matricula' => $_POST['matricula'][$pos],
@@ -574,5 +574,9 @@ class AtividadesController {
     	if($hora <= $horamax)
     		return $hora;
     	return $horamax;
+    }
+    
+    public function concluir_atividades(){
+    	
     }
 }
