@@ -19,7 +19,7 @@ class CoordenadorModel extends BaseModel {
     
     public function cadastrar_novo_professor($p){
     	$ehCoordenador = ($p['tipo'] === "coordenador") ? "1": "0";
-    	$sql = "INSERT INTO `". $this->table_name ."`(`siape`, `nome`, `senha`, `usuarioAtivo`, `ehCoordenador`) VALUES ('".$p['siape']."','".$p['nome']."','".sha1($p['senha'])."','1','".$ehCoordenador."')";
+    	$sql = "INSERT INTO `". $this->table_name ."`(`siape`, `nome`, `senha`, `usuarioAtivo`, `ehCoordenador`, `idCurso`) VALUES ('".$p['siape']."','".$p['nome']."','".sha1($p['senha'])."','1','".$ehCoordenador."', '".$p['idCurso']."')";
     	
     	$this->create_connection();
       $result = $this->conn->query($sql);
