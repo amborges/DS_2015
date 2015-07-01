@@ -33,6 +33,14 @@ class HomeProfessorController {
     require ABSPATH . '/views/includes/template.php';
   }
   
+  public function concluintes($alert = NULL) {
+    require_once ABSPATH . '/functions/atividades_functions.php';
+    
+    $menus = AtividadesFunctions::init_menus("professor", 2);
+    $main_page = ABSPATH . '/views/homeprofessor_concluintes_view.php';
+    require ABSPATH . '/views/includes/template.php';
+  }
+  
   public function valide(){
     if($this->parametros === NULL)
     	redirect('homeprofessor/validar');

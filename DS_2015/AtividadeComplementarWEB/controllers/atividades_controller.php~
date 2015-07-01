@@ -575,4 +575,28 @@ class AtividadesController {
     		return $hora;
     	return $horamax;
     }
+    
+    public function delete(){
+    	if ( ! isset($_SESSION['userdata'])) {
+    		redirect('login');
+    	} else if(sizeof($this->parametros) === 0){
+    		redirect('homeprofessor/validar');
+    	}
+    	
+    	$seqAtividade = $this->parametros[0];
+    	
+    	require_once ABSPATH . '/models/atividade_model.php';
+      $atividademodel = new AtividadeModel();
+      $alert;
+      $atividademodel->delete($seqAtividade);
+    	
+    	if($atividademodel->erro_BD())
+    		$alert = array('type' => 'danger',
+                       'message' => "Falha ao remover atividade: ".$atividademodel->msg_erro());
+      else
+      	$alert = array('type' => 'success',
+                       'message' => "Atividade removida com sucesso!");
+    	
+    	$this->index($alert);
+    }
 }

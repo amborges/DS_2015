@@ -35,6 +35,18 @@
                             echo '<div id="' . $collapse . '" class="' . $classTwo . '" role="tabpanel" aria-labelledby="' . $id . '">';
                             echo '<div class="panel-body">';
                             
+                            // BOTAO REJEITA
+                            echo '<div class="form-group">';
+                            echo '<div class="col-md-8"></div>';
+                            echo '<a href="'. BASE_URL .'atividades/rejeitar_atividade/'.$atividade['seqAtividade'].'" class="col-md-4 btn btn-danger" disabled>REJEITAR</a>';    
+                            echo '</div>';
+                            
+                            // BOTAO ATUALIZA
+                            echo '<div class="form-group">';
+                            echo '<div class="col-md-8"></div>';
+                            echo '<a href="'. BASE_URL .'atividades/atualizar_atividade/'.$atividade['seqAtividade'].'" class="col-md-4 btn btn-warning" disabled>ATUALIZA</a>';    
+                            echo '</div>';
+                            
                             // Descrição
                             echo '<div class="form-group">';
                             echo '<label for="descricao[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Descrição:</label>';
@@ -89,7 +101,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="horascalculadas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Horas Calculadas:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="horascalculadas[]" name="horascalculadas[]" type="text"  value="' . $atividade['horascontabilizadas'] . '" required="true" class="form-control" maxlength="10" readonly/>';
+                            echo '<input id="horascalculadas[]" name="horascalculadas[]" type="text"  value="' . $atividade['horascontabilizadas'] . '" required="true" class="form-control" maxlength="10" />';
                             echo '</div>';                       
                             echo '</div>';
                                 

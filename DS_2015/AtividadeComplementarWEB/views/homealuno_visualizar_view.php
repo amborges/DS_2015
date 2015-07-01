@@ -43,8 +43,7 @@
                             // BOTAO DE EXCLUIR
                             echo '<div class="form-group">';
                             echo '<div class="col-md-8"></div>';
-                            echo '<a href="'. BASE_URL .'homealuno/delete/'.$atividade['seqAtividade'].'" class="col-md-4 btn btn-danger">EXCLUIR</a>';
-                            echo '</div>';                       
+                            echo '<a href="'. BASE_URL .'homealuno/delete/'.$atividade['seqAtividade'].'" class="col-md-4 btn btn-danger">EXCLUIR</a>';    
                             echo '</div>';
                             
                             // Descrição

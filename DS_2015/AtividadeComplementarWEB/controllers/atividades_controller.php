@@ -575,4 +575,22 @@ class AtividadesController {
     		return $hora;
     	return $horamax;
     }
+    
+    public function rejeitar_atividade(){
+    	if ( ! isset($_SESSION['userdata'])) {
+    		redirect('login');
+    	} else if(sizeof($this->parametros) === 0){
+    		redirect('homeprofessor/validar');
+    	}
+    	
+    }
+    
+    public function atualizar_atividade(){
+    	if ( ! isset($_SESSION['userdata'])) {
+    		redirect('login');
+    	} else if(sizeof($this->parametros) === 0){
+    		redirect('homeprofessor/validar');
+    	}
+    	
+    }
 }
