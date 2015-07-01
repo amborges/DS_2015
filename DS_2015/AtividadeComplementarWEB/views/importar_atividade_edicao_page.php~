@@ -1,4 +1,4 @@
-<form class="form-horizontal" action="<?php echo BASE_URL; ?>atividades/salvar" method="post">
+<form class="form-horizontal" action="<?php echo BASE_URL; ?>atividades/salvar" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-xs-offset-1 col-xs-8 col-lg-offset-1 col-lg-8 col-md-offset-1 col-md-8 col-sm-offset-1 col-sm-8">
             <!-- Botões - Salvar -->
@@ -29,21 +29,21 @@
                             
                             // Descrição
                             echo '<div class="form-group">';
-                            echo '<label for="descricao[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Descrição:</label>';
+                            echo '<label for="descricao[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Descrição:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="descricao[]" name="descricao[]" type="text"  value="' . $atividade['descricao'] . '" required="true" class="form-control" maxlength="128"/>';
+                            echo '<input id="descricao[]" name="descricao[]" type="text"  value="' . $atividade['descricao'] . '" required="true" class="form-control" maxlength="255"/>';
                             echo '</div>';                       
                             echo '</div>';
                             
                             // Grande área
                             echo '<div class="form-group">';
-                            echo '<label for="grande_area[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Grande área:</label>';
+                            echo '<label for="grande_area[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Grande área:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<select id="grande_area[]" name="grande_area[]" class="form-control">';
-                            echo '<option value="0"></option>';
+                            echo '<select id="grande_area[]" name="grande_area[]" required="true" class="form-control">';
+                            echo '<option></option>';
                             
                             foreach($grandes_areas as $grande_area) {
-                                $selected = (utf8_decode($atividade['grande_area']) === utf8_decode($grande_area['nomeGA'])) ? 'selected' : '';
+                                $selected = (strtoupper(utf8_decode($atividade['grande_area'])) === strtoupper(utf8_decode($grande_area['nomeGA']))) ? 'selected' : '';
                                 echo '<option value="'. $grande_area['seqGA'] . '" '. $selected . ' >' . $grande_area['nomeGA'] . '</option>';
                             }
                                 
@@ -53,13 +53,13 @@
                             
                             // Categoria
                             echo '<div class="form-group">';
-                            echo '<label for="categoria[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Categoria:</label>';
+                            echo '<label for="categoria[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Categoria:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<select id="categoria[]" name="categoria[]" class="form-control">';
-                            echo '<option value="0"></option>';
+                            echo '<select id="categoria[]" name="categoria[]" required="true" class="form-control">';
+                            echo '<option></option>';
                             
-                            foreach($categorias as $categoria) {
-                                $selected = ($atividade['categoria'] === $categoria['nomeCategoria']) ? 'selected' : '';
+                            foreach($atividade['categorias'] as $categoria) {
+                                $selected = (strtoupper(utf8_decode($atividade['categoria'])) === strtoupper(utf8_decode($categoria['nomeCategoria']))) ? 'selected' : '';
                                 echo '<option value="'. $categoria['seqCategoria'] . '" '. $selected . ' >' . $categoria['nomeCategoria'] . '</option>';
                             }
                                 
@@ -69,33 +69,35 @@
                             
                             // Horas
                             echo '<div class="form-group">';
-                            echo '<label for="horas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Horas:</label>';
+                            echo '<label for="horas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Horas:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="horas[]" name="horas[]" type="text"  value="' . $atividade['horas'] . '" required="true" class="form-control" maxlength="128"/>';
+                            echo '<input id="horas[]" name="horas[]" type="text"  value="' . $atividade['horas'] . '" required="true" class="form-control" maxlength="10"/>';
                             echo '</div>';                       
                             echo '</div>';
                             
+                            /*
                             // Horas Calculadas
                             echo '<div class="form-group">';
                             echo '<label for="horascalculadas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Horas Calculadas:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="horascalculadas[]" name="horascalculadas[]" type="text"  value="' . $atividade['horascontabilizadas'] . '" required="true" class="form-control" maxlength="128"/>';
+                            echo '<input id="horascalculadas[]" name="horascalculadas[]" type="text"  value="' . $atividade['horascontabilizadas'] . '" required="true" class="form-control" maxlength="10" readonly />';
                             echo '</div>';                       
                             echo '</div>';
+                            */
                                 
                             // Data inicial
                             echo '<div class="form-group">';
-                            echo '<label for="data_inicial[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Data inicial:</label>';
+                            echo '<label for="data_inicial' . $atividade['id'] . '" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Data inicial:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="data_inicial[]" name="data_inicial[]" type="text"  value="' . $atividade['data_inicial'] . '" required="true" class="form-control" maxlength="128"/>';
-                            echo '</div>';                       
+                            echo '<input id="data_inicial' . $atividade['id'] . '" name="data_inicial[]" type="text"  value="' . $atividade['data_inicial'] . '" required="true" class="form-control date_picker" maxlength="10"/>';
+                            echo '</div>';
                             echo '</div>';
                             
                             // Data final
                             echo '<div class="form-group">';
-                            echo '<label for="data_final[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Data final:</label>';
+                            echo '<label for="data_final' . $atividade['id'] . '" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Data final:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="data_final[]" name="data_final[]" type="text"  value="' . $atividade['data_final'] . '" class="form-control" maxlength="128"/>';
+                            echo '<input id="data_final' . $atividade['id'] . '" name="data_final[]" type="text"  value="' . $atividade['data_final'] . '" class="form-control date_picker" maxlength="10"/>';
                             echo '</div>';                       
                             echo '</div>';
                             
@@ -103,7 +105,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="certificado[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Certificado:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="certificado[]" name="certificado[]" type="file" class="form-control" maxlength="128"/>';
+                            echo '<input id="certificado[]" name="certificado[]" type="file" class="form-control" required="true" maxlength="128"/>';
                             echo '</div>';                       
                             echo '</div>';
                             
@@ -136,3 +138,12 @@
         </div>
     </div>
 </form>
+
+<script>
+    $(".date_picker").datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+    
+    $(".date_picker").mask("99/99/9999");
+</script>

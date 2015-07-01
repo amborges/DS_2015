@@ -170,4 +170,31 @@ class AtividadeModel extends BaseModel {
 			//tive um bloqueio momentâneo, vou deixar para ser implementado depois
     }
     
+    public function insertFromXML($listaDeAtividades){
+    	//Eu queria unificar os updates, mas infelizmente, vai ter q ser um a um
+    	
+    	$matricula = $_SESSION['userdata']['matricula'];
+    	$idcurso = $_SESSION['userdata']['idCurso'];
+    	$seqAtividade = $this->getNextNumberToInsert($matricula);
+    	
+    	foreach($listaDeAtividades as $la){
+    		$fileAddress = explode("/", $la['certificado']); //retorna só o nome do arquivo
+  			$fileAddress = array_pop($fileAddress);
+  			
+    		$sql = "INSERT INTO `".$this->table_name."` (`matricula`, `seqAtividade`, `descricaoAtividade`, `horaInformada`, `horaPermitida`, `dataInicio`, `dataFim`, `arquivo`, `validado`, `idCurso`, `seqGA`, `seqCategoria`) 
+    		VALUES ('$matricula', '$seqAtividade', '".$la['descricao']."', '".$la['horas']."', '".$la['horasCalculadas']."', '".$la['dataInicio']."', '".$la['dataFim']."', '$fileAddress', '0', '$idcurso', '".$la['grandearea']."', '".$la['categoria']."');";
+    		
+    		$seqAtividade++;	
+    		
+    		//echo $sql;
+    		
+    		$this->create_connection();
+		  	$result = $this->conn->query($sql);
+				$this->close_connection();
+    	}
+    	
+			//COMO DESCOBRIR SE DEU PAU?!
+			//tive um bloqueio momentâneo, vou deixar para ser implementado depois
+    }
+    
 }

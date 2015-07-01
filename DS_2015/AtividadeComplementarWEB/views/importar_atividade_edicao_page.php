@@ -1,4 +1,4 @@
-<form class="form-horizontal" action="<?php echo BASE_URL; ?>atividades/salvar" method="post">
+<form class="form-horizontal" action="<?php echo BASE_URL; ?>atividades/salvar" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-xs-offset-1 col-xs-8 col-lg-offset-1 col-lg-8 col-md-offset-1 col-md-8 col-sm-offset-1 col-sm-8">
             <!-- Botões - Salvar -->
@@ -39,8 +39,8 @@
                             echo '<div class="form-group">';
                             echo '<label for="grande_area[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Grande área:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<select id="grande_area[]" name="grande_area[]" class="form-control">';
-                            echo '<option value="0"></option>';
+                            echo '<select id="grande_area[]" name="grande_area[]" required="true" class="form-control">';
+                            echo '<option></option>';
                             
                             foreach($grandes_areas as $grande_area) {
                                 $selected = (strtoupper(utf8_decode($atividade['grande_area'])) === strtoupper(utf8_decode($grande_area['nomeGA']))) ? 'selected' : '';
@@ -55,8 +55,8 @@
                             echo '<div class="form-group">';
                             echo '<label for="categoria[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Categoria:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<select id="categoria[]" name="categoria[]" class="form-control">';
-                            echo '<option value="0"></option>';
+                            echo '<select id="categoria[]" name="categoria[]" required="true" class="form-control">';
+                            echo '<option></option>';
                             
                             foreach($atividade['categorias'] as $categoria) {
                                 $selected = (strtoupper(utf8_decode($atividade['categoria'])) === strtoupper(utf8_decode($categoria['nomeCategoria']))) ? 'selected' : '';
@@ -75,13 +75,15 @@
                             echo '</div>';                       
                             echo '</div>';
                             
+                            /*
                             // Horas Calculadas
                             echo '<div class="form-group">';
                             echo '<label for="horascalculadas[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Horas Calculadas:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="horascalculadas[]" name="horascalculadas[]" type="text"  value="' . $atividade['horascontabilizadas'] . '" required="true" class="form-control" maxlength="10"/>';
+                            echo '<input id="horascalculadas[]" name="horascalculadas[]" type="text"  value="' . $atividade['horascontabilizadas'] . '" required="true" class="form-control" maxlength="10" readonly />';
                             echo '</div>';                       
                             echo '</div>';
+                            */
                                 
                             // Data inicial
                             echo '<div class="form-group">';
@@ -101,9 +103,9 @@
                             
                             // Certificado
                             echo '<div class="form-group">';
-                            echo '<label for="certificado[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Certificado:</label>';
+                            echo '<label for="fileToUpload '. $atividade['id'] .'" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label">Certificado:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<input id="certificado[]" name="certificado[]" type="file" class="form-control" maxlength="128"/>';
+                            echo '<input id="fileToUpload'. $atividade['id'] .'" name="fileToUpload[]" type="file" class="form-control" required="true" maxlength="128"/>';
                             echo '</div>';                       
                             echo '</div>';
                             

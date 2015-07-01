@@ -1,0 +1,456 @@
+commit 5d842f81f673b8dad64e3a97955bfb3d98f11f94
+Author: Paulo Fernandes <>
+Date:   Mon Jun 29 22:56:42 2015 -0300
+
+    Adição da versão dos dados
+
+commit f2a5e7ac8c5a85aa803931f7f685ba187043d8ae
+Author: Paulo Fernandes <>
+Date:   Mon Jun 29 20:21:36 2015 -0300
+
+    Adição da versão dos dados
+
+commit 6ee4fd7300aa15c297d8368be3cce5aaecebda5a
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon Jun 29 16:24:14 2015 -0300
+
+    atualizacao de professores e coordenadores OK
+
+commit 57bf43a227db896d578641740e3c7d299a82f0ce
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon Jun 29 15:34:46 2015 -0300
+
+    front end de editar professores e coordenadores OK
+
+commit fca06b1ea1bb34ce8f6cdf62ff21c787c7642850
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon Jun 29 14:18:18 2015 -0300
+
+    backend das atualizacoes de atividades por parte do aluno OK, um unica ressalva, os erros nao sao processados, ele mostra que deu tudo certo, mas as alteracoes nao sao enviadas ao banco de dados. Descobrir como arrumar isso!
+
+commit 2a258d9ae61a25cf751f2c2c5eeece24463d98fb
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon Jun 29 13:12:21 2015 -0300
+
+    frontend de atualizar atividades, os arquivos pdf sao mostrados ao aluno, e caso houver falha em carregar, o pannel fica vermelho e mostra uma mensagem padrao no lugar do pdf. Vendo agora como fazer pra atualizar apenas os certificados que sofreram mudancas
+
+commit e15402d888cf183581730e7a2c581b79ce0d3395
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon Jun 29 00:15:52 2015 -0300
+
+    deixando front end das atualizacoes de atividades mais bonitinha, bloqueei as atividades ja avaliadas pelo professor
+
+commit 626535793c84084af8528eee1602c5ce1259b956
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Sun Jun 28 23:34:42 2015 -0300
+
+    back end de atualização de atividades pela metade, falta ver como vai funcionar os , tanto back como front
+
+commit 764648f71fe165fe715ca13736005977e65dc435
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Sun Jun 28 17:58:57 2015 -0300
+
+    Front-end de visualizar atividades OK
+
+commit 0b4404037c780794170144520809507cb4f28bfe
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Fri Jun 26 14:26:40 2015 -0300
+
+    Alteracao de atividades, parte front-end em desenvolvimento, ja mostra as atividades cadastradas, mas falta colocar direito os campos grande areas e categorias. Farei isso domingo
+
+commit 94c767218d45139f42cbf1edc0dfb215e729b0d9
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Fri Jun 26 13:30:52 2015 -0300
+
+    Grafico de horas do aluno funciona, aquele grafico que aparece na pagina inicial, recupera dados do banco de dados e mostra.
+
+commit 94569af8dcb5aa0dd3c30b0aec17095f0d07b2d2
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Fri Jun 26 13:07:25 2015 -0300
+
+    Ajuste de requires na classe homealuno_controller
+
+commit 0902681d388b27cd212c775d16cb3397d6bad363
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 25 14:18:36 2015 -0300
+
+    Cadastro de atividade do aluno, versao web, funcional. Eh preciso fazer o calculo de horas, por enquanto ele esta setando o mesmo valor de entrada
+
+commit 31a83a7f6888c0292176cd09376122c7e632cc1c
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 25 11:25:45 2015 -0300
+
+    Back end de cadastro de atividades QUASE pronto, falta ajustar o parametro sql de insert, tem algum erro que ainda nao descobri
+
+commit 8ec1f30f9a3d0ab75cefac39883c9162c607f730
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 25 09:52:52 2015 -0300
+
+    front end do cadastro de atividades pronta
+
+commit 0a4577917fb440acee763fdf9d2709956517d973
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Wed Jun 24 10:03:35 2015 -0300
+
+    Correcoes no login, dados nao estavam sendo armazenados no session
+
+commit 7f6f5e12c42b94c17d462da4f7696c9137ed0c42
+Author: Paulo Fernandes <>
+Date:   Sun Jun 21 02:19:59 2015 -0300
+
+    Correções pós merge
+
+commit 728a95f739c17933f4a956a89f1caff3783a67b8
+Merge: 8ac4aa1 8a33c96
+Author: Paulo <Paulo@Ash>
+Date:   Sun Jun 21 02:00:46 2015 -0300
+
+    Merge origin/master
+    
+    Conflicts:
+    	DS_2015/AtividadeComplementarWEB/controllers/cadastro_controller.php
+    	DS_2015/AtividadeComplementarWEB/controllers/homealuno_controller.php
+    	DS_2015/AtividadeComplementarWEB/models/aluno_model.php
+    	DS_2015/AtividadeComplementarWEB/models/curso_model.php
+    	DS_2015/AtividadeComplementarWEB/models/grande_area_model.php
+    	DS_2015/AtividadeComplementarWEB/models/login_model.php
+    	DS_2015/AtividadeComplementarWEB/views/login_page.php
+
+commit 8ac4aa1866d5ea22d624a7af9c1d699d94f59d3f
+Author: Paulo Fernandes <>
+Date:   Sun Jun 21 01:29:40 2015 -0300
+
+    Cadastro de alunos, melhorias no login e adição da function .numeric() em jQuery
+
+commit 8a33c96ffa9ede5c6126a68f9de7c94b2efbc5c4
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 18 23:35:42 2015 -0300
+
+    Incluir novas atividades, soh mostra o combobox da grande area, estou pesquisando como faz pra mostrar dinamicamente as categorias
+
+commit 3fcdc4f4614cdf613646317b4d067991af1d3f4a
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 18 19:31:08 2015 -0300
+
+    Cadastro de Novo professor OK
+
+commit dadf2cd1de375bbf097550fe3d9a98873b7a5524
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 18 18:36:36 2015 -0300
+
+    Login de professor e coordenador OK
+
+commit d33fa7d7bb8cc40102455c5092598aa890b64813
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Thu Jun 18 13:18:37 2015 -0300
+
+    Cadastro de aluno OK. Login de aluno OK. Estou usando sha1 nas senhas
+
+commit 16d5aeb0350c49c210f1d5c3cdce6fce5d001e63
+Author: Paulo Fernandes <>
+Date:   Thu Jun 18 02:47:36 2015 -0300
+
+    Serviço de login e adição da coluna idCurso na tabela do aluno
+
+commit d560e2058dfa1bfb0960a74b83a5c63238974f8c
+Author: Paulo Fernandes <>
+Date:   Thu Jun 18 01:15:13 2015 -0300
+
+    Alguns ajustes
+
+commit 4d3b9a03b2e2cfdb667b1bd33737f4a61f5dc147
+Author: Paulo Fernandes <>
+Date:   Mon Jun 15 02:07:03 2015 -0300
+
+    backend de busca de grande áreas e categorias
+
+commit 86a9378946181db7e61197741b03231ffdba7ab0
+Author: Paulo <Paulo@Ash>
+Date:   Thu Jun 11 15:55:11 2015 -0300
+
+    Adição de date picker, date mask e alguns ajustes nas telas
+
+commit 0854977b5de6e376dfead2abb2ffc60ed42535a1
+Author: Paulo <Paulo@Ash>
+Date:   Wed Jun 10 21:49:00 2015 -0300
+
+    Correções nos wireframes
+
+commit 7f44cec89a9b4afefd76a23ecc0451c8ed547f7b
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Wed Jun 10 14:28:22 2015 -0300
+
+    Algumas alteracoes no footer e no import xml
+
+commit dd092538f74cce93b9628afc329f5a23e2e41cae
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon Jun 8 13:17:24 2015 -0300
+
+    Janelas iniciais terminadas. Falta toda a parte backend e adequacao do front-end para trabalhar com dados vindo do banco de dados
+
+commit e9583ac861765444e6f5dfef51d694110fff8f2f
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Sat Jun 6 14:48:33 2015 -0300
+
+    Janelas do professor iniciadas. Nenhum conteudo nelas, ainda
+
+commit 586b4dc1a9cf67c9190731e964e1082c19e9a315
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Sat Jun 6 11:51:24 2015 -0300
+
+    Janelas de coordenador foram iniciadas, menus laterais foram modificados
+
+commit c51b44e1b5b65148c9a4128c0e90273ae7a0f16b
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Sat Jun 6 10:00:50 2015 -0300
+
+    Front-End do aluno ja esta quase pronta, alguns detalhes que nao sei fazer. Mas ja da pra seguir trabalhando em cima.
+
+commit 6c73d2fdd1736f794a9fb4032dea76817a10ad61
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Fri Jun 5 19:22:17 2015 -0300
+
+    Inclui 3 possibilidades de homes, a index do homealuno ja esta pronta. SOMENTE FRONT-END
+
+commit ba74ad5d00a98970fb17fce8bf9e029c3ae19262
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Fri Jun 5 14:28:09 2015 -0300
+
+    Problemas com a url amigaveis resolvido
+
+commit 6f57eb3d812d9a72dff9534967132fa052ad87c5
+Author: Paulo Fernandes <>
+Date:   Fri Jun 5 01:57:59 2015 -0300
+
+    Front-end, SEM validação e SEM o back-end, das telas cadastro de aluno e importação das atividades. É necessário o desenvolvimento de validações e das regras de negócio no back-end
+
+commit eb246914ce9d9ee59f16259ccdea843c4c6b425f
+Author: Paulo <Paulo@Ash>
+Date:   Mon Jun 1 00:21:37 2015 -0300
+
+    Ajustes na montagem do menu
+
+commit c20641c0025e63cc2db3a159264c5912194a32ca
+Author: Paulo <Paulo@Ash>
+Date:   Sun May 31 22:53:53 2015 -0300
+
+    Pequenos ajustes
+
+commit 4c19055813077e5785f62957fbcd155acf6934fa
+Author: Paulo Fernandes <>
+Date:   Mon May 25 02:09:33 2015 -0300
+
+    Pequenos ajustes
+
+commit 0f45f9752d52e1c096f3870bf906c79c38786dc5
+Author: Paulo Fernandes <>
+Date:   Mon May 25 02:03:41 2015 -0300
+
+    Estrutura MVC da aplicação e adição do bootstrap
+
+commit da54dda5764c9b9b3bffb0686598349cfa122dfd
+Author: Paulo Fernandes <>
+Date:   Mon May 25 01:26:23 2015 -0300
+
+    Wreframes
+
+commit d77ecc1c70fb9e3c93c5f79c64880a6cddcb45da
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Sat May 23 15:30:05 2015 -0300
+
+    processaXML atualizado. Agora apenas uma unica carga de XML eh permitido por aluno. Uma flag no banco do aluno eh alterado quando ha uma atualizacao de atividades validas.
+
+commit 91f3d86013654509f9938cd91c5eead396b9698d
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Sat May 23 14:58:58 2015 -0300
+
+    Banco de dados inlcuido, jah com os dados basicos. Eh preciso verificar se esta tudo bem. O coordenador eh siape 123 senha 123.
+
+commit c15bc5cf33f456174c464a6cebba3acab0c66825
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Wed May 20 08:44:33 2015 -0300
+
+    processaXML esta pronto, aqui no meu banco de dados ele ja carrega as atividades listadas no xml. Tem apenas um porem, no xml nao constam os arquivos pdf. E agora?
+
+commit 06ec311c1fb0d699dc682405888494d221503345
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon May 18 16:48:15 2015 -0300
+
+    eu tinha colocado o atalho dda minha pasta de trabalho, agora estao os arquivos
+
+commit 2e739a17552bb456c48c44f7d754ca1655bca8b0
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Mon May 18 16:45:46 2015 -0300
+
+    Arquivos iniciais de carregamento do XML no Banco, processaXML nao esta funcionando direito, e index.php esta bem feio, tem que adaptar o codigo ao framework
+
+commit 2c343ad74f7b72b8e0837cc7974c914ecda35247
+Author: Paulo Fernandes <>
+Date:   Sun May 17 23:27:31 2015 -0300
+
+    Criação das funcionalidades de edição das atividades e exportação das atividades para XML e também a troca das cores do gráfico dependendo do status do mesmo
+
+commit 6d2be6b212e4c9d9c94fa8b1643f12726a30ee99
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Wed May 13 14:00:08 2015 -0300
+
+    Criado uma nova pasta, para trabalhar com a parte web
+
+commit 954df815eb90630d18e5035c7295287755148553
+Author: Paulo Fernandes <>
+Date:   Wed May 6 23:58:57 2015 -0300
+
+    Alterações e refatorações
+
+commit b158548c4a79bb0af4251fae4c8f941497a92526
+Author: Paulo Fernandes <>
+Date:   Wed May 6 04:09:10 2015 -0300
+
+    Ajuste na inclusão e na visuaização de atividades
+
+commit d812e82272b97a4d2b2773fe4110e37d4d89b819
+Author: mwnoremberg <mwnoremberg@inf.ufpel.edu.br>
+Date:   Tue May 5 22:34:34 2015 -0300
+
+    Alteracao no XML das grandes areas da CC
+    
+    Alteracao para o valor correto das horas de cada area (Ensino, Extensão
+    e Pesquisa) da Ciencia da Computacao
+
+commit 3519f2cdbb3260c54032f083c70a0c7dcb40db21
+Author: Paulo Fernandes <>
+Date:   Tue May 5 03:25:24 2015 -0300
+
+    Adição e remoção de atividades
+
+commit 1abbda85a7800071d89a22875037d617212cc19c
+Merge: 46c16ba 1dad253
+Author: Paulo <Paulo@Ash>
+Date:   Sun May 3 18:43:31 2015 -0300
+
+    Merge origin/master
+
+commit 46c16ba0d683d4e1d2c56c95ff367a3ec2129598
+Author: Paulo Fernandes <>
+Date:   Sun May 3 18:40:32 2015 -0300
+
+    Tela de cadastro de atividades
+
+commit 1dad253b0d965ec15456b94b7c0ea42dd6c57248
+Author: lucas <lucas@192.168.0.103>
+Date:   Sun May 3 15:01:28 2015 -0300
+
+    Classes responsáveis pelos XML's preenchidas
+
+commit c5feea36e6dbbd2ed032dcd8e8dda17c8e2125a7
+Author: lucas <lucas@192.168.0.103>
+Date:   Sun May 3 12:51:05 2015 -0300
+
+    Preenchimento dos modelos
+
+commit 871c42d324153b1231b77c23d5956a2aab339ecf
+Author: lucas <lucas@192.168.0.103>
+Date:   Sun May 3 12:09:18 2015 -0300
+
+    Criação de classes faltantes dos modelos
+
+commit 84b026e07959d4e85c44126135afc342ea03e337
+Merge: c388a07 fb830ea
+Author: lucas <lucas@192.168.0.103>
+Date:   Sat May 2 23:20:33 2015 -0300
+
+    Merge origin/master
+
+commit c388a07adb7a79439ca25d0405f16a326ddc4841
+Author: lucas <lucas@192.168.0.103>
+Date:   Sat May 2 23:14:26 2015 -0300
+
+    criacao de diretorio
+
+commit a5403ade462cde5c0c902e960849fa606015481e
+Author: lucas <lucas@192.168.0.103>
+Date:   Sat May 2 18:22:05 2015 -0300
+
+    Criação de arquivo modificada para criar diretório perfil corretamente
+
+commit d38270e502298b808b350d8023c2e4bdbe3a6720
+Author: lucas <lucas@192.168.0.103>
+Date:   Sat May 2 18:17:23 2015 -0300
+
+    Criação de arquivo modificada para criar diretório perfil corretamente
+
+commit fb830ea1b529ae66f6ae925eccb3180f955583a1
+Author: Paulo Fernandes <>
+Date:   Sat May 2 14:22:49 2015 -0300
+
+    Tela de carregamento de perfil, alteração da tela de de criação de perfil, alterações na tela inicial e na tela principal do perfil e a colocação do botão para sair de um perfil.
+
+commit 3912875cd0e4e309092d08e156542be0b7170556
+Author: Paulo Fernandes <>
+Date:   Wed Apr 15 00:58:43 2015 -0300
+
+    Alteração no relacionamento entre Aluno e Curso.
+
+commit 756072118c0dbe2d596a3532deb85c634d0044ec
+Author: Paulo Fernandes <>
+Date:   Wed Apr 15 00:09:08 2015 -0300
+
+    Adição da classe Aluno e alterações para a criação do perfil.
+
+commit 0199c5450b696ae131b023270af70a4df87c959b
+Author: Paulo Fernandes <>
+Date:   Thu Apr 9 03:34:18 2015 -0300
+
+    Adição da classe Aluno e alterações para a criação do perfil.
+
+commit dca817134aa4eb1cea1cbbd17fecbd9feea15f0a
+Author: Paulo Fernandes <>
+Date:   Sat Apr 4 20:51:11 2015 -0300
+
+    Adição de exceções nas telas que utilizam os arquivos XML
+
+commit f518ec0ce860b49c5aed576eec04d366da3c963c
+Author: Paulo Fernandes <>
+Date:   Sat Apr 4 13:37:23 2015 -0300
+
+    Adicionando arquivo de informações sobre a implementação.
+
+commit 40f4337843e8a17a7a6c2c479daba34ec1ac7320
+Author: Paulo Fernandes <>
+Date:   Sat Apr 4 11:29:06 2015 -0300
+
+    Telas iniciais do sistema desktop
+    
+    Interfaces Gráficas:
+    - br.edu.ufpel.atividadecomplementar.interfacesgrafica
+    
+    Gerador e leitor de XML:
+    - br.edu.ufpel.atividadecomplementar.dadosXML
+    
+    Classes bean com anotações XML:
+    - br.edu.ufpel.atividadecomplementar.modelos
+    
+    Classe de manipulação e aquivos com dados das propriedades:
+    - br.edu.ufpel.atividadecomplementar.properties
+    
+    Classes utilitárias:
+    - br.edu.ufpel.atividadecomplementar.utils
+
+commit 904be8c8191fd66a56a36257950d4b0fc2c5681a
+Merge: d432521 394c841
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Wed Apr 1 21:59:22 2015 -0300
+
+    Merge https://github.com/amborges/DS_2015
+
+commit d4325215241ba5b18d41b17bbe1120e6dff0c3fc
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Wed Apr 1 21:48:55 2015 -0300
+
+    Apenas criei tres pastas e atualizei nossas atividades no readme
+
+commit 394c841ca37f08a9b77788d093e00c0499d8b856
+Author: amborges <amborges@inf.ufpel.edu.br>
+Date:   Mon Mar 30 16:37:26 2015 -0300
+
+    Initial commit
