@@ -82,7 +82,7 @@ class CoordenadorModel extends BaseModel {
     }
     
     public function verifica_login($matricula, $senha) {
-        $projection = "siape, nome, ehCoordenador";
+        $projection = "siape, nome, ehCoordenador, idCurso";
         $where = "siape = " . $matricula . " AND senha = '" . sha1($senha) . "' AND usuarioAtivo = 1";
         
         $sql = "SELECT " . $projection .
@@ -100,7 +100,7 @@ class CoordenadorModel extends BaseModel {
     }
     
     public function getListOfUsers(){
-    	$sql = "SELECT * FROM " . $this->table_name . " WHERE 1=1 ORDER BY `nome` ASC;";
+    	$sql = "SELECT * FROM " . $this->table_name . " WHERE 1 ORDER BY `nome` ASC;";
     	
     	$this->create_connection();
 		  $result = $this->conn->query($sql);

@@ -16,6 +16,12 @@ class HomeCoordenadorController {
     
   public function novoprofessor($alert = NULL){
   	require_once ABSPATH . '/functions/atividades_functions.php';
+  	require_once ABSPATH . '/models/curso_model.php';
+  	
+  	$cursomodel = new CursoModel();
+  	$cursos = $cursomodel->get_curso();
+  	$idCurso = $_SESSION['userdata']['idCurso']; //ja carrega o curso do coordenador
+  	
   	$menus = AtividadesFunctions::init_menus("coordenador", 1);
   	$main_page = ABSPATH . '/views/homecoordenador_novoprofessor_view.php';
   	require ABSPATH . '/views/includes/template.php';
@@ -24,10 +30,13 @@ class HomeCoordenadorController {
   public function editarprofessor($alert = NULL){
   	require_once ABSPATH . '/functions/atividades_functions.php';
   	require_once ABSPATH . '/models/coordenador_model.php';
+  	require_once ABSPATH . '/models/curso_model.php';
+  	
+  	$cursomodel = new CursoModel();
+  	$cursos = $cursomodel->get_curso();
   	
   	$coordenadormodel = new CoordenadorModel();
   	$usuarios = $coordenadormodel->getListOfUsers();
-  	
   	
   	$menus = AtividadesFunctions::init_menus("coordenador", 2);
   	$main_page = ABSPATH . '/views/homecoordenador_editarprofessor_view.php';

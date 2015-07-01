@@ -75,6 +75,26 @@
 											</div>                         
 									</div-->
 									
+									<!-- Curso -->
+									<div class="form-group">
+										<label for="curso" class="col-xs-offset-1 col-xs-2 col-lg-offset-1 col-lg-2 col-md-offset-1 col-md-2 col-sm-offset-1 col-sm-2 control-label"><span class="red_bold">*</span>Curso:</label>
+										<div class="col-xs-4 col-lg-4 col-md-4 col-sm-4">
+											<select id="curso" name="curso" required class="form-control">
+												  <?php
+												      echo '<option></option>';
+												      foreach($cursos as $curso)
+												      {
+											          $selected = '';
+											          if ($user['idCurso'] === $curso['idCurso']) {
+											              $selected = 'selected';
+											          }
+											          echo '<option value="'. $curso['idCurso'] . '" '. $selected . ' >' . $curso['nomeCurso'] . '</option>';
+												      }
+												  ?>
+												</select>
+										</div>                         
+									</div>
+									
 									<!-- Tipo -->
 									<div class="form-group">
 											<label for="tipo<?php echo $id; ?>" class="col-xs-offset-1 col-xs-2 col-lg-offset-1 col-lg-2 col-md-offset-1 col-md-2 col-sm-offset-1 col-sm-2 control-label">Tipo de Usuário:</label>

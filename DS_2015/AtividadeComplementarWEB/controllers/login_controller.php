@@ -65,6 +65,7 @@ class LoginController {
 				    if ($result != NULL) {
 				        $user = array('siape' => $result['siape'],
 				                      'nome' => $result['nome'],
+				                      'idCurso' => $result['idCurso'],
 				                      'ehCoordenador' => $result['ehCoordenador']);
 
 				        // Envia os dados de usuário para a sessão
