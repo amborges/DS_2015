@@ -34,7 +34,7 @@ class HomeProfessorController {
     require ABSPATH . '/views/includes/template.php';
   }
   
-  public function valide($alert = NULL){
+  public function valide(){
     if($this->parametros === NULL)
     	redirect('homeprofessor/validar');
     	
@@ -52,7 +52,7 @@ class HomeProfessorController {
     
     
     $atividades = NULL;
-    $seq = 1;
+    $seq = 0;
     $id_curso = $_SESSION['userdata']['idCurso'];
     
     if($listatividades !== NULL){

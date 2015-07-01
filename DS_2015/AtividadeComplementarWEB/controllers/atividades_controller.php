@@ -385,7 +385,7 @@ class AtividadesController {
 					$horacal = $this->calculaHora(
 						$_POST['horas'][$ii],
 						$_SESSION['userdata']['idCurso'],
-						$_POST['grand_earea'][$ii],
+						$_POST['grande_area'][$ii],
 						$_POST['categoria'][$ii]
 					);
 					

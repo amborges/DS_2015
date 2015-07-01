@@ -1,5 +1,4 @@
 <?php if ( ! defined('ABSPATH')) exit;
-require_once ABSPATH . '/models/base_model.php';
 
 
 /**
@@ -34,7 +33,7 @@ class HomeProfessorController {
     require ABSPATH . '/views/includes/template.php';
   }
   
-  public function valide($alert = NULL){
+  public function valide(){
     if($this->parametros === NULL)
     	redirect('homeprofessor/validar');
     	

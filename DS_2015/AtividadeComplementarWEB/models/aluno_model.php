@@ -107,6 +107,12 @@ class AlunoModel extends BaseModel {
 	  	$this->create_connection();
       $result = $this->conn->query($sql);
       $this->close_connection();
+      
+      if(!$result){ //deu erro na requisição
+    		$this->bool_erro_BD = TRUE;
+    		$this->msg_BD = $this->conn->error;
+    	}
+      
     }
     
     public function jaConcluiuAtividades(){
@@ -124,5 +130,4 @@ class AlunoModel extends BaseModel {
       return TRUE;
       
     }
-    
 }

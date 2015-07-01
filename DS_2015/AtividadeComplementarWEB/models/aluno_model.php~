@@ -124,5 +124,4 @@ class AlunoModel extends BaseModel {
       return TRUE;
       
     }
-    
 }

@@ -6,6 +6,12 @@
  * @author Alex
  */
 class HomeAlunoController {
+		
+		private $parametros;
+	
+		public function __construct($param = NULL){
+			$this->parametros = $param;
+		}
   
     public function index($alert = NULL) {
         if ( ! isset($_SESSION['userdata'])) {
@@ -31,6 +37,10 @@ class HomeAlunoController {
         }
 
         require_once ABSPATH . '/functions/atividades_functions.php';
+        require_once ABSPATH . '/models/aluno_model.php';
+        
+        $alunomodel = new AlunoModel();
+        $jaenviou = $alunomodel->jaConcluiuAtividades();
         
         $idCurso = $_SESSION['userdata']['idCurso'];
         
@@ -80,7 +90,6 @@ class HomeAlunoController {
 		        	$file = "filedoesntfind.pdf";
 		        	$fileerror = true;
 		        }
-		        
 		          
 		      	$atividades[] = array('id' => $seq,
 		      				'seqAtividade' => $at['seqAtividade'],
@@ -185,6 +194,29 @@ class HomeAlunoController {
                        'message' => "Atividades Encerradas! Aguarde avaliação!");
         
         $this->index($alert);
+    }
+    
+    public function delete(){
+    	if ( ! isset($_SESSION['userdata'])) {
+    		redirect('login');
+    	} else if(sizeof($this->parametros) === 0){
+    		redirect('homealuno');
+    	}
+    	
+    	$seqAtividade = $this->parametros[0];
+    	
+    	require_once ABSPATH . '/models/atividade_model.php';
+      $atividademodel = new AtividadeModel();
+      $alert;
+      $atividademodel->delete($seqAtividade);
+    	
+    	if($atividademodel->erro_BD())
+    		$alert = array('type' => 'danger',
+                       'message' => "Falha ao remover atividade: ".$atividademodel->msg_erro());
+      else
+      	$alert = array('type' => 'success',
+                       'message' => "Atividade removida com sucesso!");
+    	
     }
   
 }

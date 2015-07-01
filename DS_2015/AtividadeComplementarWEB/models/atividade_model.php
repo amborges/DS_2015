@@ -79,7 +79,7 @@ class AtividadeModel extends BaseModel {
 				return $seq['seqAtividade'] + 1;
 			}
 			
-			return 0;
+			return 1; //se não tiver nenhum...
     }
     
     private function adjustData($d){
@@ -181,6 +181,12 @@ class AtividadeModel extends BaseModel {
     		
     		$this->create_connection();
 		  	$result = $this->conn->query($sql);
+		  	
+		  	if(!$result){ //deu erro na requisição
+		  		$this->bool_erro_BD = TRUE;
+		  		$this->msg_BD = $this->conn->error;
+		  	}
+		  	
 				$this->close_connection();
     	}
     	
@@ -208,11 +214,32 @@ class AtividadeModel extends BaseModel {
     		
     		$this->create_connection();
 		  	$result = $this->conn->query($sql);
+		  	if(!$result){ //deu erro na requisição
+		  		$this->bool_erro_BD = TRUE;
+		  		$this->msg_BD = $this->conn->error;
+		  	}
 				$this->close_connection();
     	}
     	
 			//COMO DESCOBRIR SE DEU PAU?!
 			//tive um bloqueio momentâneo, vou deixar para ser implementado depois
+    }
+    
+    public function delete($atividade){
+    	$sql = "DELETE FROM `".$this->table_name."`
+							WHERE `matricula` = '".$_SESSION['userdata']['matricula']."'
+							AND `seqAtividade` = '$atividade';";
+			
+      
+      $this->create_connection();
+      $result = $this->conn->query($sql);
+      if(!$result){ //deu erro na requisição
+    		$this->bool_erro_BD = TRUE;
+    		$this->msg_BD = $this->conn->error;
+    	}
+      
+      $this->close_connection();
+      
     }
     
 }

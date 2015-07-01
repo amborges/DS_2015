@@ -13,6 +13,7 @@
                         $expanded = 'true';
                         $classOne = '';
                         $classTwo = 'panel-collapse collapse in';
+                         echo '<input id="id_curso" name="id_curso" type="hidden"  value="'. $id_curso.'" />';
                         foreach ($atividades as $atividade) {
                         		//$readonly = ($atividade['validado']==='1')?'readonly':'';
                         		$readonly = ($jaenviou) ? 'readonly' : '';
@@ -39,6 +40,13 @@
                             echo '<div id="' . $collapse . '" class="' . $classTwo . '" role="tabpanel" aria-labelledby="' . $id . '">';
                             echo '<div class="panel-body">';
                             
+                            // BOTAO DE EXCLUIR
+                            echo '<div class="form-group">';
+                            echo '<div class="col-md-8"></div>';
+                            echo '<a href="'. BASE_URL .'homealuno/delete/'.$atividade['seqAtividade'].'" class="col-md-4 btn btn-danger">EXCLUIR</a>';
+                            echo '</div>';                       
+                            echo '</div>';
+                            
                             // Descrição
                             echo '<div class="form-group">';
                             echo '<label for="descricao[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Descrição:</label>';
@@ -52,7 +60,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="grande_area[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Grande área:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<select id="grande_area[]" name="grande_area[]" class="form-control" '.$readonly.'>';
+                            echo '<select id="grande_area[]" name="grande_area[]" class="form-control" readonly >';
                             echo '<option value="0"></option>';
                             
                             foreach($grandes_areas as $grande_area) {
@@ -68,7 +76,7 @@
                             echo '<div class="form-group">';
                             echo '<label for="categoria[]" class="col-xs-3 col-lg-3 col-md-3 col-sm-3 control-label"><span class="red_bold">*</span>Categoria:</label>';
                             echo '<div class="col-xs-8 col-lg-8 col-md-8 col-sm-8">';
-                            echo '<select id="categoria[]" name="categoria[]" class="form-control" '.$readonly.'>';
+                            echo '<select id="categoria[]" name="categoria[]" class="form-control" '. $readonly .' >';
                             echo '<option value="0"></option>';
                             
                             foreach($atividade['categorias'] as $categoria) {
