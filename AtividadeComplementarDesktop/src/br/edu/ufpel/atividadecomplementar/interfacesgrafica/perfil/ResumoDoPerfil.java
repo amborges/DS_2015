@@ -77,6 +77,8 @@ public class ResumoDoPerfil extends InterfaceGrafica {
         grafico = new BarChart<>(new CategoryAxis(), new NumberAxis());
         grafico.setTitle(PropertiesBundle.getProperty("HORAS"));
         
+        aluno.recalcularHorasValidadas();
+        
         XYChart.Data ensinoBar = new XYChart.Data(ENSINO, aluno.getHorasEnsino());
         XYChart.Data extensaoBar = new XYChart.Data(EXTENSAO, aluno.getHorasExtensao());
         XYChart.Data pesquisaBar = new XYChart.Data(PESQUISA, aluno.getHorasPesquisa());

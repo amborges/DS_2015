@@ -11,12 +11,14 @@ import br.edu.ufpel.atividadecomplementar.utils.AlertasUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.xml.bind.JAXBException;
 
@@ -28,6 +30,7 @@ public class AberturaDePerfil extends InterfaceGrafica {
     
     private Button btnCarregar;
     private Button btnPerfilNovo;
+    private Button btnAtualizar;
     private ListView<AlunoInfoBasicas> listaDePerfis;
     
     public AberturaDePerfil() {
@@ -40,6 +43,7 @@ public class AberturaDePerfil extends InterfaceGrafica {
         inicializarListViewPerfis();
         inicializarButtonCarregar(stage);
         inicializarButtonNovo(stage);
+        inicializarButtonAtualizar(stage);
         
         grid.add(listaDePerfis, 2, 0, 2, 4);
         grid.add(btnCarregar, 2, 4);
@@ -97,12 +101,40 @@ public class AberturaDePerfil extends InterfaceGrafica {
             cadastraPerfil.montarTela(stage);
         });
     }
+    
+    private void inicializarButtonAtualizar(Stage stage) {
+        btnAtualizar = new Button();
+        
+        btnAtualizar.setText(PropertiesBundle.getProperty("BOTAO_ATUALIZAR"));
+        btnAtualizar.setOnAction((ActionEvent event) -> {
+            FileChooser fileChooser = new FileChooser();
+//            File destinoExportacao = null;
+//            
+//            if (aluno.getDestinoExportacaoPadrao() != null) {
+//                directoryChooser.setInitialDirectory(aluno.getDestinoExportacaoPadrao());
+//            }   
+//            
+//            destinoExportacao = directoryChooser.showDialog(primaryStage);
+//            
+//            if (destinoExportacao != null) {
+//                try {
+//                    String nomeArquivo = aluno.exportarXML(destinoExportacao);
+//                    
+//                    nomeArquivo = PropertiesBundle.getProperty("ARQUIVO_EXPORTADO_SUCESSO").replace("{0}", nomeArquivo);
+//                    
+//                    AlertasUtils.exibeInformacao(nomeArquivo);
+//                } catch (IOException ex) {
+//                    AlertasUtils.exibeErro(PropertiesBundle.getProperty("ERRO_ABRIR_ARQUIVO"));
+//                }
+//            }
+        });
+    }
 
     private GridPane inicializarVersoesDosDados() {
         Versoes versoes = new Versoes();
         
         try {
-            ManipulaXML<Versoes> manipulador = new ManipulaXML("versoes.xml");
+            ManipulaXML<Versoes> manipulador = new ManipulaXML<>("versoes.xml");
             versoes = manipulador.buscar(Versoes.class);
         } catch (JAXBException ex) {
             // Não faz nada
@@ -117,6 +149,7 @@ public class AberturaDePerfil extends InterfaceGrafica {
         grid.add(new Label(versoes.getCurso().toString()), 1, 2);
         grid.add(new Label(PropertiesBundle.getProperty("LABEL_GRANDE_AREA")), 0, 3);
         grid.add(new Label(versoes.getGrandeArea().toString()), 1, 3);
+        //grid.add(btnAtualizar, 0, 5, 2, 1);
         
         return grid;
     }
@@ -127,6 +160,7 @@ public class AberturaDePerfil extends InterfaceGrafica {
         
         try {
             aluno = manipulador.buscar(Aluno.class);
+            aluno.setCurso(aluno.getCurso().carregarInformacoes());
         } catch (JAXBException ex) {
             throw new RuntimeException("PROBLEMA_CRIAR_PERFIL");
         }

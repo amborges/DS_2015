@@ -67,7 +67,7 @@ public class CadastroDePerfil extends InterfaceGrafica {
     
     private void inicializarComboboxCurso() throws JAXBException {
         ObservableList<Curso> cursos = FXCollections.observableArrayList();
-        ManipulaXML<CursosXML> manipulador = new ManipulaXML("cursos.xml");
+        ManipulaXML<CursosXML> manipulador = new ManipulaXML<>("cursos.xml");
       
         cbxCurso = new ComboBox();
         cursos.addAll(manipulador.buscar(CursosXML.class).getCursos());
@@ -86,16 +86,16 @@ public class CadastroDePerfil extends InterfaceGrafica {
                 try {
                     Aluno aluno = gerarPerfil();
                     
-                    Stage stage= new Stage();
-                    InterfaceGrafica resumoDoPerfil= new ResumoDoPerfil(aluno);
+                    Stage stage = new Stage();
+                    InterfaceGrafica resumoDoPerfil = new ResumoDoPerfil(aluno);
                     resumoDoPerfil.montarTela(stage);
                     primaryStage.close();
                 } catch(NullPointerException npex) {
-                    AlertasUtils.exibeErro(npex.getMessage());
+                    AlertasUtils.exibeErro(npex);
                 } catch(JAXBException jbex) {
                     AlertasUtils.exibeErro("PROBLEMA_ARQUIVO_XML");
                 } catch(RuntimeException rtex) {
-                    AlertasUtils.exibeErro(rtex.getMessage());
+                    AlertasUtils.exibeErro(rtex);
                 }
             } else {
                 AlertasUtils.exibeErro(erros);

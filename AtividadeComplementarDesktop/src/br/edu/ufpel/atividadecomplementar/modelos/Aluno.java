@@ -145,23 +145,27 @@ public class Aluno {
     }
     
     private void incrementarHoras(Atividade atividade) {
-        if (PropertiesBundle.getProperty("ENSINO").equals(atividade.getNomeGrandeArea())) {
-            horasEnsino = horasEnsino + atividade.getHorasContabilizadas();
-        } else if (PropertiesBundle.getProperty("EXTENSAO").equals(atividade.getNomeGrandeArea())) {
-            horasExtensao = horasExtensao + atividade.getHorasContabilizadas();
-        } else if (PropertiesBundle.getProperty("PESQUISA").equals(atividade.getNomeGrandeArea())) {
-            horasPesquisa = horasPesquisa + atividade.getHorasContabilizadas();
-        } 
+        if (atividade.getHorasContabilizadas() != null) {
+            if (PropertiesBundle.getProperty("ENSINO").equals(atividade.getNomeGrandeArea())) {
+                horasEnsino = horasEnsino + atividade.getHorasContabilizadas();
+            } else if (PropertiesBundle.getProperty("EXTENSAO").equals(atividade.getNomeGrandeArea())) {
+                horasExtensao = horasExtensao + atividade.getHorasContabilizadas();
+            } else if (PropertiesBundle.getProperty("PESQUISA").equals(atividade.getNomeGrandeArea())) {
+                horasPesquisa = horasPesquisa + atividade.getHorasContabilizadas();
+            }
+        }
     }
     
     private void decrementarHoras(Atividade atividade) {
-        if (PropertiesBundle.getProperty("ENSINO").equals(atividade.getNomeGrandeArea())) {
-            horasEnsino = horasEnsino - atividade.getHorasContabilizadas();
-        } else if (PropertiesBundle.getProperty("EXTENSAO").equals(atividade.getNomeGrandeArea())) {
-            horasExtensao = horasExtensao - atividade.getHorasContabilizadas();
-        } else if (PropertiesBundle.getProperty("PESQUISA").equals(atividade.getNomeGrandeArea())) {
-            horasPesquisa = horasPesquisa - atividade.getHorasContabilizadas();
-        } 
+        if (atividade.getHorasContabilizadas() != null) {
+            if (PropertiesBundle.getProperty("ENSINO").equals(atividade.getNomeGrandeArea())) {
+                horasEnsino = horasEnsino - atividade.getHorasContabilizadas();
+            } else if (PropertiesBundle.getProperty("EXTENSAO").equals(atividade.getNomeGrandeArea())) {
+                horasExtensao = horasExtensao - atividade.getHorasContabilizadas();
+            } else if (PropertiesBundle.getProperty("PESQUISA").equals(atividade.getNomeGrandeArea())) {
+                horasPesquisa = horasPesquisa - atividade.getHorasContabilizadas();
+            }
+        }
     }
     
     private void salvarAluno() {
@@ -203,6 +207,19 @@ public class Aluno {
     @Override
     public String toString() {
         return nome + ": " + matricula;
+    }
+
+    public void recalcularHorasValidadas() {
+        if (listaDeAtividades != null) {
+            horasEnsino = 0.0;
+            horasExtensao = 0.0;
+            horasPesquisa = 0.0;
+
+            for (Atividade atividade : listaDeAtividades.getAtividades()) {
+                atividade.calculaHorasValidada(curso);
+                incrementarHoras(atividade);
+            }
+        }
     }
 
 }
