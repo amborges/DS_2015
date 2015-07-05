@@ -35,6 +35,36 @@
         </div>
 
     </form>
+    
+    <div class="row">
+        <div class="col-xs-offset-3 col-xs-4 col-lg-offset-3 col-lg-4 col-md-offset-3 col-md-4 col-sm-offset-3 col-sm-4">
+            <div class="well well-lg">
+                <div class="row">
+                    <div class="col-xs-offset-2 col-xs-4 col-lg-offset-2 col-lg-4 col-md-offset-2 col-md-4 col-sm-offset-2 col-sm-4">
+                        <a href="<?php echo BASE_URL; ?>desktop/AtividadesComplementar.zip" class="btn btn-default" id="download_desktop">Download da Versão Desktop</a>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    Versão dos dados
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 col-lg-5 col-md-5 col-sm-5 text-right">Categoria:</div>
+                    <div class="col-xs-1 col-lg-1 col-md-1 col-sm-1"><?php echo $versoes['categoria']; ?></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 col-lg-5 col-md-5 col-sm-5 text-right">Curso:</div>
+                    <div class="col-xs-1 col-lg-1 col-md-1 col-sm-1"><?php echo $versoes['curso']; ?></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 col-lg-5 col-md-5 col-sm-5 text-right">Grande área:</div>
+                    <div class="col-xs-1 col-lg-1 col-md-1 col-sm-1"><?php echo $versoes['grandearea']; ?></div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    
 </div>
 
 <script>

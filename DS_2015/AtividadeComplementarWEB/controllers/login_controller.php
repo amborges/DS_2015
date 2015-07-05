@@ -10,6 +10,13 @@
 class LoginController {
     
     public function index() {
+        require_once ABSPATH . '/models/versao_model.php';
+  	
+        $versao_model = new VersaoModel();
+        $versoes = array('categoria'  => $versao_model->find_versao_categoria()['versao'],
+                         'curso'      => $versao_model->find_versao_curso()['versao'],
+                         'grandearea' => $versao_model->find_versao_grandearea()['versao']);
+    
         $main_page = ABSPATH . '/views/login_page.php';
         
         require ABSPATH . '/views/includes/template.php';

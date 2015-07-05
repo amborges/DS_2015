@@ -8,6 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title><?php echo APP_NAME ?></title>
+        <!--<link rel="shortcut icon" href="<?php //echo BASE_URL ?>fonts/logo.ico" >-->
         <div class="row header">
             <div class="col-lg-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-offset-1">
                 <img src="<?php echo 'http://localhost/AtividadeComplementarWEB/fonts/logo2.gif'; ?>" width="90%" />
