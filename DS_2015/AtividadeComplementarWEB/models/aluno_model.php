@@ -68,10 +68,66 @@ class AlunoModel extends BaseModel {
         $result = $this->conn->query($sql);
         $this->close_connection();
         
+        $res = NULL;
+        
         while($aux = $result->fetch_array())
         	$res[] = $aux;
         
         return $res;
     }
     
+    public function alunosToValidar(){
+    	//retornar um array de array($id_do_aluno, $nome_do_aluno, $atividades_conclusas, $total_de_atividades)
+    	
+    	$sql = "SELECT `ALUNO`.`matricula`, `ALUNO`.`nomeAluno` , SUM( `ATIVIDADE`.`validado` ) , COUNT( `ATIVIDADE`.`validado` ), `ALUNO`.`atividadesConclusas`
+							FROM `ALUNO`
+							INNER JOIN `ATIVIDADE` ON `ATIVIDADE`.`matricula` = `ALUNO`.`matricula`
+							GROUP BY `ALUNO`.`matricula`
+							ORDER BY `ALUNO`.`nomeAluno` ;";
+              
+      $this->create_connection();
+      $result = $this->conn->query($sql);
+      $this->close_connection();
+      
+      $res = NULL; 
+        
+      while($aux = $result->fetch_array()){
+      	if($aux['atividadesConclusas'] === '1')
+      		$res[] = $aux;
+      }
+       
+      return $res;
+    }
+    
+    public function fecharAtividades(){
+    	$matricula = $_SESSION['userdata']['matricula'];
+    	$sql = "UPDATE `".$this->table_name."`
+	  					SET `atividadesConclusas` = '1'
+	  					WHERE `matricula` = '$matricula';";
+	  	$this->create_connection();
+      $result = $this->conn->query($sql);
+      $this->close_connection();
+      
+      if(!$result){ //deu erro na requisição
+    		$this->bool_erro_BD = TRUE;
+    		$this->msg_BD = $this->conn->error;
+    	}
+      
+    }
+    
+    public function jaConcluiuAtividades(){
+    	$sql = "SELECT `atividadesConclusas`
+    					FROM `ALUNO`
+							WHERE `matricula` = '".$_SESSION['userdata']['matricula']."';";
+              
+      $this->create_connection();
+      $result = $this->conn->query($sql);
+      $this->close_connection();
+      
+      $r = $result->fetch_array();
+      if($r['atividadesConclusas'] === '0')
+      	return FALSE;
+      return TRUE;
+      
+    }
 }

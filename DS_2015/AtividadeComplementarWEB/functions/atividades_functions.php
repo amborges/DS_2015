@@ -60,6 +60,9 @@ class AtividadesFunctions {
                     array('action' => BASE_URL . 'homeprofessor/validar', 
                             'value' => 'Validar atividades', 
                             'active' => ($clicked_menu == 1) ? 'active' : ''),
+                    array('action' => BASE_URL . 'homeprofessor/concluintes', 
+                            'value' => 'Selecionar concluintes', 
+                            'active' => ($clicked_menu == 2) ? 'active' : ''),
                     array('action' => BASE_URL . 'login/sair', 
                             'value' => 'Logout', 
                             'active' => '')

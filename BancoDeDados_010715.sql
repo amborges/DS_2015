@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 23/05/2015 às 14:53
+-- Tempo de Geração: 01/07/2015 às 10:40
 -- Versão do servidor: 5.5.43-0ubuntu0.14.04.1
 -- Versão do PHP: 5.5.9-1ubuntu4.9
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `DS_20151`
 --
-CREATE DATABASE IF NOT EXISTS `DS_20151` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-USE `DS_20151`;
 
 -- --------------------------------------------------------
 
@@ -33,8 +31,20 @@ CREATE TABLE IF NOT EXISTS `ALUNO` (
   `nomeAluno` varchar(255) COLLATE utf8_bin NOT NULL,
   `senhaAluno` varchar(255) COLLATE utf8_bin NOT NULL,
   `alunoAtivo` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`matricula`)
+  `utilizouXML` tinyint(1) NOT NULL DEFAULT '0',
+  `idCurso` bigint(20) NOT NULL,
+  `atividadesConclusas` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`matricula`),
+  KEY `idCurso` (`idCurso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Definição de usuário Aluno';
+
+--
+-- Fazendo dump de dados para tabela `ALUNO`
+--
+
+INSERT INTO `ALUNO` (`matricula`, `nomeAluno`, `senhaAluno`, `alunoAtivo`, `utilizouXML`, `idCurso`, `atividadesConclusas`) VALUES
+(12345, 'Joao Barcos', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 1, 0, 1, 0),
+(11200288, 'Alex Machado Borges', '05a85f6a657140dc0a42934f719db4f329fd1bc7', 1, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -63,16 +73,23 @@ CREATE TABLE IF NOT EXISTS `ATIVIDADE` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Definicao de Atividades';
 
 --
--- RELACIONAMENTOS PARA TABELAS `ATIVIDADE`:
---   `idCurso`
---       `CATEGORIA` -> `idCurso`
---   `seqGA`
---       `CATEGORIA` -> `seqGA`
---   `seqCategoria`
---       `CATEGORIA` -> `seqCategoria`
---   `matricula`
---       `ALUNO` -> `matricula`
+-- Fazendo dump de dados para tabela `ATIVIDADE`
 --
+
+INSERT INTO `ATIVIDADE` (`matricula`, `seqAtividade`, `descricaoAtividade`, `horaInformada`, `horaPermitida`, `dataInicio`, `dataFim`, `arquivo`, `validado`, `idCurso`, `seqGA`, `seqCategoria`) VALUES
+(12345, 0, 'Bolsa GACI', 120, 56, '2014-08-01', '2015-08-01', '751760782285a404168932114d3cc9ce223d75a1.pdf', 0, 1, 2, 7),
+(12345, 1, 'Bolsa GACI', 153, 51, '2014-08-01', '2015-02-02', '751760782285a404168932114d3cc9ce223d75a1.pdf', 0, 1, 1, 1),
+(11200288, 1, 'kakaka', 12, 12, '2015-06-03', '0000-00-00', 'etc.pdf', 0, 1, 1, 1),
+(11200288, 2, 'Cinema', 12, 12, '2015-02-02', '2015-06-17', 'b6653d9c81fdbd41f82e39abf572e779065eee24.pdf', 0, 1, 2, 3),
+(11200288, 3, 'tre', 12, 12, '2015-04-06', '2015-06-17', 'ojas2e2d9kjasclmqwd9jzlscnqw9fdj0qw9fhjls.pdf', 0, 1, 2, 3),
+(11200288, 4, 'tre', 12, 12, '2015-06-01', '2015-06-01', 'ojas2e2d9kjasclmqwd9jzlscnqw9fdj0qw9fhjls.pdf', 0, 1, 2, 3),
+(11200288, 5, 'lalala', 12, 12, '2015-06-02', '2015-06-05', 'ojas2e2d9kjasclmqwd9jzlscnqw9fdj0qw9fhjls.pdf', 0, 1, 2, 3),
+(11200288, 6, 'kakaka', 12, 12, '2015-06-02', '0000-00-00', 'ojas2e2d9kjasclmqwd9jzlscnqw9fdj0qw9fhjls.pdf', 0, 1, 2, 3),
+(11200288, 7, 'jaja', 20, 12, '2015-06-01', '0000-00-00', 'ojas2e2d9kjasclmqwd9jzlscnqw9fdj0qw9fhjls.pdf', 0, 1, 3, 3),
+(11200288, 8, 'Era uma vez um boleto de banco', 15, 15, '2015-06-01', '2015-06-10', 'b45343ec5ba67a42ffbfd71af05b3619c5968661.pdf', 0, 1, 3, 3),
+(11200288, 9, 'Teste horas', 200, 0, '2014-06-02', '2015-06-16', '05211be1fee878c931efe560833bf7d4deded98b.pdf', 0, 1, 1, 1),
+(11200288, 10, 'teste horas', 200, 51, '2014-06-02', '2015-06-17', '05211be1fee878c931efe560833bf7d4deded98b.pdf', 0, 1, 1, 1),
+(11200288, 11, 'Outro teste hora', 80, 68, '2015-06-08', '0000-00-00', '2950c7a6b7086f342b2af6dad320bc6cabc7f609.pdf', 0, 1, 1, 8);
 
 -- --------------------------------------------------------
 
@@ -94,16 +111,6 @@ CREATE TABLE IF NOT EXISTS `CATEGORIA` (
   KEY `cat.seqcat` (`seqCategoria`),
   KEY `tipoHora` (`tipoHora`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- RELACIONAMENTOS PARA TABELAS `CATEGORIA`:
---   `tipoHora`
---       `TIPO_HORAS` -> `idTipoHoras`
---   `idCurso`
---       `GRANDEAREA` -> `idCurso`
---   `seqGA`
---       `GRANDEAREA` -> `seqGA`
---
 
 --
 -- Fazendo dump de dados para tabela `CATEGORIA`
@@ -159,15 +166,25 @@ CREATE TABLE IF NOT EXISTS `COORDENADOR` (
   `senha` varchar(255) COLLATE utf8_bin NOT NULL,
   `usuarioAtivo` tinyint(1) NOT NULL DEFAULT '1',
   `ehCoordenador` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`siape`)
+  `idCurso` bigint(20) NOT NULL,
+  PRIMARY KEY (`siape`),
+  KEY `idCurso` (`idCurso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Define o usuário Coordenador ';
 
 --
 -- Fazendo dump de dados para tabela `COORDENADOR`
 --
 
-INSERT INTO `COORDENADOR` (`siape`, `nome`, `senha`, `usuarioAtivo`, `ehCoordenador`) VALUES
-(123, 'Coordenador Exemplo', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 1, 1);
+INSERT INTO `COORDENADOR` (`siape`, `nome`, `senha`, `usuarioAtivo`, `ehCoordenador`, `idCurso`) VALUES
+(1, 'Aldroaldo Barreto', '3efd4c0fe185135dd2c584b9698f506803cfaf81', 1, 0, 1),
+(11, 'Professor Modelo', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 1, 0, 1),
+(12, 'Gracieli Hernandes', '17ba0791499db908433b80f37c5fbc89b870084b', 1, 0, 1),
+(13, 'Carlos Damasco', 'd312cc75dc28ced757eef6ec22a7e3706905e352', 1, 0, 1),
+(111, 'Edivaldina Fransciscana', '3efd4c0fe185135dd2c584b9698f506803cfaf81', 1, 0, 1),
+(123, 'Coordenador Exemplo', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 1, 1, 1),
+(432, 'Maria Chiquinha', '3efd4c0fe185135dd2c584b9698f506803cfaf81', 1, 0, 1),
+(765, 'Tina Tuner', '3efd4c0fe185135dd2c584b9698f506803cfaf81', 1, 0, 1),
+(1234, 'Joao Costinha', '3efd4c0fe185135dd2c584b9698f506803cfaf81', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -182,13 +199,7 @@ CREATE TABLE IF NOT EXISTS `CURSO` (
   `siapeCoordenador` bigint(20) NOT NULL,
   PRIMARY KEY (`idCurso`),
   UNIQUE KEY `nomeCurso` (`nomeCurso`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Definicao dos Cursos' AUTO_INCREMENT=5 ;
-
---
--- RELACIONAMENTOS PARA TABELAS `CURSO`:
---   `siapeCoordenador`
---       `COORDENADOR` -> `siape`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Definicao dos Cursos' AUTO_INCREMENT=3 ;
 
 --
 -- Fazendo dump de dados para tabela `CURSO`
@@ -212,14 +223,6 @@ CREATE TABLE IF NOT EXISTS `EHAVALIADOR` (
   KEY `idCurso` (`idCurso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- RELACIONAMENTOS PARA TABELAS `EHAVALIADOR`:
---   `siape`
---       `COORDENADOR` -> `siape`
---   `idCurso`
---       `CURSO` -> `idCurso`
---
-
 -- --------------------------------------------------------
 
 --
@@ -236,12 +239,6 @@ CREATE TABLE IF NOT EXISTS `GRANDEAREA` (
   PRIMARY KEY (`seqGA`,`idCurso`),
   KEY `idCurso` (`idCurso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Definicao da Grande Area';
-
---
--- RELACIONAMENTOS PARA TABELAS `GRANDEAREA`:
---   `idCurso`
---       `CURSO` -> `idCurso`
---
 
 --
 -- Fazendo dump de dados para tabela `GRANDEAREA`
@@ -266,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `TIPO_HORAS` (
   `nomeTipo` varchar(255) COLLATE utf8_bin NOT NULL,
   `Descricao` varchar(512) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idTipoHoras`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Armazena as informações sobre tipo de horas das categorias' AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Armazena as informações sobre tipo de horas das categorias' AUTO_INCREMENT=4 ;
 
 --
 -- Fazendo dump de dados para tabela `TIPO_HORAS`
@@ -305,6 +302,12 @@ INSERT INTO `VERSAO` (`idVersao`, `nomeTabela`, `versao`) VALUES
 --
 
 --
+-- Restrições para tabelas `ALUNO`
+--
+ALTER TABLE `ALUNO`
+  ADD CONSTRAINT `ALUNO_ibfk_1` FOREIGN KEY (`idCurso`) REFERENCES `CURSO` (`idCurso`);
+
+--
 -- Restrições para tabelas `ATIVIDADE`
 --
 ALTER TABLE `ATIVIDADE`
@@ -317,9 +320,15 @@ ALTER TABLE `ATIVIDADE`
 -- Restrições para tabelas `CATEGORIA`
 --
 ALTER TABLE `CATEGORIA`
-  ADD CONSTRAINT `CATEGORIA_ibfk_3` FOREIGN KEY (`tipoHora`) REFERENCES `TIPO_HORAS` (`idTipoHoras`),
   ADD CONSTRAINT `CATEGORIA_ibfk_1` FOREIGN KEY (`idCurso`) REFERENCES `GRANDEAREA` (`idCurso`),
-  ADD CONSTRAINT `CATEGORIA_ibfk_2` FOREIGN KEY (`seqGA`) REFERENCES `GRANDEAREA` (`seqGA`);
+  ADD CONSTRAINT `CATEGORIA_ibfk_2` FOREIGN KEY (`seqGA`) REFERENCES `GRANDEAREA` (`seqGA`),
+  ADD CONSTRAINT `CATEGORIA_ibfk_3` FOREIGN KEY (`tipoHora`) REFERENCES `TIPO_HORAS` (`idTipoHoras`);
+
+--
+-- Restrições para tabelas `COORDENADOR`
+--
+ALTER TABLE `COORDENADOR`
+  ADD CONSTRAINT `COORDENADOR_ibfk_1` FOREIGN KEY (`idCurso`) REFERENCES `CURSO` (`idCurso`);
 
 --
 -- Restrições para tabelas `EHAVALIADOR`

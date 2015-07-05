@@ -385,7 +385,7 @@ class AtividadesController {
 					$horacal = $this->calculaHora(
 						$_POST['horas'][$ii],
 						$_SESSION['userdata']['idCurso'],
-						$_POST['grandearea'][$ii],
+						$_POST['grande_area'][$ii],
 						$_POST['categoria'][$ii]
 					);
 					
@@ -523,6 +523,42 @@ class AtividadesController {
 	  		}//end of else
     }
     
+    public function validar(){
+    	if(!$_POST) redirect('homeprofessor/validar');
+    	require_once ABSPATH . '/controllers/homeprofessor_controller.php';
+    	
+    	$listatividades = NULL;
+    	
+    	
+    	if(isset($_POST['validacao'])){
+    		
+		  	//for($ii = 0; $ii < sizeof($_POST['validacao']); $ii++){
+		  	foreach($_POST['validacao'] as $pos){
+		  		
+		  		$listatividades[] = array(
+							'seqAtividade' => $_POST['seqAtividade'][$pos],
+							'matricula' => $_POST['matricula'][$pos],
+						);
+		  	}
+	  	}
+    	
+    	if($listatividades !== NULL){
+		  	require_once ABSPATH . '/models/atividade_model.php';
+				$atividademodel = new AtividadeModel();
+				$atividademodel->validar_atividade($listatividades);
+				if($atividademodel->erro_BD())
+					$this->dados_invalidos_ativ($atividademodel->msg_erro());
+				else{
+					$sucess = array('type' => 'success',
+		                 'message' => "Atividade validada com sucesso");
+		  		
+		  		(new HomeProfessorController)->validar($sucess);
+		  	}
+		  }
+		  else
+    		(new HomeProfessorController)->validar();
+    }
+    
     private function dados_invalidos_ativ($msg) {
         $alert = array('type' => 'danger',
                        'message' => $msg);
@@ -538,5 +574,23 @@ class AtividadesController {
     	if($hora <= $horamax)
     		return $hora;
     	return $horamax;
+    }
+    
+    public function rejeitar_atividade(){
+    	if ( ! isset($_SESSION['userdata'])) {
+    		redirect('login');
+    	} else if(sizeof($this->parametros) === 0){
+    		redirect('homeprofessor/validar');
+    	}
+    	
+    }
+    
+    public function atualizar_atividade(){
+    	if ( ! isset($_SESSION['userdata'])) {
+    		redirect('login');
+    	} else if(sizeof($this->parametros) === 0){
+    		redirect('homeprofessor/validar');
+    	}
+    	
     }
 }
