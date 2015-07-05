@@ -35,7 +35,12 @@ class HomeProfessorController {
   
   public function concluintes($alert = NULL) {
     require_once ABSPATH . '/functions/atividades_functions.php';
-    
+    require_once ABSPATH . '/models/aluno_model.php';
+        
+    $alunomodel = new AlunoModel();
+    $_POST = $alunomodel->alunosToValidar();
+        
+
     $menus = AtividadesFunctions::init_menus("professor", 2);
     $main_page = ABSPATH . '/views/homeprofessor_concluintes_view.php';
     require ABSPATH . '/views/includes/template.php';
