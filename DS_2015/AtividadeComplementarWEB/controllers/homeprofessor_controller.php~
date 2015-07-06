@@ -21,6 +21,18 @@ class HomeProfessorController {
     require ABSPATH . '/views/includes/template.php';
   }
   
+  public function rejeitar_atividade($param = NULL) {  
+    require_once ABSPATH . '/functions/atividades_functions.php';
+    require_once ABSPATH . '/models/atividade_model.php';
+    
+    $menus = AtividadesFunctions::init_menus("professor", 1);
+    
+    $resumo = (new AtividadeModel())->getResumo($this->parametros[0], $this->parametros[1]);
+    
+    $main_page = ABSPATH . '/views/homeprofessor_rejeita_view.php';
+    require ABSPATH . '/views/includes/template.php';
+  }
+  
   public function validar($alert = NULL) {
     require_once ABSPATH . '/functions/atividades_functions.php';
     require_once ABSPATH . '/models/aluno_model.php';
@@ -33,9 +45,58 @@ class HomeProfessorController {
     require ABSPATH . '/views/includes/template.php';
   }
   
+  public function atualizar_atividade(){
+  	require_once ABSPATH . '/functions/atividades_functions.php';
+    require_once ABSPATH . '/models/atividade_model.php';
+        
+    $datainicio = adjustData($_POST['data_inicial']);
+		$datafim = 'NULL';
+		if($_POST['data_final'] !== '' && $_POST['data_final'] !== '00/00/0000')
+			$datafim = adjustData($_POST['data_final']);		
+		
+		$listatividades = array(
+			'matricula' => $_POST['matricula'],
+			'seqAtividade' => $_POST['seqAtividade'],
+			'descricao' => $_POST['descricao'],
+			'grandearea' => $_POST['grande_area'],
+			'categoria' => $_POST['categoria'],
+			'horas' => $_POST['horas'],
+			'horasCalculadas' => $_POST['horascalculadas'],
+			'dataInicio' => $datainicio,
+			'dataFim' => $datafim
+		);
+   
+    $alert;
+    $atividademodel = new AtividadeModel();
+    
+    if($listatividades !== NULL){	
+    	$atividademodel->update($listatividades);
+    	if($atividademodel->erro_BD())
+    		$alert = array('type' => 'danger',
+                   'message' => "Falha ao atualizar as atividades: ". $atividademodel->msg_erro());
+      else
+      	$alert = array('type' => 'success',
+                   'message' => "Atualização de atividades realizada com sucesso!");	
+    }
+    else
+    	$alert = array('type' => 'danger',
+                   'message' => "Não há atividades a serem atualizadas");
+    
+    $menus = AtividadesFunctions::init_menus(null, 0);
+    	
+    $main_page = ABSPATH . '/views/homealuno_view.php';
+    
+    require ABSPATH . '/views/includes/template.php';  	
+  }
+  
   public function concluintes($alert = NULL) {
     require_once ABSPATH . '/functions/atividades_functions.php';
-    
+    require_once ABSPATH . '/models/aluno_model.php';
+        
+    $alunomodel = new AlunoModel();
+    $_POST = $alunomodel->alunosToValidar();
+        
+
     $menus = AtividadesFunctions::init_menus("professor", 2);
     $main_page = ABSPATH . '/views/homeprofessor_concluintes_view.php';
     require ABSPATH . '/views/includes/template.php';
@@ -56,7 +117,6 @@ class HomeProfessorController {
     $matricula = $this->parametros[0];
     
     $listatividades = $atividademodel->getAtividades($matricula);
-    
     
     $atividades = NULL;
     $seq = 0;

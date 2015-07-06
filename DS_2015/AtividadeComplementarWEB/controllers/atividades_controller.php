@@ -7,6 +7,13 @@
  */
 class AtividadesController {
     
+    
+    private $parametros;
+	
+	public function __construct($param = NULL){
+		$this->parametros = $param;
+	}
+    
     public function index() {
         redirect('atividades/importar');
     }

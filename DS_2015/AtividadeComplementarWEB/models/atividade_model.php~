@@ -156,8 +156,24 @@ class AtividadeModel extends BaseModel {
 			}
 			
 			return $rows;
-    	
     }
+    
+    public function getResumo($matricula, $seqAtividade){
+			$sql = "SELECT * FROM " . $this->table_name . " WHERE `matricula` = '$matricula' AND `seqAtividade` = '$seqAtividade';";
+    	
+    	$this->create_connection();
+		  $result = $this->conn->query($sql);
+			$this->close_connection();
+			
+			$rows = NULL;
+			$str = "Falha na requisição";
+			if($result->num_rows > 0){
+				$rows = $result->fetch_assoc();
+				$str = "A atividade com a descrição \"".$rows['descricaoAtividade']."\", pertencente ao aluno sob matricula \"".$rows['matricula']."\", será rejeitado pois...";
+			}
+			return $str;
+    }
+    
     
     public function update($listaDeAtividades){
     	//Eu queria unificar os updates, mas infelizmente, vai ter q ser um a um
@@ -169,6 +185,38 @@ class AtividadeModel extends BaseModel {
     			`dataInicio` = '". $la['dataInicio'] ."',
     			`dataFim` = '". $la['dataFim'] ."',
     			`seqGA` = '". $la['grandearea'] ."',
+    			`seqCategoria` = '". $la['categoria'] ."'";
+    			
+    			if($la['certificado'] !== NULL){
+    				$fileAddress = explode("/", $la['certificado']); //retorna só o nome do arquivo
+    				$fileAddress = array_pop($fileAddress);
+    				$sql .= ", `arquivo` = '". $fileAddress ."' ";
+    			}
+    			
+    			$sql .= "WHERE `".$this->table_name."`.`matricula` = '". $_SESSION['userdata']['matricula'] ."' AND `".$this->table_name."`.`seqAtividade` = '". $la['seqAtividade'] ."'; ";
+    		
+    		$this->create_connection();
+		  	$result = $this->conn->query($sql);
+		  	
+		  	if(!$result){ //deu erro na requisição
+		  		$this->bool_erro_BD = TRUE;
+		  		$this->msg_BD = $this->conn->error;
+		  	}
+		  	
+				$this->close_connection();
+    	}
+    	
+    	public function update_professor($listaDeAtividades){
+    	//Eu queria unificar os updates, mas infelizmente, vai ter q ser um a um
+    	foreach($listaDeAtividades as $la){
+    		$sql = "UPDATE `".$this->table_name."` SET
+    			`descricaoAtividade` = '". $la['descricao'] ."',
+    			`horaInformada` = '". $la['horas'] ."',
+    			`horaPermitida` = '". $la['horasCalculadas'] ."',
+    			`dataInicio` = '". $la['dataInicio'] ."',
+    			`dataFim` = '". $la['dataFim'] ."',
+    			`seqGA` = '". $la['grandearea'] ."',
+
     			`seqCategoria` = '". $la['categoria'] ."'";
     			
     			if($la['certificado'] !== NULL){
@@ -230,9 +278,6 @@ class AtividadeModel extends BaseModel {
 							WHERE `matricula` = '".$_SESSION['userdata']['matricula']."'
 							AND `seqAtividade` = '$atividade';";
 			
-			$sql = "DELETE FROM `".$this->table_name."`
-							WHERE `matricula` = '".$_SESSION['userdata']['matricula']."'
-							AND `seqAtividade` = '30';";				
       
       $this->create_connection();
       $result = $this->conn->query($sql);
