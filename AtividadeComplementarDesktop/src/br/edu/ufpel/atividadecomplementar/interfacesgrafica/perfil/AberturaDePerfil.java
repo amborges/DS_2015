@@ -53,7 +53,7 @@ public class AberturaDePerfil extends InterfaceGrafica {
     
     private void inicializarListViewPerfis() {
         ObservableList<AlunoInfoBasicas> alunosInformacoesBasicas = FXCollections.observableArrayList();
-        ManipulaXML<AlunosXML> manipulador = new ManipulaXML("alunos.xml", "perfil/");
+        ManipulaXML<AlunosXML> manipulador = new ManipulaXML("alunos.xml", "perfil");
         
         listaDePerfis = new ListView();
         
@@ -155,7 +155,7 @@ public class AberturaDePerfil extends InterfaceGrafica {
     }
     
     private Aluno carregarPerfil(AlunoInfoBasicas alunoSelecionado) {
-        ManipulaXML<Aluno> manipulador = new ManipulaXML(alunoSelecionado.getMatricula().concat(".xml"), "perfil/");
+        ManipulaXML<Aluno> manipulador = new ManipulaXML(alunoSelecionado.getMatricula().concat(".xml"), "perfil");
         Aluno aluno;
         
         try {

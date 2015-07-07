@@ -116,7 +116,7 @@ public class CadastroDePerfil extends InterfaceGrafica {
     }
     
     private Aluno gerarPerfil() {
-        ManipulaXML<Aluno> manipulador = new ManipulaXML(txtMatricula.getText().concat(".xml"), "perfil/");
+        ManipulaXML<Aluno> manipulador = new ManipulaXML(txtMatricula.getText().concat(".xml"), "perfil");
         Aluno aluno;
         
         try {
@@ -134,7 +134,7 @@ public class CadastroDePerfil extends InterfaceGrafica {
             
                 manipulador.salvar(aluno, Aluno.class);
                 
-                ManipulaXML<AlunosXML> manipuladorAlunos = new ManipulaXML("alunos.xml", "perfil/");
+                ManipulaXML<AlunosXML> manipuladorAlunos = new ManipulaXML("alunos.xml", "perfil");
                 AlunosXML alunosXML;
                 
                 try {

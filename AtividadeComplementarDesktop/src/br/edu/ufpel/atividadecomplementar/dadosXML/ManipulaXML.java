@@ -22,7 +22,7 @@ public class ManipulaXML <T> {
      * @param nomeXML nome do XML que será aberto
      */
     public ManipulaXML(String nomeXML) {
-        file = new File("conf/".concat(nomeXML));
+        file = new File("conf".concat(File.separator).concat(nomeXML));
         file.getParentFile().mkdirs();
     }
     
@@ -34,7 +34,7 @@ public class ManipulaXML <T> {
      * @param pathXML diretório que contém o XML - utilizar sempre com a barra, ex.: <font color="red">src/</font>
      */
     public ManipulaXML(String nomeXML, String pathXML) {
-        file = new File(pathXML.concat(nomeXML));
+        file = new File(pathXML.concat(File.separator).concat(nomeXML));
         file.getParentFile().mkdirs();
         
     }
