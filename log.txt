@@ -1,3 +1,106 @@
+commit 72321cda2407a7de57a14173cdd22c80360d334b
+Author: Paulo Fernandes <>
+Date:   Sun Jul 5 17:37:18 2015 -0300
+
+    Adição do download da versão desktop na página de login
+
+commit 15a9f2898cff57711cc1a21d422c76facb6d1ceb
+Merge: 8b44d72 6ef912a
+Author: Paulo <Paulo@Ash>
+Date:   Sun Jul 5 17:27:54 2015 -0300
+
+    Merge origin/master
+
+commit 8b44d72efed2375734eb21ee184ecafabe749d36
+Author: Paulo <Paulo@Ash>
+Date:   Sun Jul 5 17:26:39 2015 -0300
+
+    Ajuste na forma do cálculo de horas validadas - agora se houver troca na hora de uma categoria, as horas validadas levaram esta informação para atualizar as horas validadas
+
+commit 6ef912a4250b87639083caf6e041b389c76ea59d
+Author: Bruno G. Pinto <bgpinto@inf.ufpel.edu.br>
+Date:   Sun Jul 5 14:23:08 2015 -0300
+
+    Metodo do controller do professor para vizualizar alunos concluintes finalizado. View para vizualizar alunos concluintes implementado.
+
+commit 19d12660bc87e33d2102ec0a0d07922d09070fac
+Author: Bruno G. Pinto <bgpinto@inf.ufpel.edu.br>
+Date:   Sat Jul 4 11:10:46 2015 -0300
+
+    Bug no select da view de edição de professores no coordenador corrigido. Arquivo: homecoordenador_editarprofessor_view.php[82:92];
+
+commit 28d483919de55ec1c938d27645ce02090a2b6cf5
+Author: Bruno G. Pinto <bgpinto@inf.ufpel.edu.br>
+Date:   Sat Jul 4 10:52:20 2015 -0300
+
+    Corrigido Titulo da página de edição de professores por parte do Coordenador. Arquivo: homecoordenador_editarprofessor_view.php[7].
+
+commit 78f773a43ce3ffe930a1639361b249c50bb18817
+Author: Bruno G. Pinto <bgpinto@inf.ufpel.edu.br>
+Date:   Sat Jul 4 10:42:23 2015 -0300
+
+    Corrigido bug no view para adicionar coordenador. Nome do select do formulário incorreto. Arquivo: homecoordenador_novoprofessor_view.php[41]
+
+commit 3fe5312736abc5385087d8880923d6654e81adcd
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Wed Jul 1 14:26:02 2015 -0300
+
+    adicionei algumas funcoes e telas. Basicamente: FALTA 1. ativar a rejeicao de uma atividade pelo professor, botao e metodo ja existem. FALTA 2. ativar a atualizacao de uma atividade pelo professor, botao e metodo ja existem. FALTA 3. criar selecao de alunos concluintes, armazenando eles em um conjunto de GRUPO_FORMATURA, ou algo do tipo, eh preciso alterar o banco de dados. Menu, metodo e view ja existem. FALTA 4. criar o relatorio do coordenador baseado nos alunos concluintes, e ser capaz de recuperar relatorio anterior. ALERTA 1. testar tudo pra ver se esta OK
+
+commit 12dd48427018f05437a835ccc2344555e694a67d
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Wed Jul 1 14:03:16 2015 -0300
+
+    aluno ja eh capaz de excluir uma atividade
+
+commit 7afd5af2626c51fc025841042f54754a6686b4e6
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Wed Jul 1 10:42:42 2015 -0300
+
+    nas janelas do aluno, ele pode enviar suas atividades para analise, desde que completadas as horas. O professor so ve os alunos com horas completadas
+
+commit e7cea7218c9583edd3f9b6ca71d63469acf8734c
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Wed Jul 1 02:05:46 2015 -0300
+
+    professor ja eh capaz de validar um documento. APENAS ISSO
+
+commit a11c620992194f52d632c643dff4353e2f5b4e0d
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Tue Jun 30 23:43:17 2015 -0300
+
+    correções apontadas pelo lucas
+
+commit 95fb53ceafb52dad0bb0164628b4729b390ae77a
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Tue Jun 30 23:04:01 2015 -0300
+
+    Modificacoes na tabela COORDENADOR, e paginas referentes. Copia atual do BD em anexo
+
+commit 49f472465f474a003c2eba5a245f91a3ab192c17
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Tue Jun 30 22:23:48 2015 -0300
+
+    upload de xml completo
+
+commit 47f6e899f661cac78239483746b7239e1d366e14
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Tue Jun 30 20:09:37 2015 -0300
+
+    correcao de erros em homealuno_controller e em alguns models
+
+commit 3b533c07bde94b2b81b4dee55a0f3c3dd9a0af5c
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Tue Jun 30 14:54:49 2015 -0300
+
+    backend de calculo de horas ok. Favor, verificar se está tudo ok mesmo
+
+commit 42936cfc05605c85f57ccb10bc7ac2beca1e557a
+Author: Alex Borges <amborges@inf.ufpel.edu.br>
+Date:   Tue Jun 30 13:18:09 2015 -0300
+
+    Backend calculo de horas, o app web ja calcula as horas para serem inseridas no banco de dados. Irei adaptar o calculo das horas para mostrar no grafico, considerando o maximo por atividade
+
 commit 5d842f81f673b8dad64e3a97955bfb3d98f11f94
 Author: Paulo Fernandes <>
 Date:   Mon Jun 29 22:56:42 2015 -0300
